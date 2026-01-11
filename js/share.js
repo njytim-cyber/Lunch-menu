@@ -40,12 +40,12 @@ export function generateMealPlanText() {
     const lunchPage = document.getElementById('lunch-page');
     const dinnerPage = document.getElementById('dinner-page');
 
-    // Calculate date range (Monday to Sunday of current week)
+    // Calculate date range (Monday to Sunday of next week)
     const mondayDate = getDateForDay(0);
     const sundayDate = getDateForDay(6);
     const dateRange = `${formatDate(mondayDate)} - ${formatDate(sundayDate)}`;
 
-    let mealPlanText = `📅 Weekly Menus\n`;
+    let mealPlanText = `Weekly Menus\n`;
     mealPlanText += `${dateRange}\n`;
     mealPlanText += '═'.repeat(30) + '\n\n';
 
@@ -66,31 +66,29 @@ export function generateMealPlanText() {
         mealPlanText += `${dayNames[index]} (${formattedDate})\n`;
 
         // Lunch section
-        mealPlanText += `  ☀️ Lunch: `;
+        mealPlanText += `  Lunch:\n`;
         if (lunchItems.length > 0) {
             hasAnyItems = true;
-            const lunchItemTexts = [];
             lunchItems.forEach(item => {
+                const emoji = item.querySelector('.food-emoji')?.textContent || '🍽️';
                 const name = item.querySelector('.food-name')?.textContent || 'Unknown';
-                lunchItemTexts.push(name);
+                mealPlanText += `    ${emoji} ${name}\n`;
             });
-            mealPlanText += lunchItemTexts.join(', ') + '\n';
         } else {
-            mealPlanText += '(not planned)\n';
+            mealPlanText += `    (not planned)\n`;
         }
 
         // Dinner section
-        mealPlanText += `  🌙 Dinner: `;
+        mealPlanText += `  Dinner:\n`;
         if (dinnerItems.length > 0) {
             hasAnyItems = true;
-            const dinnerItemTexts = [];
             dinnerItems.forEach(item => {
+                const emoji = item.querySelector('.food-emoji')?.textContent || '🍽️';
                 const name = item.querySelector('.food-name')?.textContent || 'Unknown';
-                dinnerItemTexts.push(name);
+                mealPlanText += `    ${emoji} ${name}\n`;
             });
-            mealPlanText += dinnerItemTexts.join(', ') + '\n';
         } else {
-            mealPlanText += '(not planned)\n';
+            mealPlanText += `    (not planned)\n`;
         }
 
         mealPlanText += '\n';
