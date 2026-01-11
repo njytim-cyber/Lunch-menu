@@ -524,6 +524,63 @@ function shareNative(mealType) {
 }
 
 // ============================================
+// SWIPE GESTURES
+// ============================================
+
+function initSwipeGestures() {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    const threshold = 50; // Minimum distance for swipe
+
+    document.addEventListener('touchstart', (e) => {
+        // Ignore if touching an interactive element (except the day cards wrapper)
+        if (e.target.closest('.bottom-sheet') ||
+            e.target.closest('.food-items') ||
+            e.target.closest('.category-tabs')) {
+            return;
+        }
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', (e) => {
+        if (e.target.closest('.bottom-sheet') ||
+            e.target.closest('.food-items') ||
+            e.target.closest('.category-tabs')) {
+            return;
+        }
+
+        const touchEndX = e.changedTouches[0].screenX;
+        const touchEndY = e.changedTouches[0].screenY;
+
+        handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY, threshold);
+    }, { passive: true });
+}
+
+function handleSwipe(startX, startY, endX, endY, threshold) {
+    const diffX = startX - endX;
+    const diffY = startY - endY;
+
+    // Check if horizontal swipe dominates vertical scroll
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > threshold) {
+        if (diffX > 0) {
+            // Swipe Left -> Go to Dinner
+            switchTab('dinner');
+        } else {
+            // Swipe Right -> Go to Lunch
+            switchTab('lunch');
+        }
+    }
+}
+
+function switchTab(tabName) {
+    const btn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+    if (btn && !btn.classList.contains('active')) {
+        btn.click();
+    }
+}
+
+// ============================================
 // INITIALIZATION
 // ============================================
 
@@ -532,6 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initDayCards();
     initDesktopDragAndDrop();
     initCategoryTabs();
+    initSwipeGestures();
 });
 
 // Re-init drag on resize
