@@ -219,18 +219,6 @@ body {
     gap: 8px;
 }
 
-.day-card-header::after {
-    content: '+';
-    font-size: 16px;
-    font-weight: 700;
-    opacity: 0.6;
-    transition: opacity 0.2s;
-}
-
-.day-card:hover .day-card-header::after {
-    opacity: 1;
-}
-
 /* Desktop Selection State */
 .day-card.selected {
     border: 2px solid #667eea;
