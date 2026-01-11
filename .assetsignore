@@ -1,0 +1,16 @@
+.git
+.git/**
+.gitignore
+.cursor
+.cursor/**
+.agent
+.agent/**
+.wrangler
+.wrangler/**
+node_modules
+node_modules/**
+scripts
+scripts/**
+package.json
+wrangler.jsonc
+_redirects
