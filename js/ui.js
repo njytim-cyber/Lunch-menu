@@ -174,8 +174,19 @@ function selectFoodItem(foodItemEl) {
     const currentItems = currentDayCard.querySelectorAll('.day-card-content .food-item').length;
 
     if (currentItems >= maxItems) {
-        showToast(`Maximum ${maxItems} items allowed!`, 'error');
-        return;
+        // If max is 1 (Lunch), we replace the existing item
+        if (maxItems === 1) {
+            clearDayCard(currentDayCard);
+            // Also need to clear state for this day/meal
+            const day = currentDayCard.dataset.day;
+            const mealType = currentDayCard.dataset.meal;
+            // Remove from state (index 0 since only 1 item)
+            removeItemFromState(day, mealType, 0);
+        } else {
+            // For multi-item (Dinner), we still block because we don't know which one to replace
+            showToast(`Maximum ${maxItems} items allowed! Remove one first.`, 'error');
+            return;
+        }
     }
 
     const name = foodItemEl.dataset.name;
@@ -282,14 +293,10 @@ export function initDayCards() {
             // Don't open if clicking on remove button
             if (e.target.classList.contains('remove-btn')) return;
 
-            // Check if can add more items
-            const maxItems = parseInt(card.dataset.maxItems) || 1;
-            const currentItems = card.querySelectorAll('.day-card-content .food-item').length;
-
-            if (currentItems >= maxItems) {
-                showToast(`Maximum ${maxItems} items. Tap an item to remove.`, 'error');
-                return;
-            }
+            // Allow opening even if full to support replacement (especially for lunch)
+            // const maxItems = parseInt(card.dataset.maxItems) || 1;
+            // const currentItems = card.querySelectorAll('.day-card-content .food-item').length;
+            // if (currentItems >= maxItems) ... (removed to allow replacement)
 
             // On desktop (>=1024px), show the food container instead of bottom sheet
             if (window.innerWidth >= 1024) {
