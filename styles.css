@@ -154,6 +154,19 @@ body {
     height: 20px;
 }
 
+.suggest-btn {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: rgba(255, 193, 7, 0.3);
+}
+
+.suggest-btn:hover {
+    background: rgba(255, 193, 7, 0.4);
+}
+
+.suggest-btn .action-icon {
+    font-size: 20px;
+}
+
 /* Day Cards Grid */
 .day-cards-grid {
     display: grid;

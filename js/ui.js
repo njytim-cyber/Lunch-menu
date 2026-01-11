@@ -1,52 +1,79 @@
+import { foodData, mealPlan, addItemToState, removeItemFromState } from './state.js';
+
+// ============================================
+// DOM ELEMENTS
+// ============================================
+
+export const bottomSheet = document.getElementById('bottomSheet');
+export const bottomSheetOverlay = document.getElementById('bottomSheetOverlay');
+export const bottomSheetContent = document.getElementById('bottomSheetContent');
+export const bottomSheetTabs = document.getElementById('bottomSheetTabs');
+export const closeBtn = document.getElementById('closeBottomSheet');
+
+// ============================================
+// TOAST NOTIFICATIONS
+// ============================================
+
+export function showToast(message, type = 'info') {
+    const existingToast = document.querySelector('.toast');
+    if (existingToast) existingToast.remove();
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+    }, 2500);
+}
+
 // ============================================
 // TAB NAVIGATION
 // ============================================
 
-const tabBtns = document.querySelectorAll('.tab-btn');
-const pages = document.querySelectorAll('.page');
+export function initTabs() {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const pages = document.querySelectorAll('.page');
 
-tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const targetTab = btn.dataset.tab;
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetTab = btn.dataset.tab;
 
-        // Update active tab button
-        tabBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+            // Update active tab button
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-        // Show corresponding page
-        pages.forEach(page => {
-            page.classList.remove('active');
-            if (page.id === `${targetTab}-page`) {
-                page.classList.add('active');
-            }
+            // Show corresponding page
+            pages.forEach(page => {
+                page.classList.remove('active');
+                if (page.id === `${targetTab}-page`) {
+                    page.classList.add('active');
+                }
+            });
+
+            // Close bottom sheet if open
+            closeBottomSheet();
         });
-
-        // Close bottom sheet if open
-        closeBottomSheet();
     });
-});
+}
 
-// ============================================
-// FOOD DATA STORAGE
-// ============================================
-
-const foodData = {
-    lunch: [],
-    dinner: []
-};
+export function switchTab(tabName) {
+    const btn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+    if (btn && !btn.classList.contains('active')) {
+        btn.click();
+    }
+}
 
 // ============================================
 // BOTTOM SHEET FUNCTIONALITY
 // ============================================
 
 let currentDayCard = null;
-const bottomSheet = document.getElementById('bottomSheet');
-const bottomSheetOverlay = document.getElementById('bottomSheetOverlay');
-const bottomSheetContent = document.getElementById('bottomSheetContent');
-const bottomSheetTabs = document.getElementById('bottomSheetTabs');
-const closeBtn = document.getElementById('closeBottomSheet');
 
-function openBottomSheet(dayCard) {
+export function openBottomSheet(dayCard) {
     currentDayCard = dayCard;
     const mealType = dayCard.dataset.meal;
 
@@ -66,12 +93,16 @@ function openBottomSheet(dayCard) {
     document.body.style.overflow = 'hidden';
 }
 
-function closeBottomSheet() {
+export function closeBottomSheet() {
     bottomSheet.classList.remove('active');
     bottomSheetOverlay.classList.remove('active');
     document.body.style.overflow = '';
     currentDayCard = null;
 }
+
+// Set up close listeners
+if (closeBtn) closeBtn.addEventListener('click', closeBottomSheet);
+if (bottomSheetOverlay) bottomSheetOverlay.addEventListener('click', closeBottomSheet);
 
 function populateBottomSheetTabs(mealType) {
     // Shared categories for both lunch and dinner
@@ -151,36 +182,68 @@ function selectFoodItem(foodItemEl) {
     const emoji = foodItemEl.dataset.emoji;
     const category = foodItemEl.dataset.category;
 
-    addFoodToCard(currentDayCard, name, emoji, category);
+    addFoodToCard(currentDayCard, name, emoji, category, true); // true = save to state
     closeBottomSheet();
     showToast(`Added ${name}!`, 'success');
 }
 
-function addFoodToCard(dayCard, name, emoji, category) {
+/**
+ * Adds food to the DOM card.
+ * @param {HTMLElement} dayCard 
+ * @param {string} name 
+ * @param {string} emoji 
+ * @param {string} category 
+ * @param {boolean} shouldSave - Whether to trigger state save (true for user action, false for loading)
+ */
+export function addFoodToCard(dayCard, name, emoji, category, shouldSave = false) {
     const content = dayCard.querySelector('.day-card-content');
+    const day = dayCard.dataset.day;
+    const mealType = dayCard.dataset.meal;
 
     // Create food item
     const foodItem = document.createElement('div');
     foodItem.className = 'food-item';
     foodItem.dataset.name = name;
     foodItem.dataset.category = category;
+    foodItem.dataset.emoji = emoji;
     foodItem.innerHTML = `
         <span class="food-emoji">${emoji}</span>
         <span class="food-name">${name}</span>
-        <button class="remove-btn" onclick="removeFoodFromCard(this, event)">×</button>
+        <button class="remove-btn">×</button>
     `;
+
+    // Add remove listener
+    foodItem.querySelector('.remove-btn').addEventListener('click', (e) => removeFoodFromCard(e.target, e));
 
     content.appendChild(foodItem);
     dayCard.classList.add('has-items');
     updateDayCardState(dayCard);
+
+    if (shouldSave) {
+        addItemToState(day, mealType, { name, emoji, category });
+    }
 }
 
-function removeFoodFromCard(btn, event) {
+export function removeFoodFromCard(btn, event) {
     event.stopPropagation();
     const foodItem = btn.parentElement;
     const dayCard = foodItem.closest('.day-card');
+
+    // Find index for state removal
+    const content = dayCard.querySelector('.day-card-content');
+    const items = Array.from(content.querySelectorAll('.food-item'));
+    const index = items.indexOf(foodItem);
+    const day = dayCard.dataset.day;
+    const mealType = dayCard.dataset.meal;
+
     foodItem.remove();
     updateDayCardState(dayCard);
+
+    // Update state
+    if (index !== -1) {
+        removeItemFromState(day, mealType, index);
+    }
+
     showToast('Item removed', 'success');
 }
 
@@ -193,15 +256,11 @@ function updateDayCardState(dayCard) {
     }
 }
 
-// Close bottom sheet handlers
-closeBtn.addEventListener('click', closeBottomSheet);
-bottomSheetOverlay.addEventListener('click', closeBottomSheet);
-
 // ============================================
-// DAY CARD CLICK HANDLERS
+// DAY CARD & INIT
 // ============================================
 
-function initDayCards() {
+export function initDayCards() {
     document.querySelectorAll('.day-card').forEach(card => {
         card.addEventListener('click', (e) => {
             // Don't open if clicking on remove button
@@ -222,13 +281,12 @@ function initDayCards() {
 }
 
 // ============================================
-// DESKTOP DRAG AND DROP (for larger screens)
+// DESKTOP DRAG AND DROP
 // ============================================
 
 let draggedItem = null;
-let sourceContainer = null;
 
-function initDesktopDragAndDrop() {
+export function initDesktopDragAndDrop() {
     // Only enable on larger screens
     if (window.innerWidth < 769) return;
 
@@ -253,7 +311,6 @@ function initDesktopDragAndDrop() {
 
 function handleDragStart(e) {
     draggedItem = this;
-    sourceContainer = this.parentElement;
     this.classList.add('dragging');
     e.dataTransfer.effectAllowed = 'copy';
     setTimeout(() => this.style.opacity = '0.4', 0);
@@ -301,106 +358,15 @@ function handleDrop(e) {
     const emoji = draggedItem.dataset.emoji || draggedItem.querySelector('.food-emoji').textContent;
     const category = draggedItem.dataset.category || 'all';
 
-    addFoodToCard(dayCard, name, emoji, category);
+    addFoodToCard(dayCard, name, emoji, category, true); // true = save to state
     showToast(`Added ${name}!`, 'success');
 }
 
 // ============================================
-// ADD FOOD ITEMS TO DATA
+// CATEGORY TABS (Desktop)
 // ============================================
 
-function addFoodItem(name, emoji, mealType = 'lunch', category = 'all') {
-    foodData[mealType].push({ name, emoji, category });
-
-    // Also add to desktop container if it exists
-    const container = document.getElementById(`${mealType}-food-items`);
-    if (container) {
-        const foodItem = document.createElement('div');
-        foodItem.className = 'food-item';
-        foodItem.setAttribute('data-name', name);
-        foodItem.setAttribute('data-emoji', emoji);
-        foodItem.setAttribute('data-category', category);
-        foodItem.innerHTML = `
-            <span class="food-emoji">${emoji}</span>
-            <span class="food-name">${name}</span>
-        `;
-
-        // Desktop drag support
-        if (window.innerWidth >= 769) {
-            foodItem.setAttribute('draggable', true);
-            foodItem.addEventListener('dragstart', handleDragStart);
-            foodItem.addEventListener('dragend', handleDragEnd);
-        }
-
-        container.appendChild(foodItem);
-    }
-}
-
-// ============================================
-// SAMPLE DATA
-// ============================================
-
-function addSampleItems() {
-    // LUNCH ITEMS
-    addFoodItem('Rigatoni', '🍝', 'lunch', 'pasta');
-    addFoodItem('Cheesy Rigatoni', '🧀', 'lunch', 'pasta');
-    addFoodItem('Chicken Pasta and Broccoli', '🥦', 'lunch', 'pasta');
-    addFoodItem('Chicken Rice', '🍗', 'lunch', 'rice');
-    addFoodItem('Soy Chicken and Chye Sim', '🥬', 'lunch', 'rice');
-    addFoodItem('Chicken and Mushroom Rice', '🍄', 'lunch', 'rice');
-    addFoodItem('Crispy Noodle', '🍜', 'lunch', 'noodles');
-    addFoodItem('Bee Hoon', '🍜', 'lunch', 'noodles');
-    addFoodItem('Bee Hoon and Seaweed Chicken', '🌿', 'lunch', 'noodles');
-    addFoodItem('Mee Sua Soup', '🍜', 'lunch', 'soup');
-    addFoodItem('Kway Teow Soup', '🍲', 'lunch', 'soup');
-    addFoodItem('Porridge', '🥣', 'lunch', 'rice');
-    addFoodItem('Fish Ball Noodle', '🍜', 'lunch', 'noodles');
-    addFoodItem('Fried Rice', '🍚', 'lunch', 'rice');
-
-    // DINNER ITEMS
-    addFoodItem('Rice', '🍚', 'dinner', 'rice');
-    addFoodItem('Kai Lan', '🥬', 'dinner', 'vegetables');
-    addFoodItem('Baby Spinach', '🥬', 'dinner', 'vegetables');
-    addFoodItem('Red Spinach', '🥬', 'dinner', 'vegetables');
-    addFoodItem('Kang Kong', '🥬', 'dinner', 'vegetables');
-    addFoodItem('Cabbage', '🥬', 'dinner', 'vegetables');
-    addFoodItem('WaWa Vegetable', '🥬', 'dinner', 'vegetables');
-    addFoodItem('Broccoli', '🥦', 'dinner', 'vegetables');
-    addFoodItem('Baby Kailan', '🥬', 'dinner', 'vegetables');
-    addFoodItem('Kailan', '🥬', 'dinner', 'vegetables');
-    addFoodItem('Sliced Fish with Ginger', '🐟', 'dinner', 'fish');
-    addFoodItem('Claypot Sliced Fish with Eggplant', '🍆', 'dinner', 'fish');
-    addFoodItem('Fried Seabass', '🐟', 'dinner', 'fish');
-    addFoodItem('Fried Salmon', '🍣', 'dinner', 'fish');
-    addFoodItem('Steam Fish Pomfret', '🐟', 'dinner', 'fish');
-    addFoodItem('Steam Fish White Pomfret', '🐟', 'dinner', 'fish');
-    addFoodItem('Fish and Fish Soup', '🍲', 'dinner', 'fish');
-    addFoodItem('Steam Fish (Ginger/Spring Onion)', '🐟', 'dinner', 'fish');
-    addFoodItem('Egg with Onion', '🥚', 'dinner', 'eggs');
-    addFoodItem('Egg with Carrot', '🥕', 'dinner', 'eggs');
-    addFoodItem('Egg with Tomato', '🍅', 'dinner', 'eggs');
-    addFoodItem('Claypot Tofu', '🧈', 'dinner', 'eggs');
-    addFoodItem('Corn Soup', '🌽', 'dinner', 'eggs');
-    addFoodItem('Steamed Chicken with Mushrooms', '🍄', 'dinner', 'chicken');
-    addFoodItem('Chicken with Salted Bean Paste', '🍗', 'dinner', 'chicken');
-    addFoodItem('Curry Chicken', '🍛', 'dinner', 'chicken');
-    addFoodItem('Fried Chicken Wing', '🍗', 'dinner', 'chicken');
-    addFoodItem('Steamed Minced Pork', '🥩', 'dinner', 'pork');
-    addFoodItem('Sliced Pork with Parsley', '🥩', 'dinner', 'pork');
-    addFoodItem('Sliced Pork with Sichuan Veg', '🌶️', 'dinner', 'pork');
-    addFoodItem('Pork with Egg and Tau Pok', '🥚', 'dinner', 'pork');
-    addFoodItem('Japanese Pork Cutlet', '🍖', 'dinner', 'pork');
-    addFoodItem('Pork Rib Soup', '🍲', 'dinner', 'pork');
-    addFoodItem('Crispy Prawn Ball', '🦐', 'dinner', 'prawn');
-    addFoodItem('Prawn with Glass Noodle', '🦐', 'dinner', 'prawn');
-    addFoodItem('Cheesy Rigatoni', '🧀', 'dinner', 'pasta');
-}
-
-// ============================================
-// CATEGORY TAB FILTERING (Desktop)
-// ============================================
-
-function initCategoryTabs() {
+export function initCategoryTabs() {
     document.querySelectorAll('.food-container .category-tabs').forEach(container => {
         const mealType = container.dataset.meal;
         const tabs = container.querySelectorAll('.category-tab');
@@ -429,111 +395,15 @@ function filterDesktopFoodItems(mealType, category) {
 }
 
 // ============================================
-// TOAST NOTIFICATIONS
-// ============================================
-
-function showToast(message, type = 'info') {
-    const existingToast = document.querySelector('.toast');
-    if (existingToast) existingToast.remove();
-
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.textContent = message;
-    document.body.appendChild(toast);
-
-    setTimeout(() => toast.classList.add('show'), 10);
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 400);
-    }, 2500);
-}
-
-// ============================================
-// SHARE FUNCTIONALITY
-// ============================================
-
-function generateMealPlanText(mealType) {
-    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    const page = document.getElementById(`${mealType}-page`);
-
-    let mealPlanText = `📅 Weekly ${mealType.charAt(0).toUpperCase() + mealType.slice(1)} Menu\n`;
-    mealPlanText += '═'.repeat(30) + '\n\n';
-
-    let hasAnyItems = false;
-
-    days.forEach((day, index) => {
-        const card = page.querySelector(`.day-card[data-day="${day}"]`);
-        const items = card.querySelectorAll('.day-card-content .food-item');
-
-        if (items.length > 0) {
-            hasAnyItems = true;
-            mealPlanText += `${dayNames[index]}:\n`;
-            items.forEach(item => {
-                const emoji = item.querySelector('.food-emoji')?.textContent || '🍽️';
-                const name = item.querySelector('.food-name')?.textContent || 'Unknown';
-                mealPlanText += `  ${emoji} ${name}\n`;
-            });
-            mealPlanText += '\n';
-        } else {
-            mealPlanText += `${dayNames[index]}: (not planned)\n\n`;
-        }
-    });
-
-    if (!hasAnyItems) return null;
-
-    mealPlanText += '═'.repeat(30) + '\n';
-    mealPlanText += '🍽️ Made with Weekly Meal Planner';
-
-    return mealPlanText;
-}
-
-function shareMealPlan(mealType) {
-    const text = generateMealPlanText(mealType);
-    if (!text) {
-        showToast('No meals planned yet!', 'error');
-        return;
-    }
-
-    navigator.clipboard.writeText(text).then(() => {
-        showToast('Meal plan copied! 📋', 'success');
-    }).catch(() => {
-        showToast('Failed to copy', 'error');
-    });
-}
-
-function shareNative(mealType) {
-    const text = generateMealPlanText(mealType);
-    if (!text) {
-        showToast('No meals planned yet!', 'error');
-        return;
-    }
-
-    if (navigator.share) {
-        navigator.share({
-            title: `Weekly ${mealType} Menu`,
-            text: text,
-        })
-            .then(() => console.log('Successful share'))
-            .catch((error) => console.log('Error sharing', error));
-    } else {
-        // Fallback for browsers that don't support share API
-        shareMealPlan(mealType);
-        showToast('Opened copy fallback (Share API not supported)', 'info');
-    }
-}
-
-// ============================================
 // SWIPE GESTURES
 // ============================================
 
-function initSwipeGestures() {
+export function initSwipeGestures() {
     let touchStartX = 0;
     let touchStartY = 0;
-    const threshold = 50; // Minimum distance for swipe
+    const threshold = 50;
 
     document.addEventListener('touchstart', (e) => {
-        // Ignore if touching an interactive element (except the day cards wrapper)
         if (e.target.closest('.bottom-sheet') ||
             e.target.closest('.food-items') ||
             e.target.closest('.category-tabs')) {
@@ -561,44 +431,39 @@ function handleSwipe(startX, startY, endX, endY, threshold) {
     const diffX = startX - endX;
     const diffY = startY - endY;
 
-    // Check if horizontal swipe dominates vertical scroll
     if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > threshold) {
         if (diffX > 0) {
-            // Swipe Left -> Go to Dinner
             switchTab('dinner');
         } else {
-            // Swipe Right -> Go to Lunch
             switchTab('lunch');
         }
     }
 }
 
-function switchTab(tabName) {
-    const btn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
-    if (btn && !btn.classList.contains('active')) {
-        btn.click();
-    }
+// ============================================
+// RENDER SAVED STATE
+// ============================================
+
+export function renderSavedState() {
+    // Render Lunch
+    Object.keys(mealPlan.lunch).forEach(day => {
+        const items = mealPlan.lunch[day];
+        const card = document.querySelector(`.day-card[data-day="${day}"][data-meal="lunch"]`);
+        if (card && items) {
+            items.forEach(item => {
+                addFoodToCard(card, item.name, item.emoji, item.category, false);
+            });
+        }
+    });
+
+    // Render Dinner
+    Object.keys(mealPlan.dinner).forEach(day => {
+        const items = mealPlan.dinner[day];
+        const card = document.querySelector(`.day-card[data-day="${day}"][data-meal="dinner"]`);
+        if (card && items) {
+            items.forEach(item => {
+                addFoodToCard(card, item.name, item.emoji, item.category, false);
+            });
+        }
+    });
 }
-
-// ============================================
-// INITIALIZATION
-// ============================================
-
-document.addEventListener('DOMContentLoaded', () => {
-    addSampleItems();
-    initDayCards();
-    initDesktopDragAndDrop();
-    initCategoryTabs();
-    initSwipeGestures();
-});
-
-// Re-init drag on resize
-window.addEventListener('resize', () => {
-    initDesktopDragAndDrop();
-});
-
-// Export functions
-window.addFoodItem = addFoodItem;
-window.shareMealPlan = shareMealPlan;
-window.shareNative = shareNative;
-window.removeFoodFromCard = removeFoodFromCard;
