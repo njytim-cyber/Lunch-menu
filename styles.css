@@ -167,6 +167,15 @@ body {
     font-size: 20px;
 }
 
+.clear-btn {
+    background: rgba(255, 75, 75, 0.2);
+    border-color: rgba(255, 75, 75, 0.3);
+}
+
+.clear-btn:hover {
+    background: rgba(255, 75, 75, 0.4);
+}
+
 /* Day Cards Grid */
 .days-grid {
     display: grid;
