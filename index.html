@@ -29,10 +29,10 @@
             </div>
 
             <div class="header-actions">
-                <button class="action-btn suggest-btn" onclick="handleGlobalSuggest()" title="Auto-Suggest Menu">
+                <button class="action-btn suggest-btn" id="suggestBtn" title="Auto-Suggest Menu">
                     <span class="action-icon">💡</span>
                 </button>
-                <button class="action-btn share-btn-native" onclick="handleGlobalShare()" title="Share Meal Plan">
+                <button class="action-btn share-btn-native" id="shareBtn" title="Share Meal Plan">
                     <span class="action-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                             fill="currentColor">
@@ -263,7 +263,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>✨ New in v2.0</h2>
-                <button class="modal-close" onclick="closeVersionModal()">×</button>
+                <button class="modal-close" id="modalCloseX">×</button>
             </div>
             <div class="modal-body">
                 <div class="feature-item">
@@ -288,7 +288,7 @@
                     </div>
                 </div>
             </div>
-            <button class="modal-btn" onclick="closeVersionModal()">Got it!</button>
+            <button class="modal-btn" id="modalCloseBtn">Got it!</button>
         </div>
     </div>
 

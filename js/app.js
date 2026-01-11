@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. Check Version
     checkVersion();
+
+    // 5. Attach Global Event Listeners
+    attachGlobalListeners();
 });
 
 // Re-init drag on resize
@@ -39,19 +42,29 @@ window.addEventListener('resize', () => {
     initDesktopDragAndDrop();
 });
 
-// Global Helpers
+// Global Helpers (LOCALLY SCOPED)
 function getActiveTab() {
     // Current toggle-btn has 'active' class
     const activeBtn = document.querySelector('.toggle-btn.active');
     return activeBtn ? activeBtn.dataset.tab : 'lunch';
 }
 
-function handleGlobalSuggest() {
-    autoSuggest(getActiveTab());
-}
+function attachGlobalListeners() {
+    const suggestBtn = document.getElementById('suggestBtn');
+    if (suggestBtn) {
+        suggestBtn.addEventListener('click', () => autoSuggest(getActiveTab()));
+    }
 
-function handleGlobalShare() {
-    shareNative(getActiveTab());
+    const shareBtn = document.getElementById('shareBtn');
+    if (shareBtn) {
+        shareBtn.addEventListener('click', () => shareNative(getActiveTab()));
+    }
+
+    const closeX = document.getElementById('modalCloseX');
+    if (closeX) closeX.addEventListener('click', closeVersionModal);
+
+    const closeBtn = document.getElementById('modalCloseBtn');
+    if (closeBtn) closeBtn.addEventListener('click', closeVersionModal);
 }
 
 // Version Control
@@ -71,13 +84,3 @@ function closeVersionModal() {
     document.getElementById('versionModal').classList.remove('active');
     localStorage.setItem('app_version', APP_VERSION);
 }
-
-// Export functions globally so HTML onclick handlers can find them
-window.addFoodItem = addFoodItem;
-window.shareNative = shareNative;
-window.removeFoodFromCard = removeFoodFromCard;
-window.addFoodToCard = addFoodToCard;
-window.autoSuggest = autoSuggest;
-window.handleGlobalSuggest = handleGlobalSuggest;
-window.handleGlobalShare = handleGlobalShare;
-window.closeVersionModal = closeVersionModal;

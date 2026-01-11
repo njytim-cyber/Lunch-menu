@@ -66,3 +66,16 @@ export function clearState() {
     mealPlan.dinner = {};
     saveMealPlan();
 }
+
+export function clearMealType(mealType) {
+    if (mealPlan[mealType]) {
+        mealPlan[mealType] = {};
+        saveMealPlan();
+    }
+}
+
+export function setDayMeal(day, mealType, items) {
+    if (!mealPlan[mealType]) mealPlan[mealType] = {};
+    mealPlan[mealType][day] = items;
+    saveMealPlan();
+}

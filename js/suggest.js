@@ -1,27 +1,11 @@
-import { foodData, addItemToState, clearState } from './state.js';
-import { addFoodToCard, showToast, renderSavedState } from './ui.js';
+import { foodData, addItemToState, clearState, clearMealType } from './state.js';
+import { addFoodToCard, showToast, renderSavedState, clearDayCard } from './ui.js';
 
 export function autoSuggest(mealType) {
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
-    // Clear existing items for this meal type first
-    // Note: This matches "fill in", often implying a fresh set or filling empty slots.
-    // Given the complex constraints for dinner, it's easier to clear and regenerate the week
-    // or just fill empty days? 
-    // User said "suggested menu icon... that will randomly fill in". 
-    // Usually means "Generate a plan". I'll clear current mealType plan and regenerate.
-
-    // We need a clearMealType function in state, but for now we can arguably just 
-    // clear by overwriting. Ideally we shouldn't wipe everything if user has some locks,
-    // but for this MVP "Suggest" usually implies "Draft me a plan".
-
-    // Let's implement a clear-for-meal-type in the loop by removing items first?
-    // Or just append? If I append, I might exceed limits.
-    // I will clear the visual cards and state for that meal type first.
-
-    // Actually, to interact with the UI correctly, I should interact via `ui.js` helper 
-    // or `state.js`. `clearState` in state.js clears EVERYTHING. 
-    // Let's just create a new plan logic here.
+    // 1. Clear State for this meal type
+    clearMealType(mealType);
 
     let generatedCount = 0;
 
@@ -29,11 +13,10 @@ export function autoSuggest(mealType) {
         const card = document.querySelector(`.day-card[data-day="${day}"][data-meal="${mealType}"]`);
         if (!card) return;
 
-        // Clear existing items from card (and state)
-        // This is a bit manual via DOM, better to have a clear method.
-        // For now, I'll select all remove buttons and click them to trigger state update + UI remove
-        card.querySelectorAll('.remove-btn').forEach(btn => btn.click());
+        // 2. Clear UI for this card
+        clearDayCard(card);
 
+        // 3. Generate & Add (will update State via addFoodToCard(..., true))
         if (mealType === 'lunch') {
             generateLunchForDay(card, day);
         } else {

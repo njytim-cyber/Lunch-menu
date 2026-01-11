@@ -260,9 +260,25 @@ function updateDayCardState(dayCard) {
 // DAY CARD & INIT
 // ============================================
 
+export function clearDayCard(dayCard) {
+    const content = dayCard.querySelector('.day-card-content');
+    const items = content.querySelectorAll('.food-item');
+    items.forEach(item => item.remove());
+    dayCard.classList.remove('has-items');
+}
+
+// ============================================
+// DAY CARD & INIT
+// ============================================
+
 export function initDayCards() {
     document.querySelectorAll('.day-card').forEach(card => {
-        card.addEventListener('click', (e) => {
+        // Accessibility
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-label', `Add food to ${card.dataset.day} ${card.dataset.meal}`);
+
+        const handleInteraction = (e) => {
             // Don't open if clicking on remove button
             if (e.target.classList.contains('remove-btn')) return;
 
@@ -276,6 +292,14 @@ export function initDayCards() {
             }
 
             openBottomSheet(card);
+        };
+
+        card.addEventListener('click', handleInteraction);
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleInteraction(e);
+            }
         });
     });
 }
