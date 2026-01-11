@@ -4,6 +4,8 @@ export function loadSampleData() {
     // LUNCH ITEMS
     addFoodItem('Rigatoni', '🍝', 'lunch', 'pasta');
     addFoodItem('Mushroom Fusilli', '🍄', 'lunch', 'pasta');
+    addFoodItem('Cheese and Pepper pasta', '🧀', 'lunch', 'pasta');
+    addFoodItem('Pistachio Pesto with chicken', '🍗', 'lunch', 'pasta');
     addFoodItem('Cheesy Rigatoni', '🧀', 'lunch', 'pasta');
     addFoodItem('Chicken Pasta and Broccoli', '🥦', 'lunch', 'pasta');
     addFoodItem('Chicken Rice', '🍗', 'lunch', 'rice');
