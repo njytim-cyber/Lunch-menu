@@ -1,0 +1,28 @@
+---
+description: Responsive breakpoints and adaptive grid system
+globs: ["styles.css", "*.css"]
+---
+
+# Responsive Design System
+
+## Breakpoints
+
+| Tier | Width | Grid | Behavior |
+|------|-------|------|----------|
+| Phone | <600px | 2 col | Compact, bottom sheet |
+| Large Phone | 600-767px | 3 col | Bottom sheet |
+| Tablet | 768-1023px | 4 col | Bottom sheet |  
+| Desktop | ≥1024px | 7 col | Inline food container |
+
+## Guidelines
+
+1. **Mobile-first**: Base styles target phones, then scale up
+2. **Bottom sheet vs inline**: Desktop (≥1024px) uses inline food container; all smaller sizes use bottom sheet modal
+3. **Touch targets**: Minimum 32px on phone, 44px on desktop
+4. **Test all tiers**: Always verify layouts at 375px, 600px, 768px, 1024px
+
+## CSS Classes
+
+- `.desktop-only` - Hidden on mobile/tablet (<1024px)
+- `.days-grid` - Main grid container, column count varies by breakpoint
+- `.day-card` - Individual day cards, sizing scales per tier

@@ -650,11 +650,66 @@ body {
 }
 
 /* ============================================
-   RESPONSIVE STYLES
+   RESPONSIVE STYLES - 4 Tier Breakpoint System
+   ============================================
+   Phone:       <600px   - 2 columns, compact
+   Large Phone: 600-767px - 3 columns, compact
+   Tablet:      768-1023px - 4 columns, medium
+   Desktop:     ≥1024px  - 7 columns, full + inline food
    ============================================ */
 
-/* Hide desktop food container on mobile */
-@media (max-width: 768px) {
+/* Base Mobile Styles (Phone < 600px) */
+@media (max-width: 599px) {
+    .desktop-only {
+        display: none !important;
+    }
+
+    body {
+        padding: 12px;
+    }
+
+    .days-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .day-card-header {
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+
+    .day-card-content {
+        padding: 12px 8px;
+        min-height: 80px;
+    }
+
+    .add-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+    }
+
+    .add-text {
+        font-size: 10px;
+    }
+
+    .app-header {
+        padding: 10px 12px;
+    }
+
+    .toggle-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    .action-btn {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* Large Phone (600px - 767px) */
+@media (min-width: 600px) and (max-width: 767px) {
     .desktop-only {
         display: none !important;
     }
@@ -663,49 +718,24 @@ body {
         padding: 15px;
     }
 
-    .tab-navigation {
-        margin-bottom: 15px;
-    }
-
-    .tab-btn {
-        padding: 10px 20px;
-        font-size: 14px;
-    }
-
-    .tab-icon {
-        font-size: 18px;
-    }
-
-    .page-header {
-        margin-bottom: 15px;
-    }
-
-    .page-title {
-        font-size: 20px;
-    }
-
-    .title-icon {
-        font-size: 24px;
-    }
-
-    .day-cards-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+    .days-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
     }
 
     .day-card-header {
-        padding: 8px 12px;
+        padding: 10px 12px;
         font-size: 12px;
     }
 
     .day-card-content {
-        padding: 15px 10px;
+        padding: 14px 10px;
         min-height: 90px;
     }
 
     .add-icon {
-        width: 35px;
-        height: 35px;
+        width: 36px;
+        height: 36px;
         font-size: 20px;
     }
 
@@ -714,12 +744,110 @@ body {
     }
 }
 
-/* Show desktop food container on desktop */
-@media (min-width: 769px) {
-    .day-cards-grid {
-        grid-template-columns: repeat(7, 1fr);
+/* Tablet (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .desktop-only {
+        display: none !important;
     }
 
+    body {
+        padding: 20px;
+    }
+
+    .days-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+    }
+
+    .day-card {
+        border-radius: 18px;
+    }
+
+    .day-card-header {
+        padding: 12px 14px;
+        font-size: 13px;
+    }
+
+    .day-card-content {
+        padding: 16px 12px;
+        min-height: 100px;
+    }
+
+    .add-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 22px;
+    }
+
+    .add-text {
+        font-size: 12px;
+    }
+
+    .app-header {
+        padding: 14px 20px;
+    }
+
+    .toggle-btn {
+        padding: 10px 18px;
+        font-size: 15px;
+    }
+
+    .action-btn {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Desktop (≥1024px) - Full 7-day view with inline food container */
+@media (min-width: 1024px) {
+    body {
+        padding: 25px;
+    }
+
+    .days-grid {
+        grid-template-columns: repeat(7, 1fr);
+        gap: 15px;
+    }
+
+    .day-card {
+        border-radius: 20px;
+    }
+
+    .day-card-header {
+        padding: 14px 16px;
+        font-size: 14px;
+    }
+
+    .day-card-content {
+        padding: 18px 14px;
+        min-height: 110px;
+    }
+
+    .add-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 24px;
+    }
+
+    .add-text {
+        font-size: 13px;
+    }
+
+    .app-header {
+        padding: 16px 24px;
+    }
+
+    .toggle-btn {
+        padding: 12px 24px;
+        font-size: 16px;
+    }
+
+    .action-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* Drag and drop for desktop */
     .food-item[draggable="true"] {
         cursor: grab;
     }
