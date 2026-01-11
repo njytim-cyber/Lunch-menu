@@ -35,15 +35,15 @@ export function showToast(message, type = 'info') {
 // ============================================
 
 export function initTabs() {
-    const toggleBtns = document.querySelectorAll('.toggle-btn');
+    const tabBtns = document.querySelectorAll('.toggle-btn');
     const pages = document.querySelectorAll('.page');
 
-    toggleBtns.forEach(btn => {
+    tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const targetTab = btn.dataset.tab;
 
-            // Update active toggle button
-            toggleBtns.forEach(b => b.classList.remove('active'));
+            // Update active tab button
+            tabBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
             // Show corresponding page
@@ -65,11 +65,6 @@ export function switchTab(tabName) {
     if (btn && !btn.classList.contains('active')) {
         btn.click();
     }
-}
-
-export function getActiveMealType() {
-    const activePage = document.querySelector('.page.active');
-    return activePage ? activePage.id.replace('-page', '') : 'lunch';
 }
 
 // ============================================
@@ -205,79 +200,22 @@ export function addFoodToCard(dayCard, name, emoji, category, shouldSave = false
     const day = dayCard.dataset.day;
     const mealType = dayCard.dataset.meal;
 
-    // Create wrapper for swipe functionality
-    const wrapper = document.createElement('div');
-    wrapper.className = 'food-item-wrapper';
-
-    // Internal structure: Delete Action (Behind) + Food Item (Front)
-    wrapper.innerHTML = `
-        <div class="delete-action" title="Delete">🗑️</div>
-        <div class="food-item" draggable="true" data-name="${name}" data-category="${category}" data-emoji="${emoji}">
-            <span class="food-emoji">${emoji}</span>
-            <span class="food-name">${name}</span>
-            <button class="remove-btn">×</button>
-        </div>
+    // Create food item
+    const foodItem = document.createElement('div');
+    foodItem.className = 'food-item';
+    foodItem.dataset.name = name;
+    foodItem.dataset.category = category;
+    foodItem.dataset.emoji = emoji;
+    foodItem.innerHTML = `
+        <span class="food-emoji">${emoji}</span>
+        <span class="food-name">${name}</span>
+        <button class="remove-btn">×</button>
     `;
 
-    // Add native remove listener (X button)
-    wrapper.querySelector('.remove-btn').addEventListener('click', (e) => removeFoodFromCard(e.target, e));
+    // Add remove listener
+    foodItem.querySelector('.remove-btn').addEventListener('click', (e) => removeFoodFromCard(e.target, e));
 
-    // Add swipe delete listener (Trash icon)
-    wrapper.querySelector('.delete-action').addEventListener('click', (e) => {
-        // Find the remove button and click it to trigger consistent removal logic
-        wrapper.querySelector('.remove-btn').click();
-    });
-
-    // Add Swipe & Drag Listeners
-    const foodItem = wrapper.querySelector('.food-item');
-
-    // Drag start for desktop logic (re-using existing global handler logic but attaching here)
-    // Note: initDesktopDragAndDrop attaches to .food-item, but dynamically added ones need logic.
-    // Ideally we shouldn't mix drag vs swipe on same element easily, but 'draggable' handles drag.
-    foodItem.addEventListener('dragstart', handleDragStart);
-    foodItem.addEventListener('dragend', handleDragEnd);
-
-    // Touch handlers for swipe
-    let startX = 0;
-    let currentTranslate = 0;
-
-    foodItem.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-        foodItem.style.transition = 'none'; // Disable transition during drag
-    }, { passive: true });
-
-    foodItem.addEventListener('touchmove', (e) => {
-        const currentX = e.touches[0].clientX;
-        const diff = currentX - startX;
-
-        // Only allow swiping left
-        if (diff < 0) {
-            // Resistance logic
-            // Max swipe is -60px (width of delete btn)
-            // Allow pulling slightly further but resist
-            let translation = diff;
-            if (translation < -80) translation = -80 + (translation + 80) * 0.2;
-
-            foodItem.style.transform = `translateX(${translation}px)`;
-            currentTranslate = translation;
-        }
-    }, { passive: true });
-
-    foodItem.addEventListener('touchend', () => {
-        foodItem.style.transition = 'transform 0.2s ease-out';
-        if (currentTranslate < -30) {
-            // Snap open
-            foodItem.classList.add('swiped');
-            foodItem.style.transform = ''; // Class handles it: -60px
-        } else {
-            // Snap closed
-            foodItem.classList.remove('swiped');
-            foodItem.style.transform = '';
-        }
-        currentTranslate = 0;
-    });
-
-    content.appendChild(wrapper);
+    content.appendChild(foodItem);
     dayCard.classList.add('has-items');
     updateDayCardState(dayCard);
 
@@ -288,20 +226,17 @@ export function addFoodToCard(dayCard, name, emoji, category, shouldSave = false
 
 export function removeFoodFromCard(btn, event) {
     event.stopPropagation();
-    // The btn is inside .food-item, which is inside .food-item-wrapper
-    const foodItem = btn.closest('.food-item');
-    const wrapper = btn.closest('.food-item-wrapper');
-    const dayCard = wrapper.closest('.day-card');
+    const foodItem = btn.parentElement;
+    const dayCard = foodItem.closest('.day-card');
 
     // Find index for state removal
-    // We need to count wrappers
     const content = dayCard.querySelector('.day-card-content');
-    const wrappers = Array.from(content.querySelectorAll('.food-item-wrapper'));
-    const index = wrappers.indexOf(wrapper);
+    const items = Array.from(content.querySelectorAll('.food-item'));
+    const index = items.indexOf(foodItem);
     const day = dayCard.dataset.day;
     const mealType = dayCard.dataset.meal;
 
-    wrapper.remove();
+    foodItem.remove();
     updateDayCardState(dayCard);
 
     // Update state

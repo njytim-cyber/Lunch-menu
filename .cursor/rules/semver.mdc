@@ -1,0 +1,14 @@
+---
+description: Semantic Versioning Rule
+globs: *.js, package.json
+---
+# Semantic Versioning Rule
+
+## Context
+This project follows Semantic Versioning (SemVer) principles (Major.Minor.Patch).
+
+## Rules
+1.  **Always** use `package.json` as the source of truth for the current version.
+2.  **Verify** `js/version.js` matches `package.json`.
+3.  **Auto-Increment**: Use the `scripts/release.js` script to bump versions. Do not manually edit version numbers unless necessary for major/minor bumps.
+4.  **Format**: Versions must follow `x.y.z` format.

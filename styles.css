@@ -7,11 +7,10 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: #f8fafc;
-    /* Light Slate Background */
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     min-height: 100vh;
     padding: 20px;
-    color: #1e293b;
+    color: #ffffff;
 }
 
 .container {
@@ -19,47 +18,197 @@ body {
     margin: 0 auto;
 }
 
-/* ... tab nav removed ... */
+/* Tab Navigation */
+.tab-navigation {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+.tab-icon {
+    font-size: 20px;
+}
+
+/* Page Styles */
+.page {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Page Header - Compact with inline actions */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    margin: 0;
+}
+
+.title-icon {
+    font-size: 28px;
+}
+
+/* Compact Header Action Buttons */
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+.action-icon {
+    font-size: 20px;
+}
+
+.share-btn-native {
+    background: rgba(102, 126, 234, 0.2);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.share-btn-native:hover {
+    background: rgba(102, 126, 234, 0.4);
+}
+
+.share-btn-native svg {
+    width: 20px;
+    height: 20px;
+}
+
+.suggest-btn {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: rgba(255, 193, 7, 0.3);
+}
+
+.suggest-btn:hover {
+    background: rgba(255, 193, 7, 0.4);
+}
+
+.suggest-btn .action-icon {
+    font-size: 20px;
+}
 
 /* Day Cards Grid */
 .day-cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
     margin-bottom: 30px;
 }
 
 /* Day Card - Unified Component */
 .day-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
     border-radius: 16px;
-    border: 1px solid #e2e8f0;
+    border: 2px solid rgba(255, 255, 255, 0.1);
     overflow: hidden;
     transition: all 0.3s ease;
     cursor: pointer;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .day-card:hover {
-    border-color: #818cf8;
+    border-color: rgba(102, 126, 234, 0.5);
     transform: translateY(-3px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.day-card:active {
+    transform: translateY(0);
 }
 
 .day-card-header {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    padding: 12px 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 10px 15px;
     font-weight: 600;
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     text-align: center;
-    color: white;
 }
 
 .day-card-content {
-    padding: 16px 12px;
-    min-height: 120px;
+    padding: 20px 15px;
+    min-height: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,37 +216,35 @@ body {
     gap: 8px;
 }
 
-/* Add Food Button */
+/* Add Food Button (Empty State) */
 .add-food-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    color: #94a3b8;
+    color: rgba(255, 255, 255, 0.5);
     transition: all 0.3s ease;
 }
 
 .day-card:hover .add-food-btn {
-    color: #6366f1;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .add-icon {
     width: 40px;
     height: 40px;
-    border: 2px dashed #cbd5e1;
+    border: 2px dashed rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 24px;
     transition: all 0.3s ease;
-    color: #94a3b8;
 }
 
 .day-card:hover .add-icon {
-    border-color: #6366f1;
-    color: #6366f1;
-    background: #eef2ff;
+    border-color: rgba(102, 126, 234, 0.6);
+    color: #667eea;
 }
 
 .add-text {
@@ -105,53 +252,101 @@ body {
     font-weight: 500;
 }
 
-/* Food Item Wrapper for Swipe */
-.food-item-wrapper {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 8px;
-    border-radius: 12px;
-    background: #ef4444;
-    /* Swipe reveal color */
+/* Food Item in Day Card */
+.day-card .food-item {
     width: 100%;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-.delete-action {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    z-index: 1;
-}
-
-.food-item {
-    position: relative;
-    z-index: 2;
-    background: white;
-    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
+    padding: 10px;
     display: flex;
     align-items: center;
     gap: 10px;
-    cursor: grab;
-    transition: transform 0.2s ease-out;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #f1f5f9;
+    position: relative;
+}
+
+.day-card .food-item .food-emoji {
+    font-size: 28px;
+}
+
+.day-card .food-item .food-name {
+    font-size: 11px;
+    font-weight: 500;
+    flex: 1;
+    line-height: 1.2;
+}
+
+.day-card .food-item .remove-btn {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    box-shadow: 0 2px 8px rgba(255, 65, 108, 0.4);
+}
+
+.day-card:hover .food-item .remove-btn {
+    opacity: 1;
+}
+
+/* Dinner Cards - Support multiple items */
+.dinner-card .day-card-content {
+    min-height: 140px;
+    gap: 6px;
+}
+
+.dinner-card .food-item {
+    padding: 8px;
+}
+
+.dinner-card .food-item .food-emoji {
+    font-size: 22px;
+}
+
+.dinner-card .food-item .food-name {
+    font-size: 10px;
+}
+
+/* Has Items State */
+.day-card.has-items .add-food-btn {
+    display: none;
+}
+
+.day-card:not(.has-items) .food-item {
+    display: none;
+}
+
+/* Desktop Food Container */
+.food-container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Compact Header */
 .app-header {
-    background: rgba(255, 255, 255, 0.9);
-    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .toggle-container {
@@ -211,394 +406,129 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Food Item Wrapper for Swipe */
-.food-item-wrapper {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 8px;
-    border-radius: 12px;
-    background: #ef4444;
-    /* Red background for delete */
+/* Hide Nav Tabs (Old) */
+.nav-tabs {
+    display: none;
 }
 
-.delete-action {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 60px;
+.food-title {
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 1;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.food-item {
-    position: relative;
-    z-index: 2;
-    background: white;
-    padding: 12px 16px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: grab;
-    transition: transform 0.2s ease-out;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    /* Moved shadow here from previously potentially simpler item */
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    width: 100%;
-    /* Ensure it covers the wrapper */
-    box-sizing: border-box;
-}
-
-.food-item.swiped {
-    transform: translateX(-60px);
-}
-
-.food-item:active {
-    cursor: grabbing;
-}
-
-.food-emoji {
+.food-icon {
     font-size: 24px;
 }
 
-.food-name {
-    flex: 1;
-    font-weight: 500;
-    color: #1e293b;
-    font-size: 15px;
+/* Category Tabs */
+.category-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
 }
 
-.remove-btn {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
+.category-tab {
+    padding: 8px 14px;
     border: none;
-    background: #f1f5f9;
-    color: #64748b;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-tab:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.category-tab.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Food Items Grid */
+.food-items {
     display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    min-height: 100px;
+    align-content: flex-start;
+}
+
+/* Food Item */
+.food-item {
+    width: 120px;
+    min-height: 120px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 12px 8px;
     cursor: pointer;
-    transition: all 0.2s;
-    font-size: 18px;
-    /* Optional: Hide on mobile if swipe is primary, but we'll keep for now */
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    user-select: none;
 }
 
-.remove-btn:hover {
-    background: #fee2e2;
-    color: #ef4444;
+.food-item:hover {
+    transform: translateY(-3px) scale(1.03);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(102, 126, 234, 0.5);
 }
 
-/* Log Modal */
-.modal-overlay {
+.food-item:active {
+    transform: scale(0.97);
+}
+
+.food-item .food-emoji {
+    font-size: 40px;
+    margin-bottom: 8px;
+}
+
+.food-item .food-name {
+    font-size: 11px;
+    text-align: center;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.3;
+}
+
+/* ============================================
+   BOTTOM SHEET STYLES
+   ============================================ */
+
+.bottom-sheet-overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 200;
-    display: none;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 998;
     opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.modal-overlay.active {
-    display: block;
-    opacity: 1;
-}
-
-.modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.95);
-    background: white;
-    background: var(--bg-card);
-    width: 90%;
-    max-width: 400px;
-    border-radius: 16px;
-    z-index: 201;
-    display: none;
-    opacity: 0;
-    transition: all 0.3s;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--border-color);
-    overflow: hidden;
-    color: var(--text-primary);
-}
-
-.modal.active {
-    display: block;
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-}
-
-.modal-header {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.modal-header h3 {
-    margin: 0;
-    font-size: 18px;
-    color: var(--text-primary);
-}
-
-.close-modal {
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    color: var(--text-secondary);
-    cursor: pointer;
-}
-
-.modal-body {
-    padding: 20px;
-}
-
-.modal-tabs {
-    display: flex;
-    background: var(--toggle-bg);
-    padding: 4px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-
-.modal-tab {
-    flex: 1;
-    padding: 8px;
-    border: none;
-    background: transparent;
-    border-radius: 8px;
-    color: var(--text-secondary);
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.modal-tab.active {
-    background: var(--bg-card);
-    color: var(--primary-color);
-    box-shadow: var(--shadow-sm);
-}
-
-.modal-view {
-    display: none;
-}
-
-.modal-view.active {
-    display: block;
-}
-
-.date-input-group {
-    margin: 16px 0;
-}
-
-.date-input-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 14px;
-    color: var(--text-secondary);
-}
-
-.date-input-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 15px;
-    box-sizing: border-box;
-    background: var(--bg-body);
-    color: var(--text-primary);
-}
-
-.date-preview {
-    font-size: 13px;
-    color: var(--primary-color);
-    margin-bottom: 20px;
-}
-
-.save-log-btn {
-    width: 100%;
-    padding: 12px;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.save-log-btn:hover {
-    background: #4338ca;
-    /* A slightly darker primary color */
-}
-
-.history-list {
-    max-height: 300px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.log-item {
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--bg-card);
-}
-
-.log-info strong {
-    display: block;
-    font-size: 14px;
-    color: var(--text-primary);
-}
-
-.log-info span {
-    font-size: 12px;
-    color: var(--text-secondary);
-}
-
-.log-actions {
-    display: flex;
-    gap: 8px;
-}
-
-.log-action-btn {
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 12px;
-    cursor: pointer;
-    border: none;
-}
-
-.load-btn {
-    background: #dbeafe;
-    color: #1e40af;
-}
-
-.delete-log-btn {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-/* ============================================
-   RESPONSIVE STYLES
-   ============================================ */
-
-/* Hide desktop food container on mobile */
-@media (max-width: 768px) {
-    .desktop-only {
-        display: none !important;
-    }
-
-    body {
-        padding: 15px;
-    }
-
-    .day-cards-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .add-food-btn {
-        width: 100%;
-        padding: 10px;
-        flex-direction: row;
-        justify-content: center;
-        border: 2px dashed #e2e8f0;
-        border-radius: 12px;
-    }
-
-    .add-icon {
-        width: 24px;
-        height: 24px;
-        font-size: 16px;
-        border: none;
-    }
-}
-
-@media (min-width: 769px) {
-    .day-cards-grid {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    }
-}
-
-/* ============================================
-   TOAST NOTIFICATION
-   ============================================ */
-
-.toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: #1e293b;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 50px;
-    font-weight: 500;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.toast.show {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-}
-
-.toast.success {
-    background: #10b981;
-    /* Emerald */
-    color: white;
-}
-
-.toast.error {
-    background: #ef4444;
-    /* Red */
-    color: white;
-}
-
-/* ============================================
-   SCROLLBAR STYLING
-   ============================================ */
-
-::-webkit-scrollbar {
-    width: 6px;
-}
-
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+    visibility: hidden;
+    transition: all 0.3s ease;
 }
 
 .bottom-sheet-overlay.active {
@@ -843,4 +773,128 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(102, 126, 234, 0.7);
+}
+
+/* Version Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s ease;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    margin: 0;
+    background: linear-gradient(135deg, #4f46e5, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.feature-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.feature-icon {
+    font-size: 24px;
+    background: #f1f5f9;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+.feature-text strong {
+    display: block;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.feature-text p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.modal-btn {
+    width: 100%;
+    padding: 14px;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.modal-btn:active {
+    transform: scale(0.98);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
