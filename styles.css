@@ -706,12 +706,12 @@ body {
         font-size: 11px;
     }
 
-    /* Dinner - 2x2 grid instead of squished 4-col */
+    /* Dinner - 2x2 grid, compact height */
     .dinner-card .day-card-content {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 6px;
-        min-height: 100px;
+        min-height: 80px;
     }
 
     .dinner-card .food-item {
@@ -797,12 +797,12 @@ body {
         font-size: 34px;
     }
 
-    /* Dinner - 2x2 grid */
+    /* Dinner - 2x2 grid, compact height */
     .dinner-card .day-card-content {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 8px;
-        min-height: 110px;
+        min-height: 90px;
     }
 
     .dinner-card .food-item .food-emoji {
@@ -872,12 +872,12 @@ body {
         font-size: 36px;
     }
 
-    /* Dinner - 2x2 grid */
+    /* Dinner - 2x2 grid, compact height */
     .dinner-card .day-card-content {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 8px;
-        min-height: 120px;
+        min-height: 100px;
     }
 
     .dinner-card .food-item .food-emoji {
