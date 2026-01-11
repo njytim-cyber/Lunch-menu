@@ -3,12 +3,296 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Debug Menu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Weekly Food Menu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <h1>Hello World - Debug Mode</h1>
+    <div class="background-blob blob-1"></div>
+    <div class="background-blob blob-2"></div>
+    <div class="background-blob blob-3"></div>
+
+    <div class="app-container">
+        <!-- Compact Global Header -->
+        <div class="app-header">
+            <div class="toggle-container">
+                <button class="toggle-btn active" data-tab="lunch">
+                    <span class="toggle-icon">☀️</span> Lunch
+                </button>
+                <button class="toggle-btn" data-tab="dinner">
+                    <span class="toggle-icon">🌙</span> Dinner
+                </button>
+            </div>
+
+            <div class="header-actions">
+                <button class="action-btn suggest-btn" onclick="handleGlobalSuggest()" title="Auto-Suggest Menu">
+                    <span class="action-icon">💡</span>
+                </button>
+                <button class="action-btn share-btn-native" onclick="handleGlobalShare()" title="Share Meal Plan">
+                    <span class="action-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.66 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z" />
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Scrollable Content Area -->
+        <div class="content-area">
+            <!-- LUNCH PAGE -->
+            <div id="lunch-page" class="page active">
+                <div class="days-grid">
+                    <div class="day-card lunch-card" data-day="monday" data-meal="lunch" data-max-items="1">
+                        <div class="day-card-header">Monday</div>
+                        <div class="day-card-content">
+                            <div class="add-food-btn">
+                                <span class="add-icon">+</span>
+                                <span class="add-text">Add Lunch</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tuesday -->
+                    <div class="day-card lunch-card" data-day="tuesday" data-meal="lunch" data-max-items="1">
+                        <div class="day-card-header">Tuesday</div>
+                        <div class="day-card-content">
+                            <div class="add-food-btn">
+                                <span class="add-icon">+</span>
+                                <span class="add-text">Add Lunch</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Wednesday -->
+                    <div class="day-card lunch-card" data-day="wednesday" data-meal="lunch" data-max-items="1">
+                        <div class="day-card-header">Wednesday</div>
+                        <div class="day-card-content">
+                            <div class="add-food-btn">
+                                <span class="add-icon">+</span>
+                                <span class="add-text">Add Lunch</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Thursday -->
+                    <div class="day-card lunch-card" data-day="thursday" data-meal="lunch" data-max-items="1">
+                        <div class="day-card-header">Thursday</div>
+                        <div class="day-card-content">
+                            <div class="add-food-btn">
+                                <span class="add-icon">+</span>
+                                <span class="add-text">Add Lunch</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Friday -->
+                    <div class="day-card lunch-card" data-day="friday" data-meal="lunch" data-max-items="1">
+                        <div class="day-card-header">Friday</div>
+                        <div class="day-card-content">
+                            <div class="add-food-btn">
+                                <span class="add-icon">+</span>
+                                <span class="add-text">Add Lunch</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Saturday -->
+                    <div class="day-card lunch-card" data-day="saturday" data-meal="lunch" data-max-items="1">
+                        <div class="day-card-header">Saturday</div>
+                        <div class="day-card-content">
+                            <div class="add-food-btn">
+                                <span class="add-icon">+</span>
+                                <span class="add-text">Add Lunch</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sunday -->
+                    <div class="day-card lunch-card" data-day="sunday" data-meal="lunch" data-max-items="1">
+                        <div class="day-card-header">Sunday</div>
+                        <div class="day-card-content">
+                            <div class="add-food-btn">
+                                <span class="add-icon">+</span>
+                                <span class="add-text">Add Lunch</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Food Container -->
+                <div class="food-container desktop-only">
+                    <h2 class="food-title">
+                        <span class="food-icon">🍱</span>
+                        Available Lunch Items
+                    </h2>
+                    <div class="category-tabs" data-meal="lunch">
+                        <button class="category-tab active" data-category="all">All</button>
+                        <button class="category-tab" data-category="noodles">🍜 Noodles</button>
+                        <button class="category-tab" data-category="rice">🍚 Rice</button>
+                        <button class="category-tab" data-category="vegetables">🥬 Vegetables</button>
+                        <button class="category-tab" data-category="chicken">🍗 Chicken</button>
+                        <button class="category-tab" data-category="fish">🐟 Fish</button>
+                        <button class="category-tab" data-category="soup">🍲 Soup</button>
+                        <button class="category-tab" data-category="pasta">🍝 Pasta</button>
+                    </div>
+                    <div class="food-items" id="lunch-food-items">
+                    </div>
+                </div>
+            </div>
+
+            <!-- DINNER PAGE -->
+            <div id="dinner-page" class="page">
+                <div class="days-grid">
+                    <div class="day-card dinner-card" data-day="monday" data-meal="dinner" data-max-items="4">
+                        <div class="day-card-header">Monday</div>
+                        <div class="day-card-content">
+                            <div class="add-food-btn">
+                                <span class="add-icon">+</span>
+                                <span class="add-text">Add Dinner</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tuesday -->
+                    <div class="day-card dinner-card" data-day="tuesday" data-meal="dinner" data-max-items="4">
+                        <div class="day-card-header">Tuesday</div>
+                        <div class="day-card-content">
+                            <div class="add-food-btn">
+                                <span class="add-icon">+</span>
+                                <span class="add-text">Add Dinner</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Wednesday -->
+                    <div class="day-card dinner-card" data-day="wednesday" data-meal="dinner" data-max-items="4">
+                        <div class="day-card-header">Wednesday</div>
+                        <div class="day-card-content">
+                            <div class="add-food-btn">
+                                <span class="add-icon">+</span>
+                                <span class="add-text">Add Dinner</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Thursday -->
+                    <div class="day-card dinner-card" data-day="thursday" data-meal="dinner" data-max-items="4">
+                        <div class="day-card-header">Thursday</div>
+                        <div class="day-card-content">
+                            <div class="add-food-btn">
+                                <span class="add-icon">+</span>
+                                <span class="add-text">Add Dinner</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Friday -->
+                    <div class="day-card dinner-card" data-day="friday" data-meal="dinner" data-max-items="4">
+                        <div class="day-card-header">Friday</div>
+                        <div class="day-card-content">
+                            <div class="add-food-btn">
+                                <span class="add-icon">+</span>
+                                <span class="add-text">Add Dinner</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Saturday -->
+                    <div class="day-card dinner-card" data-day="saturday" data-meal="dinner" data-max-items="4">
+                        <div class="day-card-header">Saturday</div>
+                        <div class="day-card-content">
+                            <div class="add-food-btn">
+                                <span class="add-icon">+</span>
+                                <span class="add-text">Add Dinner</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sunday -->
+                    <div class="day-card dinner-card" data-day="sunday" data-meal="dinner" data-max-items="4">
+                        <div class="day-card-header">Sunday</div>
+                        <div class="day-card-content">
+                            <div class="add-food-btn">
+                                <span class="add-icon">+</span>
+                                <span class="add-text">Add Dinner</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Food Container -->
+                <div class="food-container desktop-only">
+                    <h2 class="food-title">
+                        <span class="food-icon">🥘</span>
+                        Available Dinner Items
+                    </h2>
+                    <div class="category-tabs" data-meal="dinner">
+                        <button class="category-tab active" data-category="all">All</button>
+                        <button class="category-tab" data-category="noodles">🍜 Noodles</button>
+                        <button class="category-tab" data-category="rice">🍚 Rice</button>
+                        <button class="category-tab" data-category="vegetables">🥬 Vegetables</button>
+                        <button class="category-tab" data-category="chicken">🍗 Chicken</button>
+                        <button class="category-tab" data-category="fish">🐟 Fish</button>
+                        <button class="category-tab" data-category="pork">🥩 Pork</button>
+                        <button class="category-tab" data-category="eggs">🥚 Eggs</button>
+                        <button class="category-tab" data-category="soup">🍲 Soup</button>
+                        <button class="category-tab" data-category="pasta">🍝 Pasta</button>
+                    </div>
+                    <div class="food-items" id="dinner-food-items">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Sheet Overlay -->
+    <div class="bottom-sheet-overlay" id="bottomSheetOverlay"></div>
+
+    <!-- Bottom Sheet -->
+    <div class="bottom-sheet" id="bottomSheet">
+        <div class="bottom-sheet-handle"></div>
+        <div class="bottom-sheet-header">
+            <h3 class="bottom-sheet-title">Add Lunch</h3>
+            <button class="close-btn" id="closeBottomSheet">×</button>
+        </div>
+        <div class="bottom-sheet-categories" id="bottomSheetTabs">
+            <!-- Tabs injected by JS -->
+        </div>
+        <div class="bottom-sheet-content" id="bottomSheetContent">
+            <!-- Items injected by JS -->
+        </div>
+    </div>
+
+    <!-- Version Modal -->
+    <div class="modal-overlay" id="versionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✨ New in v2.0</h2>
+                <button class="modal-close" onclick="closeVersionModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="feature-item">
+                    <span class="feature-icon">💾</span>
+                    <div class="feature-text">
+                        <strong>Auto-Save</strong>
+                        <p>Your meal plan is now automatically saved. No more lost menus!</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">💡</span>
+                    <div class="feature-text">
+                        <strong>Auto-Suggest</strong>
+                        <p>Stuck? Tap the lightbulb to instantly generate a balanced meal.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">💅</span>
+                    <div class="feature-text">
+                        <strong>Fresh Look</strong>
+                        <p>Cleaner design, compact menu, and better mobile experience.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="modal-btn" onclick="closeVersionModal()">Got it!</button>
+        </div>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
 </body>
 
 </html>
