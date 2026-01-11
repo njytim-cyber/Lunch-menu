@@ -4,7 +4,8 @@
   "description": "A weekly meal planner application",
   "type": "module",
   "scripts": {
-    "release": "node scripts/release.js"
+    "release": "node scripts/release.js",
+    "deploy": "npx wrangler pages deploy . --project-name=lunch-menu"
   },
   "author": "Antigravity",
   "license": "ISC"
