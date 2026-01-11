@@ -679,14 +679,58 @@ body {
     }
 
     .day-card-content {
-        padding: 12px 8px;
-        min-height: 80px;
+        padding: 10px 8px;
+        min-height: 60px;
+    }
+
+    /* Lunch - center single item, compact */
+    .lunch-card .day-card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 70px;
+    }
+
+    .lunch-card .food-item {
+        width: auto;
+        padding: 8px 16px;
+    }
+
+    .lunch-card .food-item .food-emoji {
+        font-size: 32px;
+    }
+
+    .lunch-card .food-item .food-name {
+        font-size: 11px;
+    }
+
+    /* Dinner - 2x2 grid instead of squished 4-col */
+    .dinner-card .day-card-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+        min-height: 100px;
+    }
+
+    .dinner-card .food-item {
+        width: 100%;
+        padding: 6px 4px;
+    }
+
+    .dinner-card .food-item .food-emoji {
+        font-size: 20px;
+    }
+
+    .dinner-card .food-item .food-name {
+        font-size: 9px;
+        line-height: 1.2;
     }
 
     .add-icon {
-        width: 32px;
-        height: 32px;
-        font-size: 18px;
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
     }
 
     .add-text {
@@ -729,8 +773,42 @@ body {
     }
 
     .day-card-content {
-        padding: 14px 10px;
-        min-height: 90px;
+        padding: 12px 10px;
+        min-height: 70px;
+    }
+
+    /* Lunch - center single item */
+    .lunch-card .day-card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 80px;
+    }
+
+    .lunch-card .food-item {
+        width: auto;
+        padding: 10px 20px;
+    }
+
+    .lunch-card .food-item .food-emoji {
+        font-size: 34px;
+    }
+
+    /* Dinner - 2x2 grid */
+    .dinner-card .day-card-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        min-height: 110px;
+    }
+
+    .dinner-card .food-item .food-emoji {
+        font-size: 22px;
+    }
+
+    .dinner-card .food-item .food-name {
+        font-size: 10px;
     }
 
     .add-icon {
@@ -769,8 +847,42 @@ body {
     }
 
     .day-card-content {
-        padding: 16px 12px;
-        min-height: 100px;
+        padding: 14px 12px;
+        min-height: 80px;
+    }
+
+    /* Lunch - center single item */
+    .lunch-card .day-card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 90px;
+    }
+
+    .lunch-card .food-item {
+        width: auto;
+        padding: 12px 24px;
+    }
+
+    .lunch-card .food-item .food-emoji {
+        font-size: 36px;
+    }
+
+    /* Dinner - 2x2 grid */
+    .dinner-card .day-card-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        min-height: 120px;
+    }
+
+    .dinner-card .food-item .food-emoji {
+        font-size: 24px;
+    }
+
+    .dinner-card .food-item .food-name {
+        font-size: 11px;
     }
 
     .add-icon {
