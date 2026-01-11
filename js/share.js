@@ -71,9 +71,8 @@ export function generateMealPlanText() {
             hasAnyItems = true;
             const lunchItemTexts = [];
             lunchItems.forEach(item => {
-                const emoji = item.querySelector('.food-emoji')?.textContent || '🍽️';
                 const name = item.querySelector('.food-name')?.textContent || 'Unknown';
-                lunchItemTexts.push(`${emoji} ${name}`);
+                lunchItemTexts.push(name);
             });
             mealPlanText += lunchItemTexts.join(', ') + '\n';
         } else {
@@ -86,9 +85,8 @@ export function generateMealPlanText() {
             hasAnyItems = true;
             const dinnerItemTexts = [];
             dinnerItems.forEach(item => {
-                const emoji = item.querySelector('.food-emoji')?.textContent || '🍽️';
                 const name = item.querySelector('.food-name')?.textContent || 'Unknown';
-                dinnerItemTexts.push(`${emoji} ${name}`);
+                dinnerItemTexts.push(name);
             });
             mealPlanText += dinnerItemTexts.join(', ') + '\n';
         } else {
