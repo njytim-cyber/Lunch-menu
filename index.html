@@ -31,77 +31,86 @@
                     <span class="title-icon">☀️</span>
                     Weekly Lunch Menu
                 </h1>
-                <div class="share-buttons">
-                    <button class="share-btn" onclick="shareMealPlan('lunch')">
-                        <span class="share-icon">📝</span>
-                        Copy
+                <div class="header-actions">
+                    <button class="action-btn" onclick="shareMealPlan('lunch')" title="Copy to clipboard">
+                        <span class="action-icon">📋</span>
                     </button>
-                    <button class="share-btn gchat-btn" onclick="shareToGoogleChat('lunch')">
-                        <span class="share-icon">💬</span>
-                        Google Chat
+                    <button class="action-btn gchat-action" onclick="shareToGoogleChat('lunch')"
+                        title="Share to Google Chat">
+                        <span class="action-icon">💬</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Days of the Week -->
-            <div class="days-header">
-                <div class="day-label">Monday</div>
-                <div class="day-label">Tuesday</div>
-                <div class="day-label">Wednesday</div>
-                <div class="day-label">Thursday</div>
-                <div class="day-label">Friday</div>
-                <div class="day-label">Saturday</div>
-                <div class="day-label">Sunday</div>
+            <!-- Day Cards Grid -->
+            <div class="day-cards-grid">
+                <div class="day-card" data-day="monday" data-meal="lunch">
+                    <div class="day-card-header">Monday</div>
+                    <div class="day-card-content">
+                        <div class="add-food-btn">
+                            <span class="add-icon">+</span>
+                            <span class="add-text">Add Lunch</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-card" data-day="tuesday" data-meal="lunch">
+                    <div class="day-card-header">Tuesday</div>
+                    <div class="day-card-content">
+                        <div class="add-food-btn">
+                            <span class="add-icon">+</span>
+                            <span class="add-text">Add Lunch</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-card" data-day="wednesday" data-meal="lunch">
+                    <div class="day-card-header">Wednesday</div>
+                    <div class="day-card-content">
+                        <div class="add-food-btn">
+                            <span class="add-icon">+</span>
+                            <span class="add-text">Add Lunch</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-card" data-day="thursday" data-meal="lunch">
+                    <div class="day-card-header">Thursday</div>
+                    <div class="day-card-content">
+                        <div class="add-food-btn">
+                            <span class="add-icon">+</span>
+                            <span class="add-text">Add Lunch</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-card" data-day="friday" data-meal="lunch">
+                    <div class="day-card-header">Friday</div>
+                    <div class="day-card-content">
+                        <div class="add-food-btn">
+                            <span class="add-icon">+</span>
+                            <span class="add-text">Add Lunch</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-card" data-day="saturday" data-meal="lunch">
+                    <div class="day-card-header">Saturday</div>
+                    <div class="day-card-content">
+                        <div class="add-food-btn">
+                            <span class="add-icon">+</span>
+                            <span class="add-text">Add Lunch</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-card" data-day="sunday" data-meal="lunch">
+                    <div class="day-card-header">Sunday</div>
+                    <div class="day-card-content">
+                        <div class="add-food-btn">
+                            <span class="add-icon">+</span>
+                            <span class="add-text">Add Lunch</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Drop Zones for Each Day -->
-            <div class="day-boxes">
-                <div class="day-wrapper">
-                    <div class="mobile-day-label">Monday</div>
-                    <div class="day-box" data-day="monday" data-meal="lunch">
-                        <div class="drop-hint">Drop food here</div>
-                    </div>
-                </div>
-                <div class="day-wrapper">
-                    <div class="mobile-day-label">Tuesday</div>
-                    <div class="day-box" data-day="tuesday" data-meal="lunch">
-                        <div class="drop-hint">Drop food here</div>
-                    </div>
-                </div>
-                <div class="day-wrapper">
-                    <div class="mobile-day-label">Wednesday</div>
-                    <div class="day-box" data-day="wednesday" data-meal="lunch">
-                        <div class="drop-hint">Drop food here</div>
-                    </div>
-                </div>
-                <div class="day-wrapper">
-                    <div class="mobile-day-label">Thursday</div>
-                    <div class="day-box" data-day="thursday" data-meal="lunch">
-                        <div class="drop-hint">Drop food here</div>
-                    </div>
-                </div>
-                <div class="day-wrapper">
-                    <div class="mobile-day-label">Friday</div>
-                    <div class="day-box" data-day="friday" data-meal="lunch">
-                        <div class="drop-hint">Drop food here</div>
-                    </div>
-                </div>
-                <div class="day-wrapper">
-                    <div class="mobile-day-label">Saturday</div>
-                    <div class="day-box" data-day="saturday" data-meal="lunch">
-                        <div class="drop-hint">Drop food here</div>
-                    </div>
-                </div>
-                <div class="day-wrapper">
-                    <div class="mobile-day-label">Sunday</div>
-                    <div class="day-box" data-day="sunday" data-meal="lunch">
-                        <div class="drop-hint">Drop food here</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Food Items Container -->
-            <div class="food-container">
+            <!-- Desktop Food Container (hidden on mobile) -->
+            <div class="food-container desktop-only">
                 <h2 class="food-title">
                     <span class="food-icon">🍔</span>
                     Available Lunch Items
@@ -114,12 +123,6 @@
                     <button class="category-tab" data-category="pasta">🍝 Pasta</button>
                 </div>
                 <div class="food-items" id="lunch-food-items">
-                    <!-- Food items will be added here dynamically -->
-                    <div class="empty-state">
-                        <span class="empty-icon">📦</span>
-                        <p>Food items will appear here</p>
-                        <p class="empty-hint">Send your food list to add items</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -131,77 +134,86 @@
                     <span class="title-icon">🌙</span>
                     Weekly Dinner Menu
                 </h1>
-                <div class="share-buttons">
-                    <button class="share-btn" onclick="shareMealPlan('dinner')">
-                        <span class="share-icon">📝</span>
-                        Copy
+                <div class="header-actions">
+                    <button class="action-btn" onclick="shareMealPlan('dinner')" title="Copy to clipboard">
+                        <span class="action-icon">📋</span>
                     </button>
-                    <button class="share-btn gchat-btn" onclick="shareToGoogleChat('dinner')">
-                        <span class="share-icon">💬</span>
-                        Google Chat
+                    <button class="action-btn gchat-action" onclick="shareToGoogleChat('dinner')"
+                        title="Share to Google Chat">
+                        <span class="action-icon">💬</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Days of the Week -->
-            <div class="days-header">
-                <div class="day-label">Monday</div>
-                <div class="day-label">Tuesday</div>
-                <div class="day-label">Wednesday</div>
-                <div class="day-label">Thursday</div>
-                <div class="day-label">Friday</div>
-                <div class="day-label">Saturday</div>
-                <div class="day-label">Sunday</div>
+            <!-- Day Cards Grid -->
+            <div class="day-cards-grid dinner-grid">
+                <div class="day-card dinner-card" data-day="monday" data-meal="dinner" data-max-items="4">
+                    <div class="day-card-header">Monday</div>
+                    <div class="day-card-content">
+                        <div class="add-food-btn">
+                            <span class="add-icon">+</span>
+                            <span class="add-text">Add Dinner</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-card dinner-card" data-day="tuesday" data-meal="dinner" data-max-items="4">
+                    <div class="day-card-header">Tuesday</div>
+                    <div class="day-card-content">
+                        <div class="add-food-btn">
+                            <span class="add-icon">+</span>
+                            <span class="add-text">Add Dinner</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-card dinner-card" data-day="wednesday" data-meal="dinner" data-max-items="4">
+                    <div class="day-card-header">Wednesday</div>
+                    <div class="day-card-content">
+                        <div class="add-food-btn">
+                            <span class="add-icon">+</span>
+                            <span class="add-text">Add Dinner</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-card dinner-card" data-day="thursday" data-meal="dinner" data-max-items="4">
+                    <div class="day-card-header">Thursday</div>
+                    <div class="day-card-content">
+                        <div class="add-food-btn">
+                            <span class="add-icon">+</span>
+                            <span class="add-text">Add Dinner</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-card dinner-card" data-day="friday" data-meal="dinner" data-max-items="4">
+                    <div class="day-card-header">Friday</div>
+                    <div class="day-card-content">
+                        <div class="add-food-btn">
+                            <span class="add-icon">+</span>
+                            <span class="add-text">Add Dinner</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-card dinner-card" data-day="saturday" data-meal="dinner" data-max-items="4">
+                    <div class="day-card-header">Saturday</div>
+                    <div class="day-card-content">
+                        <div class="add-food-btn">
+                            <span class="add-icon">+</span>
+                            <span class="add-text">Add Dinner</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-card dinner-card" data-day="sunday" data-meal="dinner" data-max-items="4">
+                    <div class="day-card-header">Sunday</div>
+                    <div class="day-card-content">
+                        <div class="add-food-btn">
+                            <span class="add-icon">+</span>
+                            <span class="add-text">Add Dinner</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Drop Zones for Each Day -->
-            <div class="day-boxes">
-                <div class="day-wrapper">
-                    <div class="mobile-day-label">Monday</div>
-                    <div class="day-box dinner-box" data-day="monday" data-meal="dinner" data-max-items="4">
-                        <div class="drop-hint">Drop up to 4 items</div>
-                    </div>
-                </div>
-                <div class="day-wrapper">
-                    <div class="mobile-day-label">Tuesday</div>
-                    <div class="day-box dinner-box" data-day="tuesday" data-meal="dinner" data-max-items="4">
-                        <div class="drop-hint">Drop up to 4 items</div>
-                    </div>
-                </div>
-                <div class="day-wrapper">
-                    <div class="mobile-day-label">Wednesday</div>
-                    <div class="day-box dinner-box" data-day="wednesday" data-meal="dinner" data-max-items="4">
-                        <div class="drop-hint">Drop up to 4 items</div>
-                    </div>
-                </div>
-                <div class="day-wrapper">
-                    <div class="mobile-day-label">Thursday</div>
-                    <div class="day-box dinner-box" data-day="thursday" data-meal="dinner" data-max-items="4">
-                        <div class="drop-hint">Drop up to 4 items</div>
-                    </div>
-                </div>
-                <div class="day-wrapper">
-                    <div class="mobile-day-label">Friday</div>
-                    <div class="day-box dinner-box" data-day="friday" data-meal="dinner" data-max-items="4">
-                        <div class="drop-hint">Drop up to 4 items</div>
-                    </div>
-                </div>
-                <div class="day-wrapper">
-                    <div class="mobile-day-label">Saturday</div>
-                    <div class="day-box dinner-box" data-day="saturday" data-meal="dinner" data-max-items="4">
-                        <div class="drop-hint">Drop up to 4 items</div>
-                    </div>
-                </div>
-                <div class="day-wrapper">
-                    <div class="mobile-day-label">Sunday</div>
-                    <div class="day-box dinner-box" data-day="sunday" data-meal="dinner" data-max-items="4">
-                        <div class="drop-hint">Drop up to 4 items</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Food Items Container -->
-            <div class="food-container">
+            <!-- Desktop Food Container (hidden on mobile) -->
+            <div class="food-container desktop-only">
                 <h2 class="food-title">
                     <span class="food-icon">🥘</span>
                     Available Dinner Items
@@ -217,14 +229,26 @@
                     <button class="category-tab" data-category="carbs">🍚 Carbs</button>
                 </div>
                 <div class="food-items" id="dinner-food-items">
-                    <!-- Food items will be added here dynamically -->
-                    <div class="empty-state">
-                        <span class="empty-icon">📦</span>
-                        <p>Food items will appear here</p>
-                        <p class="empty-hint">Send your food list to add items</p>
-                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Bottom Sheet Overlay -->
+    <div class="bottom-sheet-overlay" id="bottomSheetOverlay"></div>
+
+    <!-- Bottom Sheet -->
+    <div class="bottom-sheet" id="bottomSheet">
+        <div class="bottom-sheet-handle"></div>
+        <div class="bottom-sheet-header">
+            <h3 class="bottom-sheet-title">Select Food Item</h3>
+            <button class="bottom-sheet-close" id="closeBottomSheet">×</button>
+        </div>
+        <div class="bottom-sheet-tabs" id="bottomSheetTabs">
+            <!-- Category tabs will be populated dynamically -->
+        </div>
+        <div class="bottom-sheet-content" id="bottomSheetContent">
+            <!-- Food items will be populated dynamically -->
         </div>
     </div>
 
