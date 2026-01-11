@@ -1,4 +1,4 @@
-import { foodData, mealPlan, addItemToState, removeItemFromState } from './state.js';
+import { foodData, mealPlan, addItemToState, removeItemFromState, addCustomDish } from './state.js';
 
 // ============================================
 // DOM ELEMENTS
@@ -161,8 +161,28 @@ function populateBottomSheetContent(mealType, category) {
         </div>
     `).join('');
 
+    // Add "Add New Dish" button if category is All or we just want it always accessible
+    if (category === 'all') {
+        const addBtn = document.createElement('div');
+        addBtn.className = 'food-item add-new-dish-item';
+        addBtn.innerHTML = `
+            <span class="food-emoji" style="font-size: 32px; font-weight: bold;">+</span>
+            <span class="food-name">Add New</span>
+        `;
+        addBtn.addEventListener('click', () => {
+            closeBottomSheet();
+            // Trigger the corresponding desktop button to open modal
+            const btnId = mealType === 'lunch' ? 'addLunchDishBtn' : 'addDinnerDishBtn';
+            const btn = document.getElementById(btnId);
+            if (btn) btn.click();
+        });
+
+        // Add as first item
+        bottomSheetContent.insertBefore(addBtn, bottomSheetContent.firstChild);
+    }
+
     // Add click handlers for selection
-    bottomSheetContent.querySelectorAll('.food-item').forEach(item => {
+    bottomSheetContent.querySelectorAll('.food-item:not(.add-new-dish-item)').forEach(item => {
         item.addEventListener('click', () => selectFoodItem(item));
     });
 }
@@ -465,5 +485,149 @@ export function renderSavedState() {
                 addFoodToCard(card, item.name, item.emoji, item.category, false);
             });
         }
+    });
+}
+
+// ============================================
+// DESKTOP SIDEBAR
+// ============================================
+
+export function initDesktopSidebars() {
+    populateDesktopSidebar('lunch');
+    populateDesktopSidebar('dinner');
+}
+
+export function populateDesktopSidebar(mealType) {
+    const container = document.getElementById(`${mealType}-food-items`);
+    if (!container) return;
+
+    const items = foodData[mealType];
+    container.innerHTML = items.map(item => `
+        <div class="food-item" 
+             draggable="true"
+             data-name="${item.name}" 
+             data-emoji="${item.emoji}" 
+             data-category="${item.category}">
+            <span class="food-emoji">${item.emoji}</span>
+            <span class="food-name">${item.name}</span>
+        </div>
+    `).join('');
+
+    // Add listeners
+    container.querySelectorAll('.food-item').forEach(item => {
+        // Drag events
+        item.addEventListener('dragstart', handleDragStart);
+        item.addEventListener('dragend', handleDragEnd);
+
+        // Click to add/replace
+        item.addEventListener('click', () => {
+            // We need to check if a day card is selected or just default?
+            // The original code used `currentDayCard`.
+            // But `currentDayCard` is set when opening bottom sheet?
+            // Or when clicking a day card?
+            // If desktop drag/drop is used, `currentDayCard` might be null.
+            // But `selectFoodItem` uses `currentDayCard`.
+            // If clicking from sidebar, we need to know WHERE to add.
+            // Usually desktop sidebar is for Drag and Drop.
+            // Clicking might show toast "Drag to a day".
+
+            // Wait, previous code had:
+            /*
+            if (currentDayCard && currentDayCard.dataset.meal === mealType) {
+                selectFoodItem(item);
+            } else {
+                showToast('Please select a day card first', 'info');
+            }
+            */
+            // I'll keep this logic.
+            // But I need to ensure `handleDragStart` etc are available (they are local functions in ui.js).
+            // NO, `handleDragStart` is at line 312. It is NOT exported. It is module scope?
+            // Yes, `function handleDragStart` at top level.
+        });
+
+        item.addEventListener('click', () => {
+            // I assume `currentDayCard` is module level variable.
+            // Yes, line 74 `let currentDayCard = null;`.
+            if (currentDayCard && currentDayCard.dataset.meal === mealType) {
+                selectFoodItem(item);
+            } else {
+                showToast('Select a day first, or drag item', 'info');
+            }
+        });
+    });
+}
+
+export function initAddDishModal() {
+    const modal = document.getElementById('addDishModal');
+    const closeX = document.getElementById('addDishCloseX');
+    const cancelBtn = document.getElementById('addDishCancelBtn');
+    const submitBtn = document.getElementById('addDishSubmitBtn');
+    const nameInput = document.getElementById('dishName');
+    const emojiSelect = document.getElementById('dishEmoji');
+    const categorySelect = document.getElementById('dishCategory');
+    const mealBtns = document.querySelectorAll('.meal-type-btn');
+
+    // Open triggers
+    const openHandlers = (e) => {
+        const btn = e.target.closest('.add-dish-btn');
+        if (!btn) return;
+
+        const meal = btn.dataset.meal;
+
+        nameInput.value = '';
+        emojiSelect.selectedIndex = 0;
+        categorySelect.selectedIndex = 0;
+
+        mealBtns.forEach(b => {
+            if (b.dataset.meal === meal) b.classList.add('active');
+            else b.classList.remove('active');
+        });
+
+        modal.classList.add('active');
+        setTimeout(() => nameInput.focus(), 100);
+    };
+
+    const desktopLunchBtn = document.getElementById('addLunchDishBtn');
+    const desktopDinnerBtn = document.getElementById('addDinnerDishBtn');
+    if (desktopLunchBtn) desktopLunchBtn.addEventListener('click', openHandlers);
+    if (desktopDinnerBtn) desktopDinnerBtn.addEventListener('click', openHandlers);
+
+    const close = () => modal.classList.remove('active');
+    if (closeX) closeX.addEventListener('click', close);
+    if (cancelBtn) cancelBtn.addEventListener('click', close);
+
+    mealBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            mealBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+
+    submitBtn.addEventListener('click', () => {
+        const name = nameInput.value.trim();
+        if (!name) {
+            showToast('Please enter a dish name', 'error');
+            return;
+        }
+
+        const emoji = emojiSelect.value;
+        const category = categorySelect.value;
+        const activeMealBtn = document.querySelector('.meal-type-btn.active');
+        const mealType = activeMealBtn ? activeMealBtn.dataset.meal : 'lunch';
+
+        const success = addCustomDish(name, emoji, mealType, category);
+
+        if (success) {
+            foodData[mealType].push({ name, emoji, category, isCustom: true });
+            populateDesktopSidebar(mealType);
+            showToast(`Added ${name} to ${mealType} menu!`, 'success');
+            close();
+        } else {
+            showToast('Dish already exists!', 'error');
+        }
+    });
+
+    nameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') submitBtn.click();
     });
 }

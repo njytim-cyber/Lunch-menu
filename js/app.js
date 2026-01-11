@@ -1,13 +1,14 @@
-import { loadSampleData } from './data.js';
-import {
-    initDayCards,
+import { loadSampleData, loadCustomDishesToFoodData } from './data.js';
+initDayCards,
     initDesktopDragAndDrop,
     initCategoryTabs,
     initSwipeGestures,
     initTabs,
     renderSavedState,
     addFoodToCard,
-    removeFoodFromCard
+    removeFoodFromCard,
+    initDesktopSidebars,
+    initAddDishModal
 } from './ui.js';
 import { shareNative } from './share.js';
 import { addFoodItem } from './state.js';
@@ -19,13 +20,16 @@ import { APP_VERSION } from './version.js';
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Load static food data
     loadSampleData();
+    loadCustomDishesToFoodData();
 
     // 2. Initialize UI components
     initDayCards();
+    initDesktopSidebars(); // Desktop Sidebar
     initDesktopDragAndDrop();
     initCategoryTabs(); // Desktop tabs
     initSwipeGestures();
     initTabs();
+    initAddDishModal();
 
     // 3. Restore user's saved meal plan
     renderSavedState();

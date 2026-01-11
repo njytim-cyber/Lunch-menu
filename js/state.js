@@ -66,3 +66,48 @@ export function clearState() {
     mealPlan.dinner = {};
     saveMealPlan();
 }
+
+// Custom Dishes
+const CUSTOM_DISHES_KEY = 'customDishes_v1';
+
+export const customDishes = loadCustomDishes() || {
+    lunch: [],
+    dinner: []
+};
+
+function loadCustomDishes() {
+    try {
+        const stored = localStorage.getItem(CUSTOM_DISHES_KEY);
+        return stored ? JSON.parse(stored) : null;
+    } catch (e) {
+        console.error('Failed to load custom dishes', e);
+        return null;
+    }
+}
+
+export function saveCustomDishes() {
+    try {
+        localStorage.setItem(CUSTOM_DISHES_KEY, JSON.stringify(customDishes));
+    } catch (e) {
+        console.error('Failed to save custom dishes', e);
+    }
+}
+
+export function addCustomDish(name, emoji, mealType, category) {
+    if (!customDishes[mealType]) customDishes[mealType] = [];
+
+    // Check if dish already exists
+    const exists = customDishes[mealType].some(d => d.name.toLowerCase() === name.toLowerCase());
+    if (exists) return false;
+
+    customDishes[mealType].push({ name, emoji, category, isCustom: true });
+    saveCustomDishes();
+    return true;
+}
+
+export function removeCustomDish(mealType, name) {
+    if (!customDishes[mealType]) return;
+
+    customDishes[mealType] = customDishes[mealType].filter(d => d.name !== name);
+    saveCustomDishes();
+}

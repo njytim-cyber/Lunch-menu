@@ -1,4 +1,4 @@
-import { addFoodItem } from './state.js';
+import { addFoodItem, customDishes, foodData } from './state.js';
 
 export function loadSampleData() {
     // LUNCH ITEMS
@@ -54,4 +54,26 @@ export function loadSampleData() {
     addFoodItem('Crispy Prawn Ball', '🦐', 'dinner', 'prawn');
     addFoodItem('Prawn with Glass Noodle', '🦐', 'dinner', 'prawn');
     addFoodItem('Cheesy Rigatoni', '🧀', 'dinner', 'pasta');
+}
+
+export function loadCustomDishesToFoodData() {
+    // Add custom lunch dishes
+    if (customDishes.lunch) {
+        customDishes.lunch.forEach(dish => {
+            const exists = foodData.lunch.some(d => d.name === dish.name);
+            if (!exists) {
+                foodData.lunch.push({ ...dish });
+            }
+        });
+    }
+
+    // Add custom dinner dishes
+    if (customDishes.dinner) {
+        customDishes.dinner.forEach(dish => {
+            const exists = foodData.dinner.some(d => d.name === dish.name);
+            if (!exists) {
+                foodData.dinner.push({ ...dish });
+            }
+        });
+    }
 }

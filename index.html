@@ -138,6 +138,7 @@
                     </div>
                     <div class="food-items" id="lunch-food-items">
                     </div>
+                    <button id="addLunchDishBtn" class="add-dish-btn" data-meal="lunch">+ Add New Dish</button>
                 </div>
             </div>
 
@@ -235,6 +236,7 @@
                     </div>
                     <div class="food-items" id="dinner-food-items">
                     </div>
+                    <button id="addDinnerDishBtn" class="add-dish-btn" data-meal="dinner">+ Add New Dish</button>
                 </div>
             </div>
         </div>
@@ -289,6 +291,67 @@
                 </div>
             </div>
             <button class="modal-btn" onclick="closeVersionModal()">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Add Custom Dish Modal -->
+    <div class="modal" id="addDishModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Custom Dish</h3>
+                <button class="close-btn" id="addDishCloseX">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Meal Type</label>
+                    <div class="meal-type-selector">
+                        <button class="meal-type-btn active" data-meal="lunch">Lunch</button>
+                        <button class="meal-type-btn" data-meal="dinner">Dinner</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dishName">Dish Name</label>
+                    <input type="text" id="dishName" placeholder="e.g. Handmade Noodles" maxlength="30">
+                </div>
+                <div class="form-group">
+                    <label for="dishEmoji">Emoji</label>
+                    <select id="dishEmoji">
+                        <option value="🥘">🥘 Food</option>
+                        <option value="🍜">🍜 Noodle</option>
+                        <option value="🍚">🍚 Rice</option>
+                        <option value="🥬">🥬 Veg</option>
+                        <option value="🍗">🍗 Chicken</option>
+                        <option value="🐟">🐟 Fish</option>
+                        <option value="🥩">🥩 Meat</option>
+                        <option value="🦐">🦐 Seafood</option>
+                        <option value="🥚">🥚 Egg</option>
+                        <option value="🍲">🍲 Soup</option>
+                        <option value="🍝">🍝 Pasta</option>
+                        <option value="🍰">🍰 Dessert</option>
+                        <option value="🍎">🍎 Fruit</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="dishCategory">Category</label>
+                    <select id="dishCategory">
+                        <option value="noodles">Noodles</option>
+                        <option value="rice">Rice</option>
+                        <option value="vegetables">Vegetables</option>
+                        <option value="chicken">Chicken</option>
+                        <option value="fish">Fish</option>
+                        <option value="pork">Pork</option>
+                        <option value="eggs">Eggs</option>
+                        <option value="prawn">Prawn</option>
+                        <option value="soup">Soup</option>
+                        <option value="pasta">Pasta</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="addDishCancelBtn">Cancel</button>
+                <button class="btn-submit" id="addDishSubmitBtn">Add Dish</button>
+            </div>
         </div>
     </div>
 
