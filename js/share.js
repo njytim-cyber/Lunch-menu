@@ -1,7 +1,7 @@
 import { showToast } from './ui.js';
 
 /**
- * Get the date for a given day of the week in the current week
+ * Get the date for a given day of next week
  * @param {number} dayIndex - 0 = Monday, 6 = Sunday
  * @returns {Date}
  */
@@ -10,9 +10,13 @@ function getDateForDay(dayIndex) {
     const currentDay = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
     // Convert to Monday-based (0 = Monday, 6 = Sunday)
     const mondayBased = currentDay === 0 ? 6 : currentDay - 1;
-    const diff = dayIndex - mondayBased;
-    const date = new Date(today);
-    date.setDate(today.getDate() + diff);
+    // Calculate next Monday (days until next Monday)
+    const daysUntilNextMonday = (7 - mondayBased) % 7 || 7;
+    const nextMonday = new Date(today);
+    nextMonday.setDate(today.getDate() + daysUntilNextMonday);
+    // Add the day index to get the target day of next week
+    const date = new Date(nextMonday);
+    date.setDate(nextMonday.getDate() + dayIndex);
     return date;
 }
 
