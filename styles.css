@@ -140,13 +140,18 @@ body {
     font-size: 20px;
 }
 
-.gchat-action {
-    background: rgba(0, 172, 71, 0.2);
-    border-color: rgba(0, 172, 71, 0.3);
+.share-btn-native {
+    background: rgba(102, 126, 234, 0.2);
+    border-color: rgba(102, 126, 234, 0.3);
 }
 
-.gchat-action:hover {
-    background: rgba(0, 172, 71, 0.4);
+.share-btn-native:hover {
+    background: rgba(102, 126, 234, 0.4);
+}
+
+.share-btn-native svg {
+    width: 20px;
+    height: 20px;
 }
 
 /* Day Cards Grid */

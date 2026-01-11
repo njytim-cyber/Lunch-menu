@@ -74,30 +74,37 @@ function closeBottomSheet() {
 }
 
 function populateBottomSheetTabs(mealType) {
-    const categories = mealType === 'lunch'
-        ? [
-            { id: 'all', label: 'All' },
-            { id: 'noodles', label: '🍜 Noodles' },
-            { id: 'rice', label: '🍚 Rice' },
-            { id: 'porridge', label: '🥣 Porridge' },
-            { id: 'pasta', label: '🍝 Pasta' }
-        ]
-        : [
-            { id: 'all', label: 'All' },
-            { id: 'vegetables', label: '🥬 Vegetables' },
-            { id: 'fish', label: '🐟 Fish' },
-            { id: 'chicken', label: '🍗 Chicken' },
-            { id: 'pork', label: '🥩 Pork' },
-            { id: 'eggs', label: '🥚 Eggs' },
-            { id: 'prawn', label: '🦐 Prawn' },
-            { id: 'carbs', label: '🍚 Carbs' }
-        ];
+    // Shared categories for both lunch and dinner
+    const allCategories = [
+        { id: 'all', label: 'All' },
+        { id: 'noodles', label: '🍜 Noodles' },
+        { id: 'rice', label: '🍚 Rice' },
+        { id: 'vegetables', label: '🥬 Vegetables' },
+        { id: 'chicken', label: '🍗 Chicken' },
+        { id: 'fish', label: '🐟 Fish' },
+        { id: 'pork', label: '🥩 Pork' },
+        { id: 'eggs', label: '🥚 Eggs' },
+        { id: 'prawn', label: '🦐 Prawn' },
+        { id: 'soup', label: '🍲 Soup' },
+        { id: 'pasta', label: '🍝 Pasta' }
+    ];
 
-    bottomSheetTabs.innerHTML = categories.map(cat => `
+    // Count items per category
+    const items = foodData[mealType];
+    const categoryCounts = items.reduce((acc, item) => {
+        acc[item.category] = (acc[item.category] || 0) + 1;
+        acc['all'] = (acc['all'] || 0) + 1;
+        return acc;
+    }, {});
+
+    // Filter categories with items > 0
+    const activeCategories = allCategories.filter(cat => categoryCounts[cat.id] > 0);
+
+    bottomSheetTabs.innerHTML = activeCategories.map(cat => `
         <button class="category-tab ${cat.id === 'all' ? 'active' : ''}" 
                 data-category="${cat.id}" 
                 data-meal="${mealType}">
-            ${cat.label}
+            ${cat.label} <span class="tab-count">${categoryCounts[cat.id]}</span>
         </button>
     `).join('');
 
@@ -338,19 +345,20 @@ function addSampleItems() {
     addFoodItem('Rigatoni', '🍝', 'lunch', 'pasta');
     addFoodItem('Cheesy Rigatoni', '🧀', 'lunch', 'pasta');
     addFoodItem('Chicken Pasta and Broccoli', '🥦', 'lunch', 'pasta');
-    addFoodItem('Porridge and Spring Roll', '🥣', 'lunch', 'porridge');
-    addFoodItem('Porridge and Seaweed Chicken', '🍲', 'lunch', 'porridge');
     addFoodItem('Chicken Rice', '🍗', 'lunch', 'rice');
     addFoodItem('Soy Chicken and Chye Sim', '🥬', 'lunch', 'rice');
     addFoodItem('Chicken and Mushroom Rice', '🍄', 'lunch', 'rice');
     addFoodItem('Crispy Noodle', '🍜', 'lunch', 'noodles');
     addFoodItem('Bee Hoon', '🍜', 'lunch', 'noodles');
     addFoodItem('Bee Hoon and Seaweed Chicken', '🌿', 'lunch', 'noodles');
-    addFoodItem('Mee Sua Soup', '🍜', 'lunch', 'noodles');
-    addFoodItem('Kway Teow Soup', '🍲', 'lunch', 'noodles');
+    addFoodItem('Mee Sua Soup', '🍜', 'lunch', 'soup');
+    addFoodItem('Kway Teow Soup', '🍲', 'lunch', 'soup');
+    addFoodItem('Porridge', '🥣', 'lunch', 'rice');
+    addFoodItem('Fish Ball Noodle', '🍜', 'lunch', 'noodles');
+    addFoodItem('Fried Rice', '🍚', 'lunch', 'rice');
 
     // DINNER ITEMS
-    addFoodItem('Rice', '🍚', 'dinner', 'carbs');
+    addFoodItem('Rice', '🍚', 'dinner', 'rice');
     addFoodItem('Kai Lan', '🥬', 'dinner', 'vegetables');
     addFoodItem('Baby Spinach', '🥬', 'dinner', 'vegetables');
     addFoodItem('Red Spinach', '🥬', 'dinner', 'vegetables');
@@ -385,7 +393,7 @@ function addSampleItems() {
     addFoodItem('Pork Rib Soup', '🍲', 'dinner', 'pork');
     addFoodItem('Crispy Prawn Ball', '🦐', 'dinner', 'prawn');
     addFoodItem('Prawn with Glass Noodle', '🦐', 'dinner', 'prawn');
-    addFoodItem('Cheesy Rigatoni', '🧀', 'dinner', 'carbs');
+    addFoodItem('Cheesy Rigatoni', '🧀', 'dinner', 'pasta');
 }
 
 // ============================================
@@ -444,7 +452,7 @@ function showToast(message, type = 'info') {
 // SHARE FUNCTIONALITY
 // ============================================
 
-function shareMealPlan(mealType) {
+function generateMealPlanText(mealType) {
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     const page = document.getElementById(`${mealType}-page`);
@@ -472,26 +480,47 @@ function shareMealPlan(mealType) {
         }
     });
 
-    if (!hasAnyItems) {
-        showToast('No meals planned yet!', 'error');
-        return;
-    }
+    if (!hasAnyItems) return null;
 
     mealPlanText += '═'.repeat(30) + '\n';
     mealPlanText += '🍽️ Made with Weekly Meal Planner';
 
-    navigator.clipboard.writeText(mealPlanText).then(() => {
+    return mealPlanText;
+}
+
+function shareMealPlan(mealType) {
+    const text = generateMealPlanText(mealType);
+    if (!text) {
+        showToast('No meals planned yet!', 'error');
+        return;
+    }
+
+    navigator.clipboard.writeText(text).then(() => {
         showToast('Meal plan copied! 📋', 'success');
     }).catch(() => {
         showToast('Failed to copy', 'error');
     });
 }
 
-function shareToGoogleChat(mealType) {
-    shareMealPlan(mealType);
-    setTimeout(() => {
-        window.open('https://chat.google.com/', '_blank');
-    }, 500);
+function shareNative(mealType) {
+    const text = generateMealPlanText(mealType);
+    if (!text) {
+        showToast('No meals planned yet!', 'error');
+        return;
+    }
+
+    if (navigator.share) {
+        navigator.share({
+            title: `Weekly ${mealType} Menu`,
+            text: text,
+        })
+            .then(() => console.log('Successful share'))
+            .catch((error) => console.log('Error sharing', error));
+    } else {
+        // Fallback for browsers that don't support share API
+        shareMealPlan(mealType);
+        showToast('Opened copy fallback (Share API not supported)', 'info');
+    }
 }
 
 // ============================================
@@ -513,5 +542,5 @@ window.addEventListener('resize', () => {
 // Export functions
 window.addFoodItem = addFoodItem;
 window.shareMealPlan = shareMealPlan;
-window.shareToGoogleChat = shareToGoogleChat;
+window.shareNative = shareNative;
 window.removeFoodFromCard = removeFoodFromCard;
