@@ -645,11 +645,11 @@ body {
 }
 
 .bottom-sheet-tabs {
-    padding: 15px 20px;
+    padding: 15px 24px;
     display: flex;
     flex-wrap: wrap;
-    column-gap: 8px;
-    row-gap: 12px;
+    column-gap: 10px;
+    row-gap: 16px;
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
