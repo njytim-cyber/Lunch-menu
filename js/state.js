@@ -8,10 +8,15 @@ export const foodData = {
 };
 
 // Start with empty meal plan or load from storage
-export const mealPlan = loadMealPlan() || {
+export let mealPlan = loadMealPlan() || {
     lunch: {},
     dinner: {}
 };
+
+export function setMealPlan(newPlan) {
+    mealPlan = newPlan;
+    saveMealPlan();
+}
 
 function loadMealPlan() {
     try {

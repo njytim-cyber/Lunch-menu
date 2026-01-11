@@ -17,19 +17,32 @@
     <div class="background-blob blob-3"></div>
 
     <div class="app-container">
-        <!-- Fixed Header Area -->
-        <div class="fixed-header">
-            <h1 class="main-title">
-                Weekly Food Menu
-                <span class="subtitle">Plan your week • Eat well</span>
-            </h1>
-
-            <div class="nav-tabs">
-                <button class="tab-btn active" data-tab="lunch">
-                    <span class="tab-icon">☀️</span> Lunch
+        <!-- Compact Global Header -->
+        <div class="app-header">
+            <div class="toggle-container">
+                <button class="toggle-btn active" data-tab="lunch">
+                    <span class="toggle-icon">☀️</span> Lunch
                 </button>
-                <button class="tab-btn" data-tab="dinner">
-                    <span class="tab-icon">🌙</span> Dinner
+                <button class="toggle-btn" data-tab="dinner">
+                    <span class="toggle-icon">🌙</span> Dinner
+                </button>
+            </div>
+
+            <div class="header-actions">
+                <button class="action-btn log-btn" onclick="handleGlobalLog()" title="Menu Log & History">
+                    <span class="action-icon">📅</span>
+                </button>
+                <button class="action-btn suggest-btn" onclick="handleGlobalSuggest()" title="Auto-Suggest Menu">
+                    <span class="action-icon">💡</span>
+                </button>
+                <button class="action-btn share-btn-native" onclick="handleGlobalShare()" title="Share Meal Plan">
+                    <span class="action-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.66 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z" />
+                        </svg>
+                    </span>
                 </button>
             </div>
         </div>
@@ -38,28 +51,6 @@
         <div class="content-area">
             <!-- LUNCH PAGE -->
             <div id="lunch-page" class="page active">
-                <div class="page-header">
-                    <div class="header-text">
-                        <h2>Lunch Menu</h2>
-                        <p>What's for lunch?</p>
-                    </div>
-                    <div class="header-actions">
-                        <button class="action-btn suggest-btn" onclick="autoSuggest('lunch')" title="Auto-Suggest Menu">
-                            <span class="action-icon">💡</span>
-                        </button>
-                        <button class="action-btn share-btn-native" onclick="shareNative('lunch')"
-                            title="Share Meal Plan">
-                            <span class="action-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                    fill="currentColor">
-                                    <path
-                                        d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.66 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z" />
-                                </svg>
-                            </span>
-                        </button>
-                    </div>
-                </div>
-
                 <div class="days-grid">
                     <div class="day-card lunch-card" data-day="monday" data-meal="lunch" data-max-items="1">
                         <div class="day-card-header">Monday</div>
@@ -155,29 +146,6 @@
 
             <!-- DINNER PAGE -->
             <div id="dinner-page" class="page">
-                <div class="page-header">
-                    <div class="header-text">
-                        <h2>Dinner Menu</h2>
-                        <p>Plan your evening meal</p>
-                    </div>
-                    <div class="header-actions">
-                        <button class="action-btn suggest-btn" onclick="autoSuggest('dinner')"
-                            title="Auto-Suggest Menu">
-                            <span class="action-icon">💡</span>
-                        </button>
-                        <button class="action-btn share-btn-native" onclick="shareNative('dinner')"
-                            title="Share Meal Plan">
-                            <span class="action-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                    fill="currentColor">
-                                    <path
-                                        d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.66 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z" />
-                                </svg>
-                            </span>
-                        </button>
-                    </div>
-                </div>
-
                 <div class="days-grid">
                     <div class="day-card dinner-card" data-day="monday" data-meal="dinner" data-max-items="4">
                         <div class="day-card-header">Monday</div>
@@ -290,6 +258,38 @@
         </div>
         <div class="bottom-sheet-content" id="bottomSheetContent">
             <!-- Items injected by JS -->
+        </div>
+    </div>
+
+    <!-- Log Modal -->
+    <div class="modal-overlay" id="logModalOverlay"></div>
+    <div class="modal" id="logModal">
+        <div class="modal-header">
+            <h3>Weekly Menu Log</h3>
+            <button class="close-modal" id="closeLogModal">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-tabs">
+                <button class="modal-tab active" data-view="save">Save Log</button>
+                <button class="modal-tab" data-view="history">History</button>
+            </div>
+
+            <div class="modal-view active" id="view-save">
+                <p class="modal-text">Save the current menu to your history log.</p>
+                <div class="date-input-group">
+                    <label>Start Date (Monday):</label>
+                    <input type="date" id="logStartDate">
+                </div>
+                <p id="logDatePreview" class="date-preview"></p>
+                <button class="save-log-btn" onclick="confirmSaveLog()">Save to Log</button>
+            </div>
+
+            <div class="modal-view" id="view-history">
+                <div id="logHistoryList" class="history-list">
+                    <!-- logs injected here -->
+                    <p class="empty-logs">No saved logs yet.</p>
+                </div>
+            </div>
         </div>
     </div>
 

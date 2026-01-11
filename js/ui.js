@@ -35,15 +35,15 @@ export function showToast(message, type = 'info') {
 // ============================================
 
 export function initTabs() {
-    const tabBtns = document.querySelectorAll('.tab-btn');
+    const toggleBtns = document.querySelectorAll('.toggle-btn');
     const pages = document.querySelectorAll('.page');
 
-    tabBtns.forEach(btn => {
+    toggleBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const targetTab = btn.dataset.tab;
 
-            // Update active tab button
-            tabBtns.forEach(b => b.classList.remove('active'));
+            // Update active toggle button
+            toggleBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
             // Show corresponding page
@@ -61,10 +61,15 @@ export function initTabs() {
 }
 
 export function switchTab(tabName) {
-    const btn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+    const btn = document.querySelector(`.toggle-btn[data-tab="${tabName}"]`);
     if (btn && !btn.classList.contains('active')) {
         btn.click();
     }
+}
+
+export function getActiveMealType() {
+    const activePage = document.querySelector('.page.active');
+    return activePage ? activePage.id.replace('-page', '') : 'lunch';
 }
 
 // ============================================
@@ -200,22 +205,79 @@ export function addFoodToCard(dayCard, name, emoji, category, shouldSave = false
     const day = dayCard.dataset.day;
     const mealType = dayCard.dataset.meal;
 
-    // Create food item
-    const foodItem = document.createElement('div');
-    foodItem.className = 'food-item';
-    foodItem.dataset.name = name;
-    foodItem.dataset.category = category;
-    foodItem.dataset.emoji = emoji;
-    foodItem.innerHTML = `
-        <span class="food-emoji">${emoji}</span>
-        <span class="food-name">${name}</span>
-        <button class="remove-btn">×</button>
+    // Create wrapper for swipe functionality
+    const wrapper = document.createElement('div');
+    wrapper.className = 'food-item-wrapper';
+
+    // Internal structure: Delete Action (Behind) + Food Item (Front)
+    wrapper.innerHTML = `
+        <div class="delete-action" title="Delete">🗑️</div>
+        <div class="food-item" draggable="true" data-name="${name}" data-category="${category}" data-emoji="${emoji}">
+            <span class="food-emoji">${emoji}</span>
+            <span class="food-name">${name}</span>
+            <button class="remove-btn">×</button>
+        </div>
     `;
 
-    // Add remove listener
-    foodItem.querySelector('.remove-btn').addEventListener('click', (e) => removeFoodFromCard(e.target, e));
+    // Add native remove listener (X button)
+    wrapper.querySelector('.remove-btn').addEventListener('click', (e) => removeFoodFromCard(e.target, e));
 
-    content.appendChild(foodItem);
+    // Add swipe delete listener (Trash icon)
+    wrapper.querySelector('.delete-action').addEventListener('click', (e) => {
+        // Find the remove button and click it to trigger consistent removal logic
+        wrapper.querySelector('.remove-btn').click();
+    });
+
+    // Add Swipe & Drag Listeners
+    const foodItem = wrapper.querySelector('.food-item');
+
+    // Drag start for desktop logic (re-using existing global handler logic but attaching here)
+    // Note: initDesktopDragAndDrop attaches to .food-item, but dynamically added ones need logic.
+    // Ideally we shouldn't mix drag vs swipe on same element easily, but 'draggable' handles drag.
+    foodItem.addEventListener('dragstart', handleDragStart);
+    foodItem.addEventListener('dragend', handleDragEnd);
+
+    // Touch handlers for swipe
+    let startX = 0;
+    let currentTranslate = 0;
+
+    foodItem.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        foodItem.style.transition = 'none'; // Disable transition during drag
+    }, { passive: true });
+
+    foodItem.addEventListener('touchmove', (e) => {
+        const currentX = e.touches[0].clientX;
+        const diff = currentX - startX;
+
+        // Only allow swiping left
+        if (diff < 0) {
+            // Resistance logic
+            // Max swipe is -60px (width of delete btn)
+            // Allow pulling slightly further but resist
+            let translation = diff;
+            if (translation < -80) translation = -80 + (translation + 80) * 0.2;
+
+            foodItem.style.transform = `translateX(${translation}px)`;
+            currentTranslate = translation;
+        }
+    }, { passive: true });
+
+    foodItem.addEventListener('touchend', () => {
+        foodItem.style.transition = 'transform 0.2s ease-out';
+        if (currentTranslate < -30) {
+            // Snap open
+            foodItem.classList.add('swiped');
+            foodItem.style.transform = ''; // Class handles it: -60px
+        } else {
+            // Snap closed
+            foodItem.classList.remove('swiped');
+            foodItem.style.transform = '';
+        }
+        currentTranslate = 0;
+    });
+
+    content.appendChild(wrapper);
     dayCard.classList.add('has-items');
     updateDayCardState(dayCard);
 
@@ -226,17 +288,20 @@ export function addFoodToCard(dayCard, name, emoji, category, shouldSave = false
 
 export function removeFoodFromCard(btn, event) {
     event.stopPropagation();
-    const foodItem = btn.parentElement;
-    const dayCard = foodItem.closest('.day-card');
+    // The btn is inside .food-item, which is inside .food-item-wrapper
+    const foodItem = btn.closest('.food-item');
+    const wrapper = btn.closest('.food-item-wrapper');
+    const dayCard = wrapper.closest('.day-card');
 
     // Find index for state removal
+    // We need to count wrappers
     const content = dayCard.querySelector('.day-card-content');
-    const items = Array.from(content.querySelectorAll('.food-item'));
-    const index = items.indexOf(foodItem);
+    const wrappers = Array.from(content.querySelectorAll('.food-item-wrapper'));
+    const index = wrappers.indexOf(wrapper);
     const day = dayCard.dataset.day;
     const mealType = dayCard.dataset.meal;
 
-    foodItem.remove();
+    wrapper.remove();
     updateDayCardState(dayCard);
 
     // Update state
