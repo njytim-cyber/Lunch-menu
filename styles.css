@@ -683,13 +683,14 @@ body {
         min-height: 60px;
     }
 
-    /* Lunch - center single item, compact */
+    /* Lunch - center single item, consistent height */
     .lunch-card .day-card-content {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 70px;
+        min-height: 80px;
+        height: 80px;
     }
 
     .lunch-card .food-item {
@@ -777,13 +778,14 @@ body {
         min-height: 70px;
     }
 
-    /* Lunch - center single item */
+    /* Lunch - center single item, consistent height */
     .lunch-card .day-card-content {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 80px;
+        min-height: 90px;
+        height: 90px;
     }
 
     .lunch-card .food-item {
@@ -851,13 +853,14 @@ body {
         min-height: 80px;
     }
 
-    /* Lunch - center single item */
+    /* Lunch - center single item, consistent height */
     .lunch-card .day-card-content {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 90px;
+        min-height: 100px;
+        height: 100px;
     }
 
     .lunch-card .food-item {
