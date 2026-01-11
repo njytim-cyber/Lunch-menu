@@ -168,7 +168,7 @@ body {
 }
 
 /* Day Cards Grid */
-.day-cards-grid {
+.days-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 12px;
@@ -823,6 +823,55 @@ body {
         min-height: 110px;
     }
 
+    /* Lunch cards (1 item) - center and enlarge single item */
+    .lunch-card .day-card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        grid-template-columns: none;
+    }
+
+    .lunch-card .food-item {
+        width: 80%;
+        max-width: 100px;
+        padding: 12px 8px;
+    }
+
+    .lunch-card .food-item .food-emoji {
+        font-size: 36px;
+    }
+
+    .lunch-card .food-item .food-name {
+        font-size: 12px;
+    }
+
+    /* Dinner cards (4 items) - stack vertically */
+    .dinner-card .day-card-content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        grid-template-columns: none;
+        align-items: stretch;
+    }
+
+    .dinner-card .food-item {
+        width: 100%;
+        flex-direction: row;
+        padding: 8px 12px;
+        gap: 10px;
+        justify-content: flex-start;
+    }
+
+    .dinner-card .food-item .food-emoji {
+        font-size: 22px;
+    }
+
+    .dinner-card .food-item .food-name {
+        font-size: 11px;
+        text-align: left;
+    }
+
     .add-icon {
         width: 44px;
         height: 44px;
@@ -845,6 +894,15 @@ body {
     .action-btn {
         width: 44px;
         height: 44px;
+    }
+
+    /* Food container - hidden by default, shown when active */
+    .food-container {
+        display: none;
+    }
+
+    .food-container.active {
+        display: block;
     }
 
     /* Drag and drop for desktop */

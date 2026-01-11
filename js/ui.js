@@ -291,6 +291,19 @@ export function initDayCards() {
                 return;
             }
 
+            // On desktop (>=1024px), show the food container instead of bottom sheet
+            if (window.innerWidth >= 1024) {
+                const mealType = card.dataset.meal;
+                const foodContainer = document.querySelector(`#${mealType}-page .food-container`);
+                if (foodContainer) {
+                    // Hide all food containers first
+                    document.querySelectorAll('.food-container').forEach(fc => fc.classList.remove('active'));
+                    // Show the relevant one
+                    foodContainer.classList.add('active');
+                }
+                return;
+            }
+
             openBottomSheet(card);
         };
 
@@ -311,8 +324,8 @@ export function initDayCards() {
 let draggedItem = null;
 
 export function initDesktopDragAndDrop() {
-    // Only enable on larger screens
-    if (window.innerWidth < 769) return;
+    // Only enable on larger screens (desktop)
+    if (window.innerWidth < 1024) return;
 
     const foodContainers = document.querySelectorAll('.food-items');
     const dayCards = document.querySelectorAll('.day-card');

@@ -10,7 +10,7 @@ import {
     removeFoodFromCard
 } from './ui.js';
 import { shareNative } from './share.js';
-import { addFoodItem } from './state.js';
+import { addFoodItem, mealPlan } from './state.js';
 
 import { autoSuggest } from './suggest.js';
 import { APP_VERSION } from './version.js';
@@ -27,8 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
     initSwipeGestures();
     initTabs();
 
-    // 3. Restore user's saved meal plan
-    renderSavedState();
+    // 3. Restore user's saved meal plan OR generate default
+    const hasLunch = Object.values(mealPlan.lunch || {}).some(arr => arr && arr.length > 0);
+    const hasDinner = Object.values(mealPlan.dinner || {}).some(arr => arr && arr.length > 0);
+
+    if (!hasLunch && !hasDinner) {
+        // First time or empty - generate default menu
+        autoSuggest('lunch');
+        autoSuggest('dinner');
+    } else {
+        renderSavedState();
+    }
 
     // 4. Check Version
     checkVersion();
