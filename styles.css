@@ -222,6 +222,13 @@ body {
     opacity: 1;
 }
 
+/* Desktop Selection State */
+.day-card.selected {
+    border: 2px solid #667eea;
+    box-shadow: 0 0 15px rgba(102, 126, 234, 0.4);
+    transform: translateY(-2px);
+}
+
 .day-card-content {
     padding: 10px;
     min-height: 60px;
