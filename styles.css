@@ -118,12 +118,15 @@ body {
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
-/* Day Boxes */
 .day-boxes {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 10px;
     margin-bottom: 30px;
+}
+
+.day-wrapper {
+    display: contents;
 }
 
 .day-box {
@@ -187,6 +190,56 @@ body {
 
 .food-icon {
     font-size: 28px;
+}
+
+/* Category Tabs */
+.category-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+}
+
+.category-tab {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 25px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-tab:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.category-tab.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+@media (max-width: 600px) {
+    .category-tabs {
+        gap: 6px;
+        padding: 8px;
+    }
+
+    .category-tab {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
 }
 
 .food-items {
@@ -333,6 +386,20 @@ body {
     opacity: 0.7;
 }
 
+/* Mobile Day Label (hidden by default, shown on smaller screens) */
+.mobile-day-label {
+    display: none;
+    text-align: center;
+    padding: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px 15px 0 0;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: -2px;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
     .day-label {
@@ -347,20 +414,31 @@ body {
 
 @media (max-width: 900px) {
 
-    .days-header,
+    /* Hide the separate days header */
+    .days-header {
+        display: none;
+    }
+
+    /* Show mobile labels above each box */
+    .mobile-day-label {
+        display: block;
+    }
+
+    /* Make wrapper a block so label + box stack */
+    .day-wrapper {
+        display: block;
+    }
+
     .day-boxes {
         grid-template-columns: repeat(4, 1fr);
     }
 
-    .days-header> :nth-child(n+5),
-    .day-boxes> :nth-child(n+5) {
-        grid-column: span 1;
+    .day-box {
+        border-radius: 0 0 15px 15px;
     }
 }
 
 @media (max-width: 600px) {
-
-    .days-header,
     .day-boxes {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -377,6 +455,11 @@ body {
     .food-item {
         width: 100px;
         height: 120px;
+    }
+
+    .mobile-day-label {
+        font-size: 11px;
+        padding: 8px;
     }
 }
 

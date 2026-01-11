@@ -183,7 +183,7 @@ function updateDayBoxState(dayBox) {
 }
 
 // Function to add food items (can be called to add items dynamically)
-function addFoodItem(name, imageOrEmoji, mealType = 'lunch') {
+function addFoodItem(name, imageOrEmoji, mealType = 'lunch', category = 'all') {
     const container = document.getElementById(`${mealType}-food-items`);
 
     // Remove empty state if present
@@ -195,6 +195,7 @@ function addFoodItem(name, imageOrEmoji, mealType = 'lunch') {
     const foodItem = document.createElement('div');
     foodItem.className = 'food-item';
     foodItem.setAttribute('draggable', true);
+    foodItem.setAttribute('data-category', category);
 
     // Check if it's an emoji or image URL
     if (imageOrEmoji.startsWith('http') || imageOrEmoji.startsWith('/') || imageOrEmoji.startsWith('./')) {
@@ -219,78 +220,114 @@ function addFoodItem(name, imageOrEmoji, mealType = 'lunch') {
 // Add all food items from the spreadsheet
 function addSampleItems() {
     // ===== LUNCH ITEMS =====
-    addFoodItem('Rigatoni', '🍝', 'lunch');
-    addFoodItem('Cheesy Rigatoni', '🧀', 'lunch');
-    addFoodItem('Chicken Pasta and Broccoli', '🥦', 'lunch');
-    addFoodItem('Porridge and Spring Roll', '🥣', 'lunch');
-    addFoodItem('Porridge and Seaweed Chicken', '🍲', 'lunch');
-    addFoodItem('Chicken Rice', '🍗', 'lunch');
-    addFoodItem('Soy Chicken and Chye Sim', '🥬', 'lunch');
-    addFoodItem('Chicken and Mushroom Rice', '🍄', 'lunch');
-    addFoodItem('Crispy Noodle', '🍜', 'lunch');
-    addFoodItem('Bee Hoon', '🍜', 'lunch');
-    addFoodItem('Bee Hoon and Seaweed Chicken', '🌿', 'lunch');
-    addFoodItem('Mee Sua Soup', '🍜', 'lunch');
-    addFoodItem('Kway Teow Soup', '🍲', 'lunch');
+    addFoodItem('Rigatoni', '🍝', 'lunch', 'pasta');
+    addFoodItem('Cheesy Rigatoni', '🧀', 'lunch', 'pasta');
+    addFoodItem('Chicken Pasta and Broccoli', '🥦', 'lunch', 'pasta');
+    addFoodItem('Porridge and Spring Roll', '🥣', 'lunch', 'porridge');
+    addFoodItem('Porridge and Seaweed Chicken', '🍲', 'lunch', 'porridge');
+    addFoodItem('Chicken Rice', '🍗', 'lunch', 'rice');
+    addFoodItem('Soy Chicken and Chye Sim', '🥬', 'lunch', 'rice');
+    addFoodItem('Chicken and Mushroom Rice', '🍄', 'lunch', 'rice');
+    addFoodItem('Crispy Noodle', '🍜', 'lunch', 'noodles');
+    addFoodItem('Bee Hoon', '🍜', 'lunch', 'noodles');
+    addFoodItem('Bee Hoon and Seaweed Chicken', '🌿', 'lunch', 'noodles');
+    addFoodItem('Mee Sua Soup', '🍜', 'lunch', 'noodles');
+    addFoodItem('Kway Teow Soup', '🍲', 'lunch', 'noodles');
 
     // ===== DINNER ITEMS =====
     // Carbohydrates
-    addFoodItem('Rice', '🍚', 'dinner');
+    addFoodItem('Rice', '🍚', 'dinner', 'carbs');
 
     // Vegetables
-    addFoodItem('Kai Lan', '🥬', 'dinner');
-    addFoodItem('Baby Spinach', '🥬', 'dinner');
-    addFoodItem('Red Spinach', '🥬', 'dinner');
-    addFoodItem('Kang Kong', '🥬', 'dinner');
-    addFoodItem('Cabbage', '🥬', 'dinner');
-    addFoodItem('WaWa Vegetable', '🥬', 'dinner');
-    addFoodItem('Broccoli', '🥦', 'dinner');
-    addFoodItem('Baby Kailan', '🥬', 'dinner');
-    addFoodItem('Kailan', '🥬', 'dinner');
+    addFoodItem('Kai Lan', '🥬', 'dinner', 'vegetables');
+    addFoodItem('Baby Spinach', '🥬', 'dinner', 'vegetables');
+    addFoodItem('Red Spinach', '🥬', 'dinner', 'vegetables');
+    addFoodItem('Kang Kong', '🥬', 'dinner', 'vegetables');
+    addFoodItem('Cabbage', '🥬', 'dinner', 'vegetables');
+    addFoodItem('WaWa Vegetable', '🥬', 'dinner', 'vegetables');
+    addFoodItem('Broccoli', '🥦', 'dinner', 'vegetables');
+    addFoodItem('Baby Kailan', '🥬', 'dinner', 'vegetables');
+    addFoodItem('Kailan', '🥬', 'dinner', 'vegetables');
 
     // Fish
-    addFoodItem('Sliced Fish with Ginger', '🐟', 'dinner');
-    addFoodItem('Claypot Sliced Fish with Eggplant', '🍆', 'dinner');
-    addFoodItem('Fried Seabass', '🐟', 'dinner');
-    addFoodItem('Fried Salmon', '🍣', 'dinner');
-    addFoodItem('Steam Fish Pomfret', '🐟', 'dinner');
-    addFoodItem('Steam Fish White Pomfret', '🐟', 'dinner');
-    addFoodItem('Fish and Fish Soup', '🍲', 'dinner');
-    addFoodItem('Steam Fish (Ginger/Spring Onion)', '🐟', 'dinner');
+    addFoodItem('Sliced Fish with Ginger', '🐟', 'dinner', 'fish');
+    addFoodItem('Claypot Sliced Fish with Eggplant', '🍆', 'dinner', 'fish');
+    addFoodItem('Fried Seabass', '🐟', 'dinner', 'fish');
+    addFoodItem('Fried Salmon', '🍣', 'dinner', 'fish');
+    addFoodItem('Steam Fish Pomfret', '🐟', 'dinner', 'fish');
+    addFoodItem('Steam Fish White Pomfret', '🐟', 'dinner', 'fish');
+    addFoodItem('Fish and Fish Soup', '🍲', 'dinner', 'fish');
+    addFoodItem('Steam Fish (Ginger/Spring Onion)', '🐟', 'dinner', 'fish');
 
     // Eggs
-    addFoodItem('Egg with Onion', '🥚', 'dinner');
-    addFoodItem('Egg with Carrot', '🥕', 'dinner');
-    addFoodItem('Egg with Tomato', '🍅', 'dinner');
-    addFoodItem('Claypot Tofu', '🧈', 'dinner');
-    addFoodItem('Corn Soup', '🌽', 'dinner');
+    addFoodItem('Egg with Onion', '🥚', 'dinner', 'eggs');
+    addFoodItem('Egg with Carrot', '🥕', 'dinner', 'eggs');
+    addFoodItem('Egg with Tomato', '🍅', 'dinner', 'eggs');
+    addFoodItem('Claypot Tofu', '🧈', 'dinner', 'eggs');
+    addFoodItem('Corn Soup', '🌽', 'dinner', 'eggs');
 
     // Chicken
-    addFoodItem('Steamed Chicken with Mushrooms', '🍄', 'dinner');
-    addFoodItem('Chicken with Salted Bean Paste', '🍗', 'dinner');
-    addFoodItem('Curry Chicken', '🍛', 'dinner');
-    addFoodItem('Fried Chicken Wing', '🍗', 'dinner');
+    addFoodItem('Steamed Chicken with Mushrooms', '🍄', 'dinner', 'chicken');
+    addFoodItem('Chicken with Salted Bean Paste', '🍗', 'dinner', 'chicken');
+    addFoodItem('Curry Chicken', '🍛', 'dinner', 'chicken');
+    addFoodItem('Fried Chicken Wing', '🍗', 'dinner', 'chicken');
 
     // Pork
-    addFoodItem('Steamed Minced Pork', '🥩', 'dinner');
-    addFoodItem('Sliced Pork with Parsley', '🥩', 'dinner');
-    addFoodItem('Sliced Pork with Sichuan Veg', '🌶️', 'dinner');
-    addFoodItem('Pork with Egg and Tau Pok', '🥚', 'dinner');
-    addFoodItem('Japanese Pork Cutlet', '🍖', 'dinner');
-    addFoodItem('Pork Rib Soup', '🍲', 'dinner');
+    addFoodItem('Steamed Minced Pork', '🥩', 'dinner', 'pork');
+    addFoodItem('Sliced Pork with Parsley', '🥩', 'dinner', 'pork');
+    addFoodItem('Sliced Pork with Sichuan Veg', '🌶️', 'dinner', 'pork');
+    addFoodItem('Pork with Egg and Tau Pok', '🥚', 'dinner', 'pork');
+    addFoodItem('Japanese Pork Cutlet', '🍖', 'dinner', 'pork');
+    addFoodItem('Pork Rib Soup', '🍲', 'dinner', 'pork');
 
     // Prawn
-    addFoodItem('Crispy Prawn Ball', '🦐', 'dinner');
-    addFoodItem('Prawn with Glass Noodle', '🦐', 'dinner');
+    addFoodItem('Crispy Prawn Ball', '🦐', 'dinner', 'prawn');
+    addFoodItem('Prawn with Glass Noodle', '🦐', 'dinner', 'prawn');
 
     // Pasta
-    addFoodItem('Cheesy Rigatoni', '🧀', 'dinner');
+    addFoodItem('Cheesy Rigatoni', '🧀', 'dinner', 'carbs');
+}
+
+// Category Tab Filtering
+function initCategoryTabs() {
+    const categoryTabContainers = document.querySelectorAll('.category-tabs');
+
+    categoryTabContainers.forEach(container => {
+        const mealType = container.dataset.meal;
+        const tabs = container.querySelectorAll('.category-tab');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Filter items
+                const category = tab.dataset.category;
+                filterFoodItems(mealType, category);
+            });
+        });
+    });
+}
+
+function filterFoodItems(mealType, category) {
+    const container = document.getElementById(`${mealType}-food-items`);
+    const items = container.querySelectorAll('.food-item');
+
+    items.forEach(item => {
+        if (category === 'all' || item.dataset.category === category) {
+            item.style.display = 'flex';
+        } else {
+            item.style.display = 'none';
+        }
+    });
 }
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     initDragAndDrop();
     addSampleItems();
+    initCategoryTabs();
 });
 
 // Export function for external use
