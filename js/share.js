@@ -63,7 +63,7 @@ export function generateMealPlanText() {
         const formattedDate = formatDate(dayDate);
 
         // Day header with date
-        mealPlanText += `📆 ${dayNames[index]} (${formattedDate})\n`;
+        mealPlanText += `${dayNames[index]} (${formattedDate})\n`;
 
         // Lunch section
         mealPlanText += `  ☀️ Lunch: `;
