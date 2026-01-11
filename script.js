@@ -325,8 +325,8 @@ function filterFoodItems(mealType, category) {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    initDragAndDrop();
     addSampleItems();
+    initDragAndDrop();
     initCategoryTabs();
 });
 
