@@ -17,6 +17,9 @@ import { autoSuggest } from './suggest.js';
 
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
+    // 0. Initialize Theme
+    initTheme();
+
     // 1. Load static food data
     loadSampleData();
 
@@ -28,9 +31,51 @@ document.addEventListener('DOMContentLoaded', () => {
     initTabs();
     initLogModalListeners();
 
+    // 3. Bind Header Actions (REPLACED inline onclicks)
+    const logBtn = document.getElementById('log-btn');
+    if (logBtn) logBtn.addEventListener('click', handleGlobalLog);
+
+    const suggestBtn = document.getElementById('suggest-btn');
+    if (suggestBtn) suggestBtn.addEventListener('click', handleGlobalSuggest);
+
+    const shareBtn = document.getElementById('share-btn');
+    if (shareBtn) shareBtn.addEventListener('click', handleGlobalShare);
+
     // 3. Restore user's saved meal plan
     renderSavedState();
 });
+
+function initTheme() {
+    const themeBtn = document.getElementById('theme-toggle');
+    if (!themeBtn) return;
+
+    const toggleIcon = themeBtn.querySelector('.action-icon');
+
+    // Check saved theme or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.body.setAttribute('data-theme', 'dark');
+        if (toggleIcon) toggleIcon.textContent = '☀️';
+    } else {
+        document.body.removeAttribute('data-theme');
+        if (toggleIcon) toggleIcon.textContent = '🌙';
+    }
+
+    themeBtn.addEventListener('click', () => {
+        const isDark = document.body.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+            document.body.removeAttribute('data-theme');
+            if (toggleIcon) toggleIcon.textContent = '🌙';
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.body.setAttribute('data-theme', 'dark');
+            if (toggleIcon) toggleIcon.textContent = '☀️';
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+}
 
 // Re-init drag on resize
 window.addEventListener('resize', () => {
@@ -42,17 +87,17 @@ import { getActiveMealType as getActiveMealTypeUI, showToast, renderSavedState a
 import { getNextWeekRange, saveLog, getLogs, deleteLog } from './log.js';
 import { mealPlan, setMealPlan } from './state.js';
 
-window.handleGlobalSuggest = function () {
+function handleGlobalSuggest() {
     const mealType = getActiveMealType();
     autoSuggest(mealType);
 }
 
-window.handleGlobalShare = function () {
+function handleGlobalShare() {
     const mealType = getActiveMealType();
     shareNative(mealType);
 }
 
-window.handleGlobalLog = function () {
+function handleGlobalLog() {
     const modal = document.getElementById('logModal');
     const overlay = document.getElementById('logModalOverlay');
     const dateInput = document.getElementById('logStartDate');
