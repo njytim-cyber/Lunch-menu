@@ -7,10 +7,11 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    background: #f8fafc;
+    /* Light Slate Background */
     min-height: 100vh;
     padding: 20px;
-    color: #ffffff;
+    color: #1e293b;
 }
 
 .container {
@@ -18,197 +19,47 @@ body {
     margin: 0 auto;
 }
 
-/* Tab Navigation */
-.tab-navigation {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-    justify-content: center;
-}
-
-.tab-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 50px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-}
-
-.tab-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-.tab-btn.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border-color: transparent;
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-}
-
-.tab-icon {
-    font-size: 20px;
-}
-
-/* Page Styles */
-.page {
-    display: none;
-    animation: fadeIn 0.4s ease;
-}
-
-.page.active {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Page Header - Compact with inline actions */
-.page-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.page-title {
-    font-size: 24px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    margin: 0;
-}
-
-.title-icon {
-    font-size: 28px;
-}
-
-/* Compact Header Action Buttons */
-.header-actions {
-    display: flex;
-    gap: 8px;
-}
-
-.action-btn {
-    width: 44px;
-    height: 44px;
-    border: none;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.action-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
-}
-
-.action-btn:active {
-    transform: scale(0.95);
-}
-
-.action-icon {
-    font-size: 20px;
-}
-
-.share-btn-native {
-    background: rgba(102, 126, 234, 0.2);
-    border-color: rgba(102, 126, 234, 0.3);
-}
-
-.share-btn-native:hover {
-    background: rgba(102, 126, 234, 0.4);
-}
-
-.share-btn-native svg {
-    width: 20px;
-    height: 20px;
-}
-
-.suggest-btn {
-    background: rgba(255, 193, 7, 0.2);
-    border-color: rgba(255, 193, 7, 0.3);
-}
-
-.suggest-btn:hover {
-    background: rgba(255, 193, 7, 0.4);
-}
-
-.suggest-btn .action-icon {
-    font-size: 20px;
-}
+/* ... tab nav removed ... */
 
 /* Day Cards Grid */
 .day-cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
     margin-bottom: 30px;
 }
 
 /* Day Card - Unified Component */
 .day-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
+    background: white;
     border-radius: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid #e2e8f0;
     overflow: hidden;
     transition: all 0.3s ease;
     cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .day-card:hover {
-    border-color: rgba(102, 126, 234, 0.5);
+    border-color: #818cf8;
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-.day-card:active {
-    transform: translateY(0);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .day-card-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 10px 15px;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    padding: 12px 15px;
     font-weight: 600;
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     text-align: center;
+    color: white;
 }
 
 .day-card-content {
-    padding: 20px 15px;
-    min-height: 100px;
+    padding: 16px 12px;
+    min-height: 120px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -216,35 +67,37 @@ body {
     gap: 8px;
 }
 
-/* Add Food Button (Empty State) */
+/* Add Food Button */
 .add-food-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    color: rgba(255, 255, 255, 0.5);
+    color: #94a3b8;
     transition: all 0.3s ease;
 }
 
 .day-card:hover .add-food-btn {
-    color: rgba(255, 255, 255, 0.8);
+    color: #6366f1;
 }
 
 .add-icon {
     width: 40px;
     height: 40px;
-    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border: 2px dashed #cbd5e1;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 24px;
     transition: all 0.3s ease;
+    color: #94a3b8;
 }
 
 .day-card:hover .add-icon {
-    border-color: rgba(102, 126, 234, 0.6);
-    color: #667eea;
+    border-color: #6366f1;
+    color: #6366f1;
+    background: #eef2ff;
 }
 
 .add-text {
@@ -252,101 +105,53 @@ body {
     font-weight: 500;
 }
 
-/* Food Item in Day Card */
-.day-card .food-item {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+/* Food Item Wrapper for Swipe */
+.food-item-wrapper {
     position: relative;
+    overflow: hidden;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    background: #ef4444;
+    /* Swipe reveal color */
+    width: 100%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.day-card .food-item .food-emoji {
-    font-size: 28px;
-}
-
-.day-card .food-item .food-name {
-    font-size: 11px;
-    font-weight: 500;
-    flex: 1;
-    line-height: 1.2;
-}
-
-.day-card .food-item .remove-btn {
+.delete-action {
     position: absolute;
-    top: -6px;
-    right: -6px;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
-    color: white;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-    box-shadow: 0 2px 8px rgba(255, 65, 108, 0.4);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 1;
 }
 
-.day-card:hover .food-item .remove-btn {
-    opacity: 1;
-}
-
-/* Dinner Cards - Support multiple items */
-.dinner-card .day-card-content {
-    min-height: 140px;
-    gap: 6px;
-}
-
-.dinner-card .food-item {
-    padding: 8px;
-}
-
-.dinner-card .food-item .food-emoji {
-    font-size: 22px;
-}
-
-.dinner-card .food-item .food-name {
-    font-size: 10px;
-}
-
-/* Has Items State */
-.day-card.has-items .add-food-btn {
-    display: none;
-}
-
-.day-card:not(.has-items) .food-item {
-    display: none;
-}
-
-/* Desktop Food Container */
-.food-container {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 25px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+.food-item {
+    position: relative;
+    z-index: 2;
+    background: white;
+    padding: 10px 14px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: grab;
+    transition: transform 0.2s ease-out;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #f1f5f9;
 }
 
 /* Compact Header */
 .app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid #e2e8f0;
 }
 
 .toggle-container {
@@ -805,18 +610,252 @@ body {
    BOTTOM SHEET STYLES
    ============================================ */
 
+/* ============================================
+   BOTTOM SHEET STYLES
+   ============================================ */
+
 .bottom-sheet-overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
     z-index: 998;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+}
+
+.bottom-sheet-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 24px 24px 0 0;
+    z-index: 999;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+}
+
+.bottom-sheet.active {
+    transform: translateY(0);
+}
+
+.bottom-sheet-handle {
+    width: 40px;
+    height: 4px;
+    background: #cbd5e1;
+    border-radius: 2px;
+    margin: 12px auto;
+}
+
+.bottom-sheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 15px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.bottom-sheet-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.bottom-sheet-close {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: #f1f5f9;
+    border-radius: 50%;
+    color: #64748b;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.bottom-sheet-close:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.bottom-sheet-tabs {
+    padding: 15px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    border-bottom: 1px solid #f1f5f9;
+    background: #fff;
+}
+
+.bottom-sheet-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 20px 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+    align-content: start;
+    background: #f8fafc;
+}
+
+.bottom-sheet-content .food-item {
+    width: 100%;
+    min-height: 100px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.bottom-sheet-content .food-item:hover {
+    border-color: #818cf8;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+.bottom-sheet-content .food-item .food-emoji {
+    font-size: 36px;
+}
+
+.bottom-sheet-content .food-item .food-name {
+    font-size: 10px;
+    color: #334155;
+}
+
+/* ============================================
+   RESPONSIVE STYLES
+   ============================================ */
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
+    }
+
+    body {
+        padding: 15px;
+        padding-bottom: 40px;
+        /* Space for bottom interaction */
+    }
+
+    /* Adjust page layout for mobile */
+    .day-cards-grid {
+        grid-template-columns: repeat(1, 1fr);
+        /* Full width cards */
+        gap: 12px;
+    }
+
+    .day-card-content {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        padding: 12px;
+        min-height: auto;
+    }
+
+    .food-item-wrapper {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .add-food-btn {
+        width: 100%;
+        padding: 10px;
+        flex-direction: row;
+        justify-content: center;
+        border: 2px dashed #e2e8f0;
+        border-radius: 12px;
+    }
+
+    .add-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 16px;
+        border: none;
+    }
+}
+
+@media (min-width: 769px) {
+    .day-cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+}
+
+/* ============================================
+   TOAST NOTIFICATION
+   ============================================ */
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #1e293b;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 500;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.toast.success {
+    background: #10b981;
+    /* Emerald */
+    color: white;
+}
+
+.toast.error {
+    background: #ef4444;
+    /* Red */
+    color: white;
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
 
 .bottom-sheet-overlay.active {
