@@ -3,6 +3,7 @@ import {
     initDayCards,
     initDesktopDragAndDrop,
     initCategoryTabs,
+    initDesktopSidebars,
     initSwipeGestures,
     initTabs,
     renderSavedState,
@@ -24,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initDayCards();
     initDesktopDragAndDrop();
     initCategoryTabs(); // Desktop tabs
+    initDesktopSidebars(); // Populate sidebar items
     initSwipeGestures();
     initTabs();
 
