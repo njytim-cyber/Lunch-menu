@@ -57,24 +57,17 @@ function generateLunchForDay(card, day) {
 function generateDinnerForDay(card, day) {
     // Dinner Constraints:
     // 1. Rice (Mandatory)
-    // 2. Veg (Min 1)
-    // 3. Protein (Min 1)
-    // 4. Max 1 soup
-    // 5. Total 3-4 dishes (Data max is 4. So we aim for 4 items: Rice + 3 dishes)
+    // 2. Exactly 1 Veg (max 1)
+    // 3. Exactly 1 Protein (max 1)
+    // 4. Optional: 1 Soup (max 1)
+    // 5. Total 3-4 dishes
 
     const candidates = {
         rice: foodData.dinner.filter(i => i.category === 'rice'),
         veg: foodData.dinner.filter(i => i.category === 'vegetables'),
         protein: foodData.dinner.filter(i => ['chicken', 'fish', 'pork', 'eggs', 'prawn'].includes(i.category)),
         soup: foodData.dinner.filter(i => i.category === 'soup'),
-        others: foodData.dinner.filter(i => ['beverage', 'dessert'].includes(i.category)), // if any
-        pasta: foodData.dinner.filter(i => i.category === 'pasta'), // treating as main/protein alternative or carb
-        noodles: foodData.dinner.filter(i => i.category === 'noodles'),
     };
-
-    // Note: User said "Rice for all meals". I will enforce Rice.
-    // Assuming 'Rice' exists in categories. I see 'rice' category in data.js.
-    // Wait, in data.js I added 'Rice' item with category 'rice'. 
 
     // 1. Add Rice
     let riceItem = candidates.rice.find(i => i.name === 'Rice');
@@ -83,48 +76,23 @@ function generateDinnerForDay(card, day) {
         addFoodToCard(card, riceItem.name, riceItem.emoji, riceItem.category, true);
     }
 
-    // We have 3 slots left.
-    // Need: 1 Veg, 1 Protein.
-    // Optional: 1 Soup or another Veg/Protein.
-
-    const pickedItems = [];
-
-    // 2. Pick 1 Veg
+    // 2. Pick exactly 1 Veg
     if (candidates.veg.length > 0) {
         const item = getRandom(candidates.veg);
-        pickedItems.push(item);
+        addFoodToCard(card, item.name, item.emoji, item.category, true);
     }
 
-    // 3. Pick 1 Protein
+    // 3. Pick exactly 1 Protein
     if (candidates.protein.length > 0) {
         const item = getRandom(candidates.protein);
-        pickedItems.push(item);
-    }
-
-    // 4. Pick 1 Random for the last slot (Veg or Protein or Soup)
-    // Max 1 soup constraint means we can pick soup here if we haven't yet.
-    // (We haven't, pickedItems only has Veg/Protein so far).
-
-    const leftovers = [
-        ...candidates.veg,
-        ...candidates.protein,
-        ...candidates.soup
-    ].filter(i => !pickedItems.includes(i)); // unique check might need ID but object ref is fine if from same array
-
-    if (leftovers.length > 0) {
-        // Simple random pick from pool
-        let lastItem = getRandom(leftovers);
-
-        // Retry if we picked duplicate (unlikely with filter but strictly speaking names match)
-        // I'll assume unique objects.
-
-        pickedItems.push(lastItem);
-    }
-
-    // Add them to card
-    pickedItems.forEach(item => {
         addFoodToCard(card, item.name, item.emoji, item.category, true);
-    });
+    }
+
+    // 4. Randomly add 1 Soup (50% chance to reach 4 items)
+    if (candidates.soup.length > 0 && Math.random() > 0.5) {
+        const item = getRandom(candidates.soup);
+        addFoodToCard(card, item.name, item.emoji, item.category, true);
+    }
 }
 
 function getRandom(arr) {
