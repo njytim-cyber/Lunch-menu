@@ -304,6 +304,12 @@ export function initDayCards() {
 
             // On desktop (>=1024px), show the food container instead of bottom sheet
             if (window.innerWidth >= 1024) {
+                currentDayCard = card; // Set active card for replacement
+
+                // Visual feedback for selection
+                document.querySelectorAll('.day-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+
                 const mealType = card.dataset.meal;
                 const foodContainer = document.querySelector(`#${mealType}-page .food-container`);
                 if (foodContainer) {
@@ -398,8 +404,16 @@ function handleDrop(e) {
     const currentItems = dayCard.querySelectorAll('.day-card-content .food-item').length;
 
     if (currentItems >= maxItems) {
-        showToast(`Maximum ${maxItems} items allowed!`, 'error');
-        return;
+        if (maxItems === 1) {
+            // Replace logic for drag drop
+            clearDayCard(dayCard);
+            const day = dayCard.dataset.day;
+            const mealType = dayCard.dataset.meal;
+            removeItemFromState(day, mealType, 0);
+        } else {
+            showToast(`Maximum ${maxItems} items allowed!`, 'error');
+            return;
+        }
     }
 
     const name = draggedItem.dataset.name || draggedItem.querySelector('.food-name').textContent;
@@ -513,5 +527,46 @@ export function renderSavedState() {
                 addFoodToCard(card, item.name, item.emoji, item.category, false);
             });
         }
+    });
+}
+// ============================================
+// DESKTOP SIDEBAR
+// ============================================
+
+export function initDesktopSidebars() {
+    populateDesktopSidebar('lunch');
+    populateDesktopSidebar('dinner');
+}
+
+function populateDesktopSidebar(mealType) {
+    const container = document.getElementById(`${mealType}-food-items`);
+    if (!container) return;
+
+    const items = foodData[mealType];
+    container.innerHTML = items.map(item => `
+        <div class="food-item" 
+             draggable="true"
+             data-name="${item.name}" 
+             data-emoji="${item.emoji}" 
+             data-category="${item.category}">
+            <span class="food-emoji">${item.emoji}</span>
+            <span class="food-name">${item.name}</span>
+        </div>
+    `).join('');
+
+    // Add listeners
+    container.querySelectorAll('.food-item').forEach(item => {
+        // Drag events
+        item.addEventListener('dragstart', handleDragStart);
+        item.addEventListener('dragend', handleDragEnd);
+
+        // Click to add/replace
+        item.addEventListener('click', () => {
+            if (currentDayCard && currentDayCard.dataset.meal === mealType) {
+                selectFoodItem(item);
+            } else {
+                showToast('Please select a day card first', 'info');
+            }
+        });
     });
 }
