@@ -70,7 +70,7 @@ function attachGlobalListeners() {
 
     const shareBtn = document.getElementById('shareBtn');
     if (shareBtn) {
-        shareBtn.addEventListener('click', () => shareNative(getActiveTab()));
+        shareBtn.addEventListener('click', () => shareNative());
     }
 
     const clearAllBtn = document.getElementById('clearAllBtn');
