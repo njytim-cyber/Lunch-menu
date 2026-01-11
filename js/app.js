@@ -8,10 +8,12 @@ import {
     initTabs,
     renderSavedState,
     addFoodToCard,
-    removeFoodFromCard
+    removeFoodFromCard,
+    clearDayCard,
+    showToast
 } from './ui.js';
 import { shareNative } from './share.js';
-import { addFoodItem, mealPlan } from './state.js';
+import { addFoodItem, mealPlan, clearMealType } from './state.js';
 
 import { autoSuggest } from './suggest.js';
 import { APP_VERSION } from './version.js';
@@ -68,7 +70,12 @@ function attachGlobalListeners() {
 
     const shareBtn = document.getElementById('shareBtn');
     if (shareBtn) {
-        shareBtn.addEventListener('click', () => shareNative(getActiveTab()));
+        shareBtn.addEventListener('click', () => shareNative());
+    }
+
+    const clearAllBtn = document.getElementById('clearAllBtn');
+    if (clearAllBtn) {
+        clearAllBtn.addEventListener('click', () => clearAll(getActiveTab()));
     }
 
     const closeX = document.getElementById('modalCloseX');
@@ -94,4 +101,29 @@ function checkVersion() {
 function closeVersionModal() {
     document.getElementById('versionModal').classList.remove('active');
     localStorage.setItem('app_version', APP_VERSION);
+}
+
+function clearAll(mealType) {
+    const page = document.getElementById(`${mealType}-page`);
+    if (!page) return;
+
+    const dayCards = page.querySelectorAll('.day-card');
+    let clearedCount = 0;
+
+    dayCards.forEach(card => {
+        const items = card.querySelectorAll('.day-card-content .food-item');
+        if (items.length > 0) {
+            clearedCount += items.length;
+            clearDayCard(card);
+        }
+    });
+
+    // Clear state for this meal type
+    clearMealType(mealType);
+
+    if (clearedCount > 0) {
+        showToast(`Cleared ${clearedCount} item${clearedCount > 1 ? 's' : ''} from ${mealType}!`, 'success');
+    } else {
+        showToast(`No items to clear in ${mealType}`, 'info');
+    }
 }

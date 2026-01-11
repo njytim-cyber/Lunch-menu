@@ -167,6 +167,15 @@ body {
     font-size: 20px;
 }
 
+.clear-btn {
+    background: rgba(255, 75, 75, 0.2);
+    border-color: rgba(255, 75, 75, 0.3);
+}
+
+.clear-btn:hover {
+    background: rgba(255, 75, 75, 0.4);
+}
+
 /* Day Cards Grid */
 .days-grid {
     display: grid;
@@ -208,18 +217,6 @@ body {
     justify-content: center;
     align-items: center;
     gap: 8px;
-}
-
-.day-card-header::after {
-    content: '+';
-    font-size: 16px;
-    font-weight: 700;
-    opacity: 0.6;
-    transition: opacity 0.2s;
-}
-
-.day-card:hover .day-card-header::after {
-    opacity: 1;
 }
 
 /* Desktop Selection State */
