@@ -1,5 +1,6 @@
 import { loadSampleData, loadCustomDishesToFoodData } from './data.js';
-initDayCards,
+import {
+    initDayCards,
     initDesktopDragAndDrop,
     initCategoryTabs,
     initSwipeGestures,
