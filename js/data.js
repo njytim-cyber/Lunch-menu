@@ -11,8 +11,8 @@ export function loadSampleData() {
     addFoodItem('Crispy Noodle', '🍜', 'lunch', 'noodles');
     addFoodItem('Bee Hoon', '🍜', 'lunch', 'noodles');
     addFoodItem('Bee Hoon and Seaweed Chicken', '🌿', 'lunch', 'noodles');
-    addFoodItem('Mee Sua Soup', '🍜', 'lunch', 'soup');
-    addFoodItem('Kway Teow Soup', '🍲', 'lunch', 'soup');
+    addFoodItem('Mee Sua Soup', '🍜', 'lunch', 'noodles');
+    addFoodItem('Kway Teow Soup', '🍲', 'lunch', 'noodles');
     addFoodItem('Porridge', '🥣', 'lunch', 'rice');
     addFoodItem('Fish Ball Noodle', '🍜', 'lunch', 'noodles');
     addFoodItem('Fried Rice', '🍚', 'lunch', 'rice');
