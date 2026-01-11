@@ -79,7 +79,11 @@ export function openBottomSheet(dayCard) {
 
     // Update title
     const dayName = dayCard.dataset.day.charAt(0).toUpperCase() + dayCard.dataset.day.slice(1);
-    document.querySelector('.bottom-sheet-title').textContent = `Add ${mealType === 'lunch' ? 'Lunch' : 'Dinner'} for ${dayName}`;
+    const mealTitle = mealType.charAt(0).toUpperCase() + mealType.slice(1);
+    const maxItems = parseInt(dayCard.dataset.maxItems) || 1;
+    const limitText = maxItems === 1 ? '1 item only' : `${maxItems} items max`;
+
+    document.querySelector('.bottom-sheet-title').textContent = `${dayName} ${mealTitle} (${limitText})`;
 
     // Populate category tabs
     populateBottomSheetTabs(mealType);
