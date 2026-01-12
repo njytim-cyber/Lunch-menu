@@ -29,6 +29,9 @@
             </div>
 
             <div class="header-actions">
+                <button class="action-btn clear-btn" onclick="handleGlobalClear()" title="Clear All">
+                    <span class="action-icon">🗑️</span>
+                </button>
                 <button class="action-btn suggest-btn" onclick="handleGlobalSuggest()" title="Auto-Suggest Menu">
                     <span class="action-icon">💡</span>
                 </button>
@@ -347,10 +350,37 @@
                         <option value="other">Other</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="dishRecipe">Recipe (optional)</label>
+                    <textarea id="dishRecipe" placeholder="Add recipe instructions..." rows="4"></textarea>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn-cancel" id="addDishCancelBtn">Cancel</button>
                 <button class="btn-submit" id="addDishSubmitBtn">Add Dish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipe Modal -->
+    <div class="modal" id="recipeModal">
+        <div class="modal-content recipe-modal-content">
+            <div class="modal-header">
+                <h3 id="recipeModalTitle">Recipe</h3>
+                <button class="close-btn" id="recipeCloseX">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="recipe-display" id="recipeDisplay">
+                    <p class="recipe-empty">No recipe added yet</p>
+                </div>
+                <div class="form-group recipe-edit-group" id="recipeEditGroup" style="display:none;">
+                    <textarea id="recipeTextarea" placeholder="Add recipe instructions..." rows="6"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="recipeEditBtn">Edit</button>
+                <button class="btn-submit" id="recipeSaveBtn" style="display:none;">Save</button>
+                <button class="btn-cancel" id="recipeCancelBtn" style="display:none;">Cancel</button>
             </div>
         </div>
     </div>

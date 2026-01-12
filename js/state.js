@@ -111,3 +111,39 @@ export function removeCustomDish(mealType, name) {
     customDishes[mealType] = customDishes[mealType].filter(d => d.name !== name);
     saveCustomDishes();
 }
+
+// ============================================
+// RECIPES
+// ============================================
+
+const RECIPES_KEY = 'recipes_v1';
+
+export const recipes = loadRecipes() || {};
+
+function loadRecipes() {
+    try {
+        const stored = localStorage.getItem(RECIPES_KEY);
+        return stored ? JSON.parse(stored) : null;
+    } catch (e) {
+        console.error('Failed to load recipes', e);
+        return null;
+    }
+}
+
+export function saveRecipes() {
+    try {
+        localStorage.setItem(RECIPES_KEY, JSON.stringify(recipes));
+    } catch (e) {
+        console.error('Failed to save recipes', e);
+    }
+}
+
+export function getRecipe(dishName) {
+    return recipes[dishName] || '';
+}
+
+export function setRecipe(dishName, recipeText) {
+    recipes[dishName] = recipeText;
+    saveRecipes();
+}
+

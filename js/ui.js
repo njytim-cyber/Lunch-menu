@@ -1,4 +1,4 @@
-import { foodData, mealPlan, addItemToState, removeItemFromState, addCustomDish } from './state.js';
+import { foodData, mealPlan, addItemToState, removeItemFromState, addCustomDish, getRecipe, setRecipe } from './state.js';
 
 // ============================================
 // DOM ELEMENTS
@@ -565,6 +565,7 @@ export function initAddDishModal() {
     const nameInput = document.getElementById('dishName');
     const emojiSelect = document.getElementById('dishEmoji');
     const categorySelect = document.getElementById('dishCategory');
+    const recipeTextarea = document.getElementById('dishRecipe');
     const mealBtns = document.querySelectorAll('.meal-type-btn');
 
     // Open triggers
@@ -577,6 +578,7 @@ export function initAddDishModal() {
         nameInput.value = '';
         emojiSelect.selectedIndex = 0;
         categorySelect.selectedIndex = 0;
+        if (recipeTextarea) recipeTextarea.value = '';
 
         mealBtns.forEach(b => {
             if (b.dataset.meal === meal) b.classList.add('active');
@@ -612,6 +614,7 @@ export function initAddDishModal() {
 
         const emoji = emojiSelect.value;
         const category = categorySelect.value;
+        const recipe = recipeTextarea ? recipeTextarea.value.trim() : '';
         const activeMealBtn = document.querySelector('.meal-type-btn.active');
         const mealType = activeMealBtn ? activeMealBtn.dataset.meal : 'lunch';
 
@@ -620,6 +623,12 @@ export function initAddDishModal() {
         if (success) {
             foodData[mealType].push({ name, emoji, category, isCustom: true });
             populateDesktopSidebar(mealType);
+
+            // Save recipe if provided
+            if (recipe) {
+                setRecipe(name, recipe);
+            }
+
             showToast(`Added ${name} to ${mealType} menu!`, 'success');
             close();
         } else {
@@ -630,4 +639,231 @@ export function initAddDishModal() {
     nameInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') submitBtn.click();
     });
+}
+
+// ============================================
+// RECIPE MODAL FUNCTIONALITY
+// ============================================
+
+let currentRecipeDish = null;
+let longPressTimer = null;
+const LONG_PRESS_DURATION = 500; // ms
+
+export function initRecipeModal() {
+    const modal = document.getElementById('recipeModal');
+    const titleEl = document.getElementById('recipeModalTitle');
+    const displayEl = document.getElementById('recipeDisplay');
+    const editGroupEl = document.getElementById('recipeEditGroup');
+    const textareaEl = document.getElementById('recipeTextarea');
+    const closeBtn = document.getElementById('recipeCloseX');
+    const editBtn = document.getElementById('recipeEditBtn');
+    const saveBtn = document.getElementById('recipeSaveBtn');
+    const cancelBtn = document.getElementById('recipeCancelBtn');
+
+    if (!modal) return;
+
+    function openRecipeModal(dishName) {
+        currentRecipeDish = dishName;
+        titleEl.textContent = `📖 ${dishName}`;
+
+        const recipe = getRecipe(dishName);
+        if (recipe) {
+            displayEl.innerHTML = `<p style="margin:0; white-space: pre-wrap;">${escapeHtml(recipe)}</p>`;
+        } else {
+            displayEl.innerHTML = '<p class="recipe-empty">No recipe added yet</p>';
+        }
+
+        // Reset to view mode
+        displayEl.style.display = 'block';
+        editGroupEl.style.display = 'none';
+        editBtn.style.display = 'inline-block';
+        saveBtn.style.display = 'none';
+        cancelBtn.style.display = 'none';
+
+        modal.classList.add('active');
+    }
+
+    function closeRecipeModal() {
+        modal.classList.remove('active');
+        currentRecipeDish = null;
+    }
+
+    function enterEditMode() {
+        const recipe = getRecipe(currentRecipeDish);
+        textareaEl.value = recipe || '';
+
+        displayEl.style.display = 'none';
+        editGroupEl.style.display = 'block';
+        editBtn.style.display = 'none';
+        saveBtn.style.display = 'inline-block';
+        cancelBtn.style.display = 'inline-block';
+
+        setTimeout(() => textareaEl.focus(), 100);
+    }
+
+    function saveRecipeChanges() {
+        const newRecipe = textareaEl.value.trim();
+        setRecipe(currentRecipeDish, newRecipe);
+
+        // Update display
+        if (newRecipe) {
+            displayEl.innerHTML = `<p style="margin:0; white-space: pre-wrap;">${escapeHtml(newRecipe)}</p>`;
+        } else {
+            displayEl.innerHTML = '<p class="recipe-empty">No recipe added yet</p>';
+        }
+
+        // Back to view mode
+        displayEl.style.display = 'block';
+        editGroupEl.style.display = 'none';
+        editBtn.style.display = 'inline-block';
+        saveBtn.style.display = 'none';
+        cancelBtn.style.display = 'none';
+
+        showToast('Recipe saved!', 'success');
+    }
+
+    function cancelEdit() {
+        displayEl.style.display = 'block';
+        editGroupEl.style.display = 'none';
+        editBtn.style.display = 'inline-block';
+        saveBtn.style.display = 'none';
+        cancelBtn.style.display = 'none';
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Event listeners for modal buttons
+    if (closeBtn) closeBtn.addEventListener('click', closeRecipeModal);
+    if (editBtn) editBtn.addEventListener('click', enterEditMode);
+    if (saveBtn) saveBtn.addEventListener('click', saveRecipeChanges);
+    if (cancelBtn) cancelBtn.addEventListener('click', cancelEdit);
+
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeRecipeModal();
+    });
+
+    // Long-press detection for food items in day cards
+    function setupLongPress(element, dishName) {
+        // Touch events (mobile)
+        element.addEventListener('touchstart', (e) => {
+            // Don't trigger on remove button
+            if (e.target.classList.contains('remove-btn')) return;
+
+            // Get dish name from the element's data attribute at event time
+            const foodItem = e.target.closest('.food-item');
+            const currentDishName = foodItem ? foodItem.dataset.name : dishName;
+
+            longPressTimer = setTimeout(() => {
+                e.preventDefault();
+                openRecipeModal(currentDishName);
+            }, LONG_PRESS_DURATION);
+        }, { passive: false });
+
+        element.addEventListener('touchend', () => {
+            clearTimeout(longPressTimer);
+        });
+
+        element.addEventListener('touchmove', () => {
+            clearTimeout(longPressTimer);
+        });
+
+        // Right-click (desktop) - use capture phase and stop propagation
+        element.addEventListener('contextmenu', (e) => {
+            // Don't trigger on remove button
+            if (e.target.classList.contains('remove-btn')) return;
+
+            // Get dish name from the element's data attribute at event time
+            const foodItem = e.target.closest('.food-item');
+            const currentDishName = foodItem ? foodItem.dataset.name : dishName;
+
+            e.preventDefault();
+            e.stopPropagation();
+            openRecipeModal(currentDishName);
+            return false;
+        }, true); // Use capture phase
+    }
+
+    // Use MutationObserver to attach long-press to dynamically added food items in day cards
+    const dayCards = document.querySelectorAll('.day-card');
+    dayCards.forEach(card => {
+        const content = card.querySelector('.day-card-content');
+        if (!content) return;
+
+        // Observer for new food items
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach(mutation => {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === 1 && node.classList.contains('food-item')) {
+                        const dishName = node.dataset.name;
+                        if (dishName) {
+                            setupLongPress(node, dishName);
+                        }
+                    }
+                });
+            });
+        });
+
+        observer.observe(content, { childList: true });
+
+        // Also set up for existing items (loaded from saved state)
+        content.querySelectorAll('.food-item').forEach(item => {
+            const dishName = item.dataset.name;
+            if (dishName) {
+                setupLongPress(item, dishName);
+            }
+        });
+    });
+
+    // Also attach to sidebar food items (desktop "Available Items" section)
+    const sidebarContainers = document.querySelectorAll('.food-items');
+    sidebarContainers.forEach(container => {
+        // Observer for sidebar items (they get repopulated)
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach(mutation => {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === 1 && node.classList.contains('food-item')) {
+                        const dishName = node.dataset.name;
+                        if (dishName) {
+                            setupLongPress(node, dishName);
+                        }
+                    }
+                });
+            });
+        });
+        observer.observe(container, { childList: true });
+
+        // Existing items
+        container.querySelectorAll('.food-item').forEach(item => {
+            const dishName = item.dataset.name;
+            if (dishName) {
+                setupLongPress(item, dishName);
+            }
+        });
+    });
+
+    // Also attach to bottom sheet food items (mobile)
+    const bottomSheetContent = document.getElementById('bottomSheetContent');
+    if (bottomSheetContent) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach(mutation => {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === 1 && node.classList.contains('food-item') && !node.classList.contains('add-new-dish-item')) {
+                        const dishName = node.dataset.name;
+                        if (dishName) {
+                            setupLongPress(node, dishName);
+                        }
+                    }
+                });
+            });
+        });
+        observer.observe(bottomSheetContent, { childList: true });
+    }
+
+    // Expose for external use
+    window.openRecipeModal = openRecipeModal;
 }

@@ -1,13 +1,11 @@
 import { showToast } from './ui.js';
 
-export function generateMealPlanText(mealType) {
+function generateMealPlanForType(mealType) {
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     const page = document.getElementById(`${mealType}-page`);
 
-    let mealPlanText = `📅 Weekly ${mealType.charAt(0).toUpperCase() + mealType.slice(1)} Menu\n`;
-    mealPlanText += '═'.repeat(30) + '\n\n';
-
+    let mealPlanText = '';
     let hasAnyItems = false;
 
     days.forEach((day, index) => {
@@ -28,16 +26,39 @@ export function generateMealPlanText(mealType) {
         }
     });
 
-    if (!hasAnyItems) return null;
-
-    mealPlanText += '═'.repeat(30) + '\n';
-    mealPlanText += '🍽️ Made with Weekly Meal Planner';
-
-    return mealPlanText;
+    return { text: mealPlanText, hasItems: hasAnyItems };
 }
 
-export function shareMealPlan(mealType) {
-    const text = generateMealPlanText(mealType);
+export function generateMealPlanText() {
+    // Generate both lunch and dinner
+    const lunchPlan = generateMealPlanForType('lunch');
+    const dinnerPlan = generateMealPlanForType('dinner');
+
+    if (!lunchPlan.hasItems && !dinnerPlan.hasItems) {
+        return null;
+    }
+
+    let fullText = '📅 Weekly Meal Plan\n';
+    fullText += '═'.repeat(30) + '\n\n';
+
+    // Add Lunch section
+    fullText += '☀️ LUNCH\n';
+    fullText += '─'.repeat(20) + '\n';
+    fullText += lunchPlan.text;
+
+    // Add Dinner section
+    fullText += '🌙 DINNER\n';
+    fullText += '─'.repeat(20) + '\n';
+    fullText += dinnerPlan.text;
+
+    fullText += '═'.repeat(30) + '\n';
+    fullText += '🍽️ Made with Weekly Meal Planner';
+
+    return fullText;
+}
+
+export function shareMealPlan() {
+    const text = generateMealPlanText();
     if (!text) {
         showToast('No meals planned yet!', 'error');
         return;
@@ -50,8 +71,8 @@ export function shareMealPlan(mealType) {
     });
 }
 
-export function shareNative(mealType) {
-    const text = generateMealPlanText(mealType);
+export function shareNative() {
+    const text = generateMealPlanText();
     if (!text) {
         showToast('No meals planned yet!', 'error');
         return;
@@ -59,14 +80,14 @@ export function shareNative(mealType) {
 
     if (navigator.share) {
         navigator.share({
-            title: `Weekly ${mealType} Menu`,
+            title: 'Weekly Meal Plan',
             text: text,
         })
             .then(() => console.log('Successful share'))
             .catch((error) => console.log('Error sharing', error));
     } else {
         // Fallback for browsers that don't support share API
-        shareMealPlan(mealType);
+        shareMealPlan();
         showToast('Opened copy fallback (Share API not supported)', 'info');
     }
 }
