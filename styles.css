@@ -168,7 +168,7 @@ body {
 }
 
 /* Day Cards Grid */
-.day-cards-grid {
+.days-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 12px;
@@ -688,7 +688,7 @@ body {
         font-size: 24px;
     }
 
-    .day-cards-grid {
+    .days-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
     }
@@ -716,7 +716,7 @@ body {
 
 /* Show desktop food container on desktop */
 @media (min-width: 769px) {
-    .day-cards-grid {
+    .days-grid {
         grid-template-columns: repeat(7, 1fr);
     }
 
