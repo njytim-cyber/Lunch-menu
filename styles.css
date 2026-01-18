@@ -196,8 +196,24 @@ body {
     transform: translateY(0);
 }
 
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* ============================
+   DAY CARD HEADERS (All Animated)
+   ============================ */
 .day-card-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     padding: 10px 15px;
     font-weight: 600;
     font-size: 13px;
@@ -208,6 +224,46 @@ body {
     justify-content: center;
     align-items: center;
     gap: 8px;
+    position: relative;
+    overflow: hidden;
+    /* Animated Gradient: Blue -> Purple -> Blue */
+    background: linear-gradient(90deg, #5b73e8, #764ba2, #5b73e8);
+    background-size: 200% 100%;
+    animation: gradientFlow 4s ease infinite;
+    box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
+}
+
+/* Stagger animation for even cards */
+.day-card:nth-child(even) .day-card-header {
+    animation-delay: 2s;
+}
+
+/* Shine Effect */
+.day-card-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: skewX(-20deg) translateX(-150%);
+    transition: transform 0.5s;
+    pointer-events: none;
+}
+
+.day-card:hover .day-card-header::before {
+    animation: shine 1.5s infinite;
+}
+
+@keyframes shine {
+    0% {
+        transform: skewX(-20deg) translateX(-150%);
+    }
+
+    100% {
+        transform: skewX(-20deg) translateX(150%);
+    }
 }
 
 .day-card-header::after {
@@ -347,6 +403,11 @@ body {
     display: none;
 }
 
+/* Override for template builder cards - always show dragged items */
+.builder-card .food-item {
+    display: flex !important;
+}
+
 /* Desktop Food Container */
 .food-container {
     background: rgba(255, 255, 255, 0.05);
@@ -357,13 +418,18 @@ body {
 }
 
 /* Compact Header - Dark Theme */
+/* Compact Header - Dark Theme */
 .app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px 16px;
-    background: linear-gradient(135deg, #1e2a4a 0%, #16213e 100%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(26, 33, 62, 0.85);
+    /* Semi-transparent dark blue matching body */
+    backdrop-filter: blur(12px);
+    /* Glass effect */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    /* Softer border */
     position: sticky;
     top: 0;
     z-index: 100;
@@ -1205,4 +1271,1370 @@ body {
 .recipe-modal-content .btn-cancel,
 .recipe-modal-content .btn-submit {
     min-width: 80px;
+}
+
+/* Dark theme styling for select dropdowns */
+select,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.5rem;
+    background: rgba(30, 30, 50, 0.9);
+    color: #ffffff;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+select:hover,
+.form-group select:hover {
+    border-color: rgba(102, 126, 234, 0.5);
+    background-color: rgba(40, 40, 60, 0.95);
+}
+
+select:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+/* Style the dropdown options */
+select option,
+.form-group select option {
+    background: #1e1e32;
+    color: #ffffff;
+    padding: 0.75rem;
+    font-size: 1rem;
+}
+
+select option:hover,
+select option:checked,
+.form-group select option:hover,
+.form-group select option:checked {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+}
+
+/* Input styling for consistency */
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.5rem;
+    background: rgba(30, 30, 50, 0.9);
+    color: #ffffff;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.form-group input[type="text"]:hover {
+    border-color: rgba(102, 126, 234, 0.5);
+}
+
+.form-group input[type="text"]:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.form-group input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Form group label styling */
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* ============================================
+   MEAL TYPE SELECTOR - WOW STYLING
+   ============================================ */
+
+.meal-type-selector {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    margin-top: 0.5rem;
+}
+
+.meal-type-btn {
+    position: relative;
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border: 2px solid transparent;
+    border-radius: 0.75rem;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.6);
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Shimmer effect on inactive buttons */
+.meal-type-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent);
+    transition: left 0.5s ease;
+}
+
+.meal-type-btn:hover::before {
+    left: 100%;
+}
+
+.meal-type-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* LUNCH - Active State - Sunny Orange/Yellow */
+.meal-type-btn[data-meal="lunch"].active {
+    background: linear-gradient(135deg, #ff9a56 0%, #ffb347 50%, #ffc371 100%);
+    color: #1a1a2e;
+    border-color: transparent;
+    box-shadow:
+        0 8px 25px rgba(255, 179, 71, 0.4),
+        0 0 40px rgba(255, 179, 71, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px) scale(1.02);
+}
+
+.meal-type-btn[data-meal="lunch"].active::after {
+    content: '☀️';
+    position: absolute;
+    right: 1rem;
+    font-size: 1.2rem;
+    animation: sunPulse 2s ease-in-out infinite;
+}
+
+@keyframes sunPulse {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+        transform: scale(1.2) rotate(15deg);
+    }
+}
+
+/* DINNER - Active State - Purple/Blue Night */
+.meal-type-btn[data-meal="dinner"].active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #a855f7 100%);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow:
+        0 8px 25px rgba(118, 75, 162, 0.4),
+        0 0 40px rgba(102, 126, 234, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px) scale(1.02);
+}
+
+.meal-type-btn[data-meal="dinner"].active::after {
+    content: '🌙';
+    position: absolute;
+    right: 1rem;
+    font-size: 1.2rem;
+    animation: moonGlow 3s ease-in-out infinite;
+}
+
+@keyframes moonGlow {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+    }
+
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+    }
+}
+
+/* Click animation */
+.meal-type-btn:active {
+    transform: translateY(0) scale(0.98);
+    transition: transform 0.1s ease;
+}
+
+/* Ripple effect on click */
+.meal-type-btn.ripple {
+    animation: rippleEffect 0.6s ease-out;
+}
+
+@keyframes rippleEffect {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+    }
+
+    100% {
+        box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+    }
+}
+
+/* Responsive - Stack vertically on very small screens */
+@media (max-width: 300px) {
+    .meal-type-selector {
+        flex-direction: column;
+    }
+}
+
+/* ============================================
+   UNDO TOAST STYLING
+   ============================================ */
+
+.undo-toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.undo-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.undo-message {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.undo-btn {
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.undo-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.undo-btn:active {
+    transform: scale(0.98);
+}
+
+/* ============================================
+   LOCK BUTTON & LOCKED ITEMS
+   ============================================ */
+
+.food-item .lock-btn {
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    font-size: 12px;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.2s ease;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.food-item:hover .lock-btn {
+    opacity: 1;
+    left: 4px;
+}
+
+.food-item .lock-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Locked item styling */
+.food-item.locked {
+    border: 2px solid #ffd700 !important;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+}
+
+.food-item.locked .lock-btn {
+    opacity: 1;
+    left: 4px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+    color: #1a1a2e;
+}
+
+.food-item.locked .remove-btn {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Adjust food item for lock button */
+.day-card-content .food-item {
+    position: relative;
+    padding-left: 28px;
+}
+
+/* ============================================
+   LUNCH CARDS - Centered Single Item
+   ============================================ */
+
+.lunch-card .day-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+}
+
+.lunch-card .day-card-content .food-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0.75rem;
+    padding-left: 0.75rem;
+    min-width: 80px;
+}
+
+.lunch-card .day-card-content .food-item .food-emoji {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+}
+
+.lunch-card .day-card-content .food-item .food-name {
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90px;
+}
+
+/* Hide drag handle for lunch to keep it clean */
+.lunch-card .day-card-content .food-item .drag-handle {
+    display: none;
+}
+
+/* Lock button - top left */
+.lunch-card .day-card-content .food-item .lock-btn {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+}
+
+.lunch-card .day-card-content .food-item:hover .lock-btn {
+    opacity: 1;
+}
+
+.lunch-card .day-card-content .food-item.locked .lock-btn {
+    opacity: 1;
+    background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+}
+
+/* Remove button - top right */
+.lunch-card .day-card-content .food-item .remove-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 0.8rem;
+    width: 20px;
+    height: 20px;
+    opacity: 0;
+    background: rgba(255, 100, 100, 0.8);
+    border-radius: 50%;
+}
+
+.lunch-card .day-card-content .food-item:hover .remove-btn {
+    opacity: 1;
+}
+
+/* ============================================
+   DINNER CARDS - Compact Multiple Items
+   ============================================ */
+
+.dinner-card .day-card-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding: 0.25rem;
+}
+
+.dinner-card .day-card-content .food-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    padding-left: 0.5rem;
+    font-size: 0.75rem;
+    border-radius: 0.5rem;
+}
+
+.dinner-card .day-card-content .food-item .food-emoji {
+    font-size: 1rem;
+}
+
+.dinner-card .day-card-content .food-item .food-name {
+    font-size: 0.7rem;
+    max-width: 60px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Smaller controls for dinner */
+.dinner-card .day-card-content .food-item .drag-handle {
+    display: none;
+}
+
+/* Lock button - top left */
+.dinner-card .day-card-content .food-item .lock-btn {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    font-size: 8px;
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+}
+
+.dinner-card .day-card-content .food-item:hover .lock-btn {
+    opacity: 1;
+}
+
+.dinner-card .day-card-content .food-item.locked .lock-btn {
+    opacity: 1;
+    background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+}
+
+/* Remove button - top right */
+.dinner-card .day-card-content .food-item .remove-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 0.6rem;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    opacity: 0;
+    background: rgba(255, 100, 100, 0.8);
+    border-radius: 50%;
+}
+
+.dinner-card .day-card-content .food-item:hover .remove-btn {
+    opacity: 1;
+}
+
+/* ============================================
+   NUTRITION SUMMARY PANEL
+   ============================================ */
+
+.nutrition-panel {
+    max-width: 1400px;
+    margin: 0 auto 1rem auto;
+    padding: 0 20px;
+}
+
+.nutrition-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+.nutrition-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.toggle-arrow {
+    transition: transform 0.3s ease;
+}
+
+.nutrition-panel.expanded .toggle-arrow {
+    transform: rotate(180deg);
+}
+
+.nutrition-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+}
+
+.nutrition-panel.expanded .nutrition-content {
+    max-height: 300px;
+    padding: 1rem 0;
+}
+
+.nutrition-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.stat-item.total {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.stat-label {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.stat-value {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.stat-divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0.25rem 0;
+}
+
+.stat-empty {
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    padding: 1rem;
+}
+
+/* ============================================
+   DRAG TO REORDER
+   ============================================ */
+
+.food-item .drag-handle {
+    position: absolute;
+    left: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: grab;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 10px;
+    letter-spacing: -2px;
+    padding: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    user-select: none;
+}
+
+.food-item:hover .drag-handle {
+    opacity: 1;
+}
+
+.food-item .drag-handle:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.food-item .drag-handle:active {
+    cursor: grabbing;
+}
+
+.food-item.dragging-reorder {
+    opacity: 0.5;
+    transform: scale(0.95);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.food-item.drag-over-top {
+    border-top: 3px solid #667eea !important;
+    margin-top: -3px;
+}
+
+.food-item.drag-over-bottom {
+    border-bottom: 3px solid #667eea !important;
+    margin-bottom: -3px;
+}
+
+/* Adjust food item padding to accommodate drag handle */
+.day-card-content .food-item {
+    padding-left: 32px;
+}
+
+/* ============================================
+   DELETE CONFIRMATION MODAL
+   ============================================ */
+
+.delete-modal-content {
+    max-width: 350px;
+    text-align: center;
+}
+
+.delete-modal-content h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.delete-modal-content p {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ff4757 0%, #ff6b81 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(255, 71, 87, 0.4);
+}
+
+/* ============================================
+   ENHANCED TOGGLE BUTTONS (Lunch/Dinner)
+   ============================================ */
+
+.toggle-container {
+    display: flex;
+    gap: 0.5rem;
+    padding: 4px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+}
+
+.toggle-btn {
+    padding: 0.6rem 1.2rem;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+}
+
+.toggle-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Lunch active - sunny gradient */
+.toggle-btn[data-tab="lunch"].active {
+    background: linear-gradient(135deg, #ff9a56 0%, #ffb347 50%, #ffc371 100%);
+    color: #1a1a2e;
+    border-color: transparent;
+    box-shadow:
+        0 4px 15px rgba(255, 179, 71, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Dinner active - night gradient */
+/* Dinner active - night gradient with animation */
+.toggle-btn[data-tab="dinner"].active {
+    background: linear-gradient(90deg, #5b73e8, #764ba2, #5b73e8);
+    background-size: 200% 100%;
+    animation: gradientFlow 4s ease infinite;
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow:
+        0 4px 15px rgba(118, 75, 162, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.toggle-icon {
+    font-size: 1.1rem;
+}
+
+/* ============================================
+   FOOD DRAWER (Collapsible Sidebar)
+   ============================================ */
+
+.food-drawer {
+    margin-top: 1rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.drawer-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+    border: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.drawer-toggle:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+}
+
+.drawer-icon {
+    font-size: 1.5rem;
+}
+
+.drawer-title {
+    flex: 1;
+    text-align: left;
+}
+
+.drawer-arrow {
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.food-drawer.expanded .drawer-arrow {
+    transform: rotate(180deg);
+}
+
+.drawer-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out, padding 0.2s ease-out;
+}
+
+.food-drawer.expanded .drawer-content {
+    max-height: 600px;
+    padding: 1rem;
+    transition: max-height 0.3s ease-in, padding 0.2s ease-in;
+}
+
+/* Adjust food-items inside drawer */
+.drawer-content .food-items {
+    max-height: 300px;
+    overflow-y: auto;
+    margin: 0.5rem 0;
+}
+
+.drawer-content .category-tabs {
+    margin-bottom: 0.75rem;
+}
+
+.drawer-content .add-dish-btn {
+    margin-top: 0.75rem;
+}
+
+/* ============================================
+   KEBAB MENU BUTTON & DROPDOWN
+   ============================================ */
+
+.kebab-menu-wrapper {
+    position: relative;
+    z-index: 1000;
+}
+
+.kebab-btn {
+    border-radius: 50%;
+    /* Make it circular like Google's */
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.kebab-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.header-menu-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    background: rgba(30, 42, 74, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    min-width: 200px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    /* Animation state: hidden */
+    opacity: 0;
+    visibility: hidden;
+    /* Ensure it's not clickable when hidden */
+    transform: translateY(-10px) scale(0.95);
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transform-origin: top right;
+}
+
+.header-menu-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 12px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: inherit;
+    font-size: 0.95rem;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.menu-icon {
+    font-size: 1.1rem;
+    width: 24px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 4px 0;
+}
+
+.menu-item.delete-item {
+    color: #ff6b81;
+}
+
+.menu-item.delete-item:hover {
+    background: rgba(255, 71, 87, 0.15);
+}
+
+/* ============================================
+   HELP MODAL
+   ============================================ */
+
+.help-modal-content {
+    background: linear-gradient(135deg, #1e2a4a 0%, #16213e 100%);
+    max-width: 450px !important;
+}
+
+.help-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.help-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.help-icon {
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.help-text strong {
+    display: block;
+    color: #fff;
+    margin-bottom: 4px;
+    font-size: 1rem;
+}
+
+.help-text p {
+    color: #a0aec0;
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.btn-cosmic {
+    background: linear-gradient(90deg, #5b73e8, #764ba2, #5b73e8);
+    background-size: 200% 100%;
+    animation: gradientFlow 4s ease infinite;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
+    font-family: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-cosmic:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(118, 75, 162, 0.6);
+    background: linear-gradient(135deg, #764ba2 0%, #a855f7 100%);
+}
+
+.btn-cosmic:active {
+    transform: translateY(0);
+}
+
+/* ===============================
+   TEMPLATES & BUILDER
+   =============================== */
+.template-modal-content {
+    max-width: 900px;
+    width: 95%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* Initial View */
+#templatesInitialView {
+    text-align: center;
+    padding: 2rem;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Builder View */
+.builder-grid {
+    margin: 1rem 0;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+}
+
+.days-grid-small {
+    display: flex;
+    gap: 10px;
+    min-width: 800px;
+    /* Ensure 7 days fit */
+}
+
+.builder-card {
+    flex: 1;
+    min-width: 100px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Re-use Header style but smaller */
+.builder-card .day-card-header {
+    font-size: 0.8rem;
+    padding: 5px;
+    /* Ensure gradient fits small space */
+    background-size: 200% 100%;
+}
+
+.builder-card .day-card-content {
+    min-height: 100px;
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    /* Allow items to stack */
+    justify-content: center;
+    align-content: flex-start;
+    gap: 4px;
+}
+
+/* Mini Items in Grid */
+.mini-card-item {
+    font-size: 1.5rem;
+    padding: 2px;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    cursor: default;
+    transition: transform 0.2s;
+}
+
+.mini-card-item:hover {
+    transform: scale(1.1);
+}
+
+/* Mini Remove Button */
+.mini-remove-btn {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 18px;
+    height: 18px;
+    border: none;
+    background: rgba(255, 65, 108, 0.9);
+    border-radius: 50%;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.2s;
+    padding: 0;
+    line-height: 1;
+}
+
+.mini-card-item:hover .mini-remove-btn {
+    opacity: 1;
+}
+
+.mini-remove-btn:hover {
+    background: rgba(255, 0, 50, 1);
+    transform: scale(1.2);
+}
+
+/* Builder Drawer */
+.builder-drawer {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.builder-drawer h3 {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.food-items-small {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 10px;
+    padding: 4px;
+}
+
+.food-item.mini {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    cursor: grab;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.food-item.mini:active {
+    cursor: grabbing;
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .days-grid-small {
+        min-width: 180vw;
+        /* Allow scrolling on mobile */
+        padding-right: 20px;
+    }
+}
+
+/* ============================================
+   TEMPLATE MODAL ENHANCEMENTS
+   ============================================ */
+
+/* Modal Close Button */
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.modal-close:hover {
+    background: rgba(255, 65, 108, 0.6);
+    transform: scale(1.1);
+}
+
+/* Template Name Input */
+.template-name-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    margin-bottom: 15px;
+    transition: border-color 0.2s;
+}
+
+.template-name-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.template-name-input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* Builder Card Selected State (for mobile tap) */
+.builder-card.selected {
+    border: 3px solid #667eea !important;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+    transform: translateY(-2px);
+}
+
+.builder-card.selected .day-card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    animation: none;
+}
+
+/* Mobile tap hint */
+@media (max-width: 768px) {
+    .food-item.mini {
+        cursor: pointer;
+    }
+
+    .food-item.mini:active {
+        background: rgba(102, 126, 234, 0.3);
+        transform: scale(0.95);
+    }
+
+    .builder-instruction {
+        text-align: center;
+        font-size: 12px;
+        opacity: 0.7;
+        margin-bottom: 10px;
+        padding: 8px;
+        background: rgba(102, 126, 234, 0.2);
+        border-radius: 8px;
+    }
+}
+
+/* ============================================
+   ACTION TOOLBAR (Replaces Hamburger Menu)
+   ============================================ */
+
+.action-toolbar {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    padding: 4px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.toolbar-btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.toolbar-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.toolbar-btn:active {
+    transform: scale(0.9);
+}
+
+.toolbar-icon {
+    font-size: 20px;
+}
+
+.toolbar-btn-danger:hover {
+    background: rgba(255, 65, 108, 0.4);
+}
+
+/* Mobile: smaller buttons */
+@media (max-width: 768px) {
+    .action-toolbar {
+        padding: 3px;
+    }
+
+    .toolbar-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .toolbar-icon {
+        font-size: 16px;
+    }
 }

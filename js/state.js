@@ -61,6 +61,15 @@ export function removeItemFromState(day, mealType, itemIndex) {
     saveMealPlan();
 }
 
+export function reorderItems(day, mealType, fromIndex, toIndex) {
+    if (!mealPlan[mealType] || !mealPlan[mealType][day]) return;
+
+    const items = mealPlan[mealType][day];
+    const [movedItem] = items.splice(fromIndex, 1);
+    items.splice(toIndex, 0, movedItem);
+    saveMealPlan();
+}
+
 export function clearState() {
     mealPlan.lunch = {};
     mealPlan.dinner = {};
@@ -147,3 +156,38 @@ export function setRecipe(dishName, recipeText) {
     saveRecipes();
 }
 
+// ============================================
+// LOCK ITEMS
+// ============================================
+
+export function toggleLockItem(day, mealType, itemIndex) {
+    if (!mealPlan[mealType] || !mealPlan[mealType][day]) return false;
+
+    const item = mealPlan[mealType][day][itemIndex];
+    if (!item) return false;
+
+    item.locked = !item.locked;
+    saveMealPlan();
+    return item.locked;
+}
+
+export function isItemLocked(day, mealType, itemIndex) {
+    if (!mealPlan[mealType] || !mealPlan[mealType][day]) return false;
+
+    const item = mealPlan[mealType][day][itemIndex];
+    return item ? !!item.locked : false;
+}
+
+export function getLockedItems(mealType) {
+    const locked = [];
+    if (!mealPlan[mealType]) return locked;
+
+    Object.keys(mealPlan[mealType]).forEach(day => {
+        mealPlan[mealType][day].forEach((item, index) => {
+            if (item.locked) {
+                locked.push({ day, index, item });
+            }
+        });
+    });
+    return locked;
+}

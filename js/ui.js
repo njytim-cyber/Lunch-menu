@@ -1,4 +1,4 @@
-import { foodData, mealPlan, addItemToState, removeItemFromState, addCustomDish, getRecipe, setRecipe } from './state.js';
+import { foodData, mealPlan, addItemToState, removeItemFromState, addCustomDish, removeCustomDish, getRecipe, setRecipe, toggleLockItem, isItemLocked, reorderItems } from './state.js';
 
 // ============================================
 // DOM ELEMENTS
@@ -28,6 +28,209 @@ export function showToast(message, type = 'info') {
         toast.classList.remove('show');
         setTimeout(() => toast.remove(), 400);
     }, 2500);
+}
+
+// ============================================
+// CONFETTI CELEBRATION
+// ============================================
+
+export function triggerConfetti() {
+    const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#00d2d3', '#ff9f43', '#10ac84', '#ee5a24'];
+    const confettiCount = 150;
+    const container = document.createElement('div');
+    container.className = 'confetti-container';
+    container.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10000; overflow: hidden;';
+    document.body.appendChild(container);
+
+    for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const size = Math.random() * 10 + 5;
+        const left = Math.random() * 100;
+        const animDuration = Math.random() * 2 + 2;
+        const delay = Math.random() * 0.5;
+
+        // Random shapes: square, circle, or rectangle
+        const shapes = ['50%', '0%', '0%'];
+        const borderRadius = shapes[Math.floor(Math.random() * shapes.length)];
+        const rotation = Math.random() * 360;
+
+        confetti.style.cssText = `
+            position: absolute;
+            width: ${size}px;
+            height: ${size * (Math.random() * 0.5 + 0.5)}px;
+            background: ${color};
+            left: ${left}%;
+            top: -20px;
+            border-radius: ${borderRadius};
+            transform: rotate(${rotation}deg);
+            animation: confettiFall ${animDuration}s ease-out ${delay}s forwards;
+            opacity: 0;
+        `;
+        container.appendChild(confetti);
+    }
+
+    // Add keyframes if not exists
+    if (!document.getElementById('confetti-keyframes')) {
+        const style = document.createElement('style');
+        style.id = 'confetti-keyframes';
+        style.textContent = `
+            @keyframes confettiFall {
+                0% {
+                    opacity: 1;
+                    transform: translateY(0) rotate(0deg) scale(1);
+                }
+                50% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(100vh) rotate(720deg) scale(0.5);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Clean up after animation
+    setTimeout(() => container.remove(), 4000);
+}
+
+// ============================================
+// UNDO ACTION SYSTEM
+// ============================================
+
+let undoStack = [];
+let undoToastEl = null;
+let undoTimeout = null;
+const UNDO_TIMEOUT = 5000; // 5 seconds
+
+function pushUndoAction(action) {
+    undoStack.push(action);
+    if (undoStack.length > 5) undoStack.shift(); // Keep only last 5
+    showUndoToast(action);
+}
+
+function showUndoToast(action) {
+    // Remove existing undo toast
+    if (undoToastEl) {
+        undoToastEl.remove();
+        clearTimeout(undoTimeout);
+    }
+
+    undoToastEl = document.createElement('div');
+    undoToastEl.className = 'undo-toast';
+    undoToastEl.innerHTML = `
+        <span class="undo-message">🗑️ ${action.itemName} removed</span>
+        <button class="undo-btn">Undo</button>
+    `;
+    document.body.appendChild(undoToastEl);
+
+    // Animate in
+    setTimeout(() => undoToastEl.classList.add('show'), 10);
+
+    // Undo button click
+    undoToastEl.querySelector('.undo-btn').addEventListener('click', () => {
+        performUndo();
+    });
+
+    // Auto-hide after timeout
+    undoTimeout = setTimeout(() => {
+        hideUndoToast();
+    }, UNDO_TIMEOUT);
+}
+
+function hideUndoToast() {
+    if (undoToastEl) {
+        undoToastEl.classList.remove('show');
+        setTimeout(() => {
+            if (undoToastEl) undoToastEl.remove();
+            undoToastEl = null;
+        }, 300);
+    }
+}
+
+function performUndo() {
+    if (undoStack.length === 0) return;
+
+    const action = undoStack.pop();
+
+    if (action.type === 'remove') {
+        // Find the day card
+        const dayCard = document.querySelector(`.day-card[data-day="${action.day}"][data-meal="${action.mealType}"]`);
+        if (dayCard) {
+            addFoodToCard(dayCard, action.itemName, action.itemEmoji, action.itemCategory, true);
+            showToast(`↩️ Restored ${action.itemName}!`, 'success');
+        }
+    }
+
+    hideUndoToast();
+}
+
+// ============================================
+// DELETE CONFIRMATION MODAL
+// ============================================
+
+let pendingDeleteDish = null;
+let pendingDeleteMealType = null;
+
+function showDeleteConfirmation(dishName, mealType) {
+    pendingDeleteDish = dishName;
+    pendingDeleteMealType = mealType;
+
+    const modal = document.getElementById('deleteConfirmModal');
+    const text = document.getElementById('deleteConfirmText');
+
+    if (modal && text) {
+        text.textContent = `Are you sure you want to permanently delete "${dishName}"?`;
+        modal.classList.add('active');
+    }
+}
+
+export function initDeleteConfirmModal() {
+    const modal = document.getElementById('deleteConfirmModal');
+    const confirmBtn = document.getElementById('deleteConfirmBtn');
+    const cancelBtn = document.getElementById('deleteCancelBtn');
+
+    if (!modal || !confirmBtn || !cancelBtn) return;
+
+    confirmBtn.addEventListener('click', () => {
+        if (pendingDeleteDish && pendingDeleteMealType) {
+            // Remove from state
+            removeCustomDish(pendingDeleteMealType, pendingDeleteDish);
+
+            // Remove from foodData
+            const index = foodData[pendingDeleteMealType].findIndex(d => d.name === pendingDeleteDish);
+            if (index !== -1) {
+                foodData[pendingDeleteMealType].splice(index, 1);
+            }
+
+            // Refresh sidebar
+            populateDesktopSidebar(pendingDeleteMealType);
+
+            showToast(`🗑️ Deleted "${pendingDeleteDish}"`, 'success');
+            triggerConfetti(); // Celebrate the cleanup!
+        }
+
+        modal.classList.remove('active');
+        pendingDeleteDish = null;
+        pendingDeleteMealType = null;
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+        pendingDeleteDish = null;
+        pendingDeleteMealType = null;
+    });
+
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+            pendingDeleteDish = null;
+            pendingDeleteMealType = null;
+        }
+    });
 }
 
 // ============================================
@@ -214,33 +417,125 @@ function selectFoodItem(foodItemEl) {
  * @param {string} emoji 
  * @param {string} category 
  * @param {boolean} shouldSave - Whether to trigger state save (true for user action, false for loading)
+ * @param {boolean} isLocked - Whether the item is locked
  */
-export function addFoodToCard(dayCard, name, emoji, category, shouldSave = false) {
+export function addFoodToCard(dayCard, name, emoji, category, shouldSave = false, isLocked = false) {
     const content = dayCard.querySelector('.day-card-content');
     const day = dayCard.dataset.day;
     const mealType = dayCard.dataset.meal;
 
     // Create food item
     const foodItem = document.createElement('div');
-    foodItem.className = 'food-item';
+    foodItem.className = 'food-item' + (isLocked ? ' locked' : '');
     foodItem.dataset.name = name;
     foodItem.dataset.category = category;
     foodItem.dataset.emoji = emoji;
+    foodItem.draggable = true; // Make draggable for reordering
     foodItem.innerHTML = `
+        <span class="drag-handle" title="Drag to reorder">⋮⋮</span>
+        <button class="lock-btn" title="Lock item">${isLocked ? '🔒' : '🔓'}</button>
         <span class="food-emoji">${emoji}</span>
         <span class="food-name">${name}</span>
         <button class="remove-btn">×</button>
     `;
 
+    // Add lock listener
+    foodItem.querySelector('.lock-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const items = Array.from(content.querySelectorAll('.food-item'));
+        const index = items.indexOf(foodItem);
+        const newLockState = toggleLockItem(day, mealType, index);
+
+        if (newLockState) {
+            foodItem.classList.add('locked');
+            e.target.textContent = '🔒';
+            showToast('🔒 Item locked!', 'success');
+        } else {
+            foodItem.classList.remove('locked');
+            e.target.textContent = '🔓';
+            showToast('🔓 Item unlocked', 'info');
+        }
+    });
+
     // Add remove listener
     foodItem.querySelector('.remove-btn').addEventListener('click', (e) => removeFoodFromCard(e.target, e));
+
+    // Add drag-to-reorder listeners
+    foodItem.addEventListener('dragstart', (e) => {
+        if (e.target.classList.contains('food-item')) {
+            e.target.classList.add('dragging-reorder');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', ''); // Required for Firefox
+        }
+    });
+
+    foodItem.addEventListener('dragend', (e) => {
+        e.target.classList.remove('dragging-reorder');
+        document.querySelectorAll('.food-item.drag-over-top, .food-item.drag-over-bottom').forEach(el => {
+            el.classList.remove('drag-over-top', 'drag-over-bottom');
+        });
+    });
+
+    foodItem.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        const draggingItem = content.querySelector('.dragging-reorder');
+        if (!draggingItem || draggingItem === foodItem) return;
+
+        const rect = foodItem.getBoundingClientRect();
+        const midY = rect.top + rect.height / 2;
+
+        foodItem.classList.remove('drag-over-top', 'drag-over-bottom');
+        if (e.clientY < midY) {
+            foodItem.classList.add('drag-over-top');
+        } else {
+            foodItem.classList.add('drag-over-bottom');
+        }
+    });
+
+    foodItem.addEventListener('dragleave', () => {
+        foodItem.classList.remove('drag-over-top', 'drag-over-bottom');
+    });
+
+    foodItem.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const draggingItem = content.querySelector('.dragging-reorder');
+        if (!draggingItem || draggingItem === foodItem) return;
+
+        const items = Array.from(content.querySelectorAll('.food-item'));
+        const fromIndex = items.indexOf(draggingItem);
+        let toIndex = items.indexOf(foodItem);
+
+        // Adjust based on drop position
+        const rect = foodItem.getBoundingClientRect();
+        const midY = rect.top + rect.height / 2;
+        if (e.clientY > midY && fromIndex < toIndex) {
+            // Dropping below, no adjustment needed
+        } else if (e.clientY <= midY && fromIndex > toIndex) {
+            // Dropping above, no adjustment needed
+        } else if (e.clientY > midY) {
+            toIndex++;
+        }
+
+        // Move in DOM
+        if (fromIndex < toIndex) {
+            content.insertBefore(draggingItem, foodItem.nextSibling);
+        } else {
+            content.insertBefore(draggingItem, foodItem);
+        }
+
+        // Update state
+        reorderItems(day, mealType, fromIndex, toIndex > fromIndex ? toIndex - 1 : toIndex);
+
+        foodItem.classList.remove('drag-over-top', 'drag-over-bottom');
+        showToast('📋 Reordered!', 'success');
+    });
 
     content.appendChild(foodItem);
     dayCard.classList.add('has-items');
     updateDayCardState(dayCard);
 
     if (shouldSave) {
-        addItemToState(day, mealType, { name, emoji, category });
+        addItemToState(day, mealType, { name, emoji, category, locked: isLocked });
     }
 }
 
@@ -256,6 +551,17 @@ export function removeFoodFromCard(btn, event) {
     const day = dayCard.dataset.day;
     const mealType = dayCard.dataset.meal;
 
+    // Check if item is locked
+    if (isItemLocked(day, mealType, index)) {
+        showToast('🔒 Unlock item first!', 'error');
+        return;
+    }
+
+    // Store for undo before removing
+    const itemName = foodItem.dataset.name;
+    const itemEmoji = foodItem.dataset.emoji;
+    const itemCategory = foodItem.dataset.category;
+
     foodItem.remove();
     updateDayCardState(dayCard);
 
@@ -264,7 +570,66 @@ export function removeFoodFromCard(btn, event) {
         removeItemFromState(day, mealType, index);
     }
 
-    showToast('Item removed', 'success');
+    // Push to undo stack
+    pushUndoAction({
+        type: 'remove',
+        day,
+        mealType,
+        itemName,
+        itemEmoji,
+        itemCategory,
+        index
+    });
+}
+
+/**
+ * Clears all unlocked items from a day card without toast spam.
+ * @param {HTMLElement} dayCard
+ * @returns {number} count of items removed
+ */
+export function clearDayCard(dayCard) {
+    const content = dayCard.querySelector('.day-card-content');
+    const items = Array.from(content.querySelectorAll('.food-item'));
+    const day = dayCard.dataset.day;
+    const mealType = dayCard.dataset.meal;
+    let removedCount = 0;
+
+    // We accept that removing items from the array changes indices.
+    // It is safest to remove from end to start to avoid index shift issues if we were manipulating the array directly,
+    // but removeItemFromState handles splicing.
+    // However, if we call removeItemFromState multiple times with original indices, it will be wrong.
+    // Actually, removeItemFromState(day, mealType, index) splices the array.
+    // So if we remove item 0, the next item becomes item 0.
+    // So we should filter UNLOCKED items first, then remove them one by one?
+    // OR: just construct the new state and generic "save" it.
+    // But removeItemFromState is convenient.
+    // Let's iterate backwards specifically for state consistency if we use removeItemFromState.
+
+    for (let i = items.length - 1; i >= 0; i--) {
+        const foodItem = items[i];
+
+        // Check lock via state helper to be sure
+        if (isItemLocked(day, mealType, i)) {
+            continue;
+        }
+
+        // Remove from DOM
+        foodItem.remove();
+
+        // Remove from State
+        removeItemFromState(day, mealType, i);
+
+        removedCount++;
+    }
+
+    updateDayCardState(dayCard);
+
+    if (removedCount > 0) {
+        // Optional: One single toast or return count for caller to toast
+        // showToast(`Cleared ${removedCount} items`, 'info'); 
+    }
+
+    return removedCount;
 }
 
 function updateDayCardState(dayCard) {
@@ -387,7 +752,7 @@ function handleDrop(e) {
 // ============================================
 
 export function initCategoryTabs() {
-    document.querySelectorAll('.food-container .category-tabs').forEach(container => {
+    document.querySelectorAll('.category-tabs').forEach(container => {
         const mealType = container.dataset.meal;
         const tabs = container.querySelectorAll('.category-tab');
 
@@ -471,7 +836,7 @@ export function renderSavedState() {
         const card = document.querySelector(`.day-card[data-day="${day}"][data-meal="lunch"]`);
         if (card && items) {
             items.forEach(item => {
-                addFoodToCard(card, item.name, item.emoji, item.category, false);
+                addFoodToCard(card, item.name, item.emoji, item.category, false, item.locked || false);
             });
         }
     });
@@ -482,7 +847,7 @@ export function renderSavedState() {
         const card = document.querySelector(`.day-card[data-day="${day}"][data-meal="dinner"]`);
         if (card && items) {
             items.forEach(item => {
-                addFoodToCard(card, item.name, item.emoji, item.category, false);
+                addFoodToCard(card, item.name, item.emoji, item.category, false, item.locked || false);
             });
         }
     });
@@ -553,6 +918,21 @@ export function populateDesktopSidebar(mealType) {
             } else {
                 showToast('Select a day first, or drag item', 'info');
             }
+        });
+
+        // Double-click to delete custom dish
+        item.addEventListener('dblclick', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const dishName = item.dataset.name;
+            const isCustom = items.find(i => i.name === dishName)?.isCustom;
+
+            if (!isCustom) {
+                showToast('Only custom dishes can be deleted', 'info');
+                return;
+            }
+
+            showDeleteConfirmation(dishName, mealType);
         });
     });
 }
@@ -629,7 +1009,8 @@ export function initAddDishModal() {
                 setRecipe(name, recipe);
             }
 
-            showToast(`Added ${name} to ${mealType} menu!`, 'success');
+            showToast(`🎉 Added ${name} to ${mealType} menu!`, 'success');
+            triggerConfetti();
             close();
         } else {
             showToast('Dish already exists!', 'error');

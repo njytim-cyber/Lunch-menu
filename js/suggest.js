@@ -1,5 +1,5 @@
 import { foodData, addItemToState, clearState } from './state.js';
-import { addFoodToCard, showToast, renderSavedState } from './ui.js';
+import { addFoodToCard, showToast, renderSavedState, clearDayCard } from './ui.js';
 
 export function autoSuggest(mealType) {
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -30,9 +30,9 @@ export function autoSuggest(mealType) {
         if (!card) return;
 
         // Clear existing items from card (and state)
-        // This is a bit manual via DOM, better to have a clear method.
-        // For now, I'll select all remove buttons and click them to trigger state update + UI remove
-        card.querySelectorAll('.remove-btn').forEach(btn => btn.click());
+        // Clear existing items from card (and state)
+        // Use clearDayCard to avoid toast spam and handle it cleanly
+        clearDayCard(card);
 
         if (mealType === 'lunch') {
             generateLunchForDay(card, day);
@@ -42,10 +42,17 @@ export function autoSuggest(mealType) {
         generatedCount++;
     });
 
+    // 44
     showToast(`Suggested menu generated for ${mealType}! 💡`, 'success');
 }
 
 function generateLunchForDay(card, day) {
+    // Check Limit First
+    const maxItems = parseInt(card.dataset.maxItems) || 1;
+    const currentItems = card.querySelectorAll('.day-card-content .food-item').length;
+
+    if (currentItems >= maxItems) return;
+
     // Lunch: Random 1 item
     const items = foodData.lunch;
     if (items.length === 0) return;
@@ -62,6 +69,35 @@ function generateDinnerForDay(card, day) {
     // 4. Optional: 1 Soup (max 1)
     // 5. Total 3-4 dishes
 
+    // Check existing locked items to avoid duplicates
+    // We scan existing names
+    const currentNames = Array.from(card.querySelectorAll('.food-item')).map(el => el.dataset.name);
+    const getCategory = (name) => {
+        const item = foodData.dinner.find(i => i.name === name);
+        return item ? item.category : null;
+    };
+
+    // Check existing categories
+    let hasRice = false;
+    let hasVeg = false;
+    let hasProtein = false;
+    let hasSoup = false;
+
+    currentNames.forEach(name => {
+        const cat = getCategory(name);
+        if (cat === 'rice') hasRice = true;
+        if (cat === 'vegetables') hasVeg = true;
+        if (['chicken', 'fish', 'pork', 'eggs', 'prawn'].includes(cat)) hasProtein = true;
+        if (cat === 'soup') hasSoup = true;
+        // Optimization: Relying on generic 'name' assumes unique names for categories or consistent data
+        // Ideally we check dataset.category if we trust the DOM element
+    });
+
+    // Also Check Max Limit
+    const maxItems = parseInt(card.dataset.maxItems) || 4;
+    const currentCount = currentNames.length;
+    let itemsToAdd = 0;
+
     const candidates = {
         rice: foodData.dinner.filter(i => i.category === 'rice'),
         veg: foodData.dinner.filter(i => i.category === 'vegetables'),
@@ -69,29 +105,35 @@ function generateDinnerForDay(card, day) {
         soup: foodData.dinner.filter(i => i.category === 'soup'),
     };
 
-    // 1. Add Rice
-    let riceItem = candidates.rice.find(i => i.name === 'Rice');
-    if (!riceItem && candidates.rice.length > 0) riceItem = candidates.rice[0];
-    if (riceItem) {
-        addFoodToCard(card, riceItem.name, riceItem.emoji, riceItem.category, true);
+    // 1. Add Rice if missing and space available
+    if (!hasRice && currentCount + itemsToAdd < maxItems) {
+        let riceItem = candidates.rice.find(i => i.name === 'Rice');
+        if (!riceItem && candidates.rice.length > 0) riceItem = candidates.rice[0];
+        if (riceItem) {
+            addFoodToCard(card, riceItem.name, riceItem.emoji, riceItem.category, true);
+            itemsToAdd++;
+        }
     }
 
-    // 2. Pick exactly 1 Veg
-    if (candidates.veg.length > 0) {
+    // 2. Pick exactly 1 Veg if missing
+    if (!hasVeg && candidates.veg.length > 0 && currentCount + itemsToAdd < maxItems) {
         const item = getRandom(candidates.veg);
         addFoodToCard(card, item.name, item.emoji, item.category, true);
+        itemsToAdd++;
     }
 
-    // 3. Pick exactly 1 Protein
-    if (candidates.protein.length > 0) {
+    // 3. Pick exactly 1 Protein if missing
+    if (!hasProtein && candidates.protein.length > 0 && currentCount + itemsToAdd < maxItems) {
         const item = getRandom(candidates.protein);
         addFoodToCard(card, item.name, item.emoji, item.category, true);
+        itemsToAdd++;
     }
 
-    // 4. Randomly add 1 Soup (50% chance to reach 4 items)
-    if (candidates.soup.length > 0 && Math.random() > 0.5) {
+    // 4. Randomly add 1 Soup (50% chance) if missing
+    if (!hasSoup && candidates.soup.length > 0 && Math.random() > 0.5 && currentCount + itemsToAdd < maxItems) {
         const item = getRandom(candidates.soup);
         addFoodToCard(card, item.name, item.emoji, item.category, true);
+        itemsToAdd++;
     }
 }
 
