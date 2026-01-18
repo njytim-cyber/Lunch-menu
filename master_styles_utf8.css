@@ -1,0 +1,1286 @@
+﻿/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #ffffff;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Tab Navigation */
+.tab-navigation {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+.tab-icon {
+    font-size: 20px;
+}
+
+/* Page Styles */
+.page {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Page Header - Compact with inline actions */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    margin: 0;
+}
+
+.title-icon {
+    font-size: 28px;
+}
+
+/* Compact Header Action Buttons */
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+.action-icon {
+    font-size: 20px;
+}
+
+.share-btn-native {
+    background: rgba(102, 126, 234, 0.2);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.share-btn-native:hover {
+    background: rgba(102, 126, 234, 0.4);
+}
+
+.share-btn-native svg {
+    width: 20px;
+    height: 20px;
+}
+
+.suggest-btn {
+    background: rgba(255, 193, 7, 0.2);
+    border-color: rgba(255, 193, 7, 0.3);
+}
+
+.suggest-btn:hover {
+    background: rgba(255, 193, 7, 0.4);
+}
+
+.suggest-btn .action-icon {
+    font-size: 20px;
+}
+
+.clear-btn {
+    background: rgba(255, 75, 75, 0.2);
+    border-color: rgba(255, 75, 75, 0.3);
+}
+
+.clear-btn:hover {
+    background: rgba(255, 75, 75, 0.4);
+}
+
+/* Day Cards Grid */
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+/* Day Card - Unified Component */
+.day-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.day-card:hover {
+    border-color: rgba(102, 126, 234, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.day-card:active {
+    transform: translateY(0);
+}
+
+.day-card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 10px 15px;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Desktop Selection State */
+.day-card.selected {
+    border: 2px solid #667eea;
+    box-shadow: 0 0 15px rgba(102, 126, 234, 0.4);
+    transform: translateY(-2px);
+}
+
+.day-card-content {
+    padding: 10px;
+    min-height: 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    align-items: start;
+}
+
+/* Add Food Button (Empty State) */
+.add-food-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.day-card:hover .add-food-btn {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.add-icon {
+    width: 40px;
+    height: 40px;
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.3s ease;
+}
+
+.day-card:hover .add-icon {
+    border-color: rgba(102, 126, 234, 0.6);
+    color: #667eea;
+}
+
+.add-text {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Food Item in Day Card - Grid Equal Width */
+.day-card .food-item {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 8px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+}
+
+.day-card .food-item .food-emoji {
+    font-size: 28px;
+}
+
+.day-card .food-item .food-name {
+    font-size: 10px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.2;
+    word-wrap: break-word;
+}
+
+.day-card .food-item .remove-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+    color: white;
+    border: none;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    box-shadow: 0 2px 6px rgba(255, 65, 108, 0.4);
+}
+
+.day-card:hover .food-item .remove-btn {
+    opacity: 1;
+}
+
+/* Dinner Cards - Grid layout */
+.dinner-card .day-card-content {
+    min-height: 80px;
+    gap: 6px;
+}
+
+.dinner-card .food-item {
+    padding: 6px 4px;
+}
+
+.dinner-card .food-item .food-emoji {
+    font-size: 24px;
+}
+
+.dinner-card .food-item .food-name {
+    font-size: 9px;
+}
+
+/* Has Items State */
+.day-card.has-items .add-food-btn {
+    display: none;
+}
+
+.day-card:not(.has-items) .food-item {
+    display: none;
+}
+
+/* Desktop Food Container */
+.food-container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Compact Header - Dark Theme */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #1e2a4a 0%, #16213e 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.toggle-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px;
+    border-radius: 12px;
+    display: flex;
+    gap: 4px;
+}
+
+.toggle-btn {
+    border: none;
+    background: transparent;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.toggle-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.toggle-icon {
+    font-size: 16px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.action-btn svg {
+    fill: white;
+}
+
+/* Hide Nav Tabs (Old) */
+.nav-tabs {
+    display: none;
+}
+
+.food-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.food-icon {
+    font-size: 24px;
+}
+
+/* Category Tabs */
+.category-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+}
+
+.category-tab {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-tab:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.category-tab.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Food Items Grid */
+.food-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    min-height: 100px;
+    align-content: flex-start;
+}
+
+/* Food Item */
+.food-item {
+    width: 120px;
+    min-height: 120px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    user-select: none;
+}
+
+.food-item:hover {
+    transform: translateY(-3px) scale(1.03);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(102, 126, 234, 0.5);
+}
+
+.food-item:active {
+    transform: scale(0.97);
+}
+
+.food-item .food-emoji {
+    font-size: 40px;
+    margin-bottom: 8px;
+}
+
+.food-item .food-name {
+    font-size: 11px;
+    text-align: center;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.3;
+}
+
+/* ============================================
+   BOTTOM SHEET STYLES
+   ============================================ */
+
+.bottom-sheet-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.bottom-sheet-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, #1e2a4a 0%, #16213e 100%);
+    border-radius: 24px 24px 0 0;
+    z-index: 999;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+    max-height: 75vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.bottom-sheet.active {
+    transform: translateY(0);
+}
+
+.bottom-sheet-handle {
+    width: 40px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    margin: 12px auto;
+}
+
+.bottom-sheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bottom-sheet-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.close-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.bottom-sheet-close {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.bottom-sheet-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.bottom-sheet-categories {
+    padding: 15px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 16px;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-tab {
+    padding: 10px 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    width: auto;
+    min-width: 65px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+}
+
+.category-tab:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.category-tab.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
+}
+
+.category-tab .tab-count {
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+.bottom-sheet-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 20px 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+    align-content: start;
+}
+
+.bottom-sheet-content .food-item {
+    width: 100%;
+    min-height: 100px;
+}
+
+.bottom-sheet-content .food-item .food-emoji {
+    font-size: 36px;
+}
+
+.bottom-sheet-content .food-item .food-name {
+    font-size: 10px;
+}
+
+/* ============================================
+   RESPONSIVE STYLES - 4 Tier Breakpoint System
+   ============================================
+   Phone:       <600px   - 2 columns, compact
+   Large Phone: 600-767px - 3 columns, compact
+   Tablet:      768-1023px - 4 columns, medium
+   Desktop:     ÔëÑ1024px  - 7 columns, full + inline food
+   ============================================ */
+
+/* Base Mobile Styles (Phone < 600px) */
+@media (max-width: 599px) {
+    .desktop-only {
+        display: none !important;
+    }
+
+    body {
+        padding: 12px;
+    }
+
+    .days-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .day-card-header {
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+
+    .day-card-content {
+        padding: 10px 8px;
+        min-height: 60px;
+    }
+
+    /* Lunch - center single item, consistent height */
+    .lunch-card .day-card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 95px;
+    }
+
+    .lunch-card .food-item {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 8px 16px;
+    }
+
+    .lunch-card .food-item .food-emoji {
+        font-size: 32px;
+    }
+
+    .lunch-card .food-item .food-name {
+        font-size: 11px;
+    }
+
+    /* Dinner - 2x2 grid, compact height */
+    .dinner-card .day-card-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+        min-height: 80px;
+    }
+
+    .dinner-card .food-item {
+        width: 100%;
+        padding: 6px 4px;
+    }
+
+    .dinner-card .food-item .food-emoji {
+        font-size: 20px;
+    }
+
+    .dinner-card .food-item .food-name {
+        font-size: 9px;
+        line-height: 1.2;
+    }
+
+    .add-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+    }
+
+    .add-text {
+        font-size: 10px;
+    }
+
+    .app-header {
+        padding: 10px 12px;
+    }
+
+    .toggle-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    .action-btn {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* Large Phone (600px - 767px) */
+@media (min-width: 600px) and (max-width: 767px) {
+    .desktop-only {
+        display: none !important;
+    }
+
+    body {
+        padding: 15px;
+    }
+
+    .days-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .day-card-header {
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+
+    .day-card-content {
+        padding: 12px 10px;
+        min-height: 70px;
+    }
+
+    /* Lunch - center single item, consistent height */
+    .lunch-card .day-card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 105px;
+    }
+
+    .lunch-card .food-item {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 10px 20px;
+    }
+
+    .lunch-card .food-item .food-emoji {
+        font-size: 34px;
+    }
+
+    /* Dinner - 2x2 grid, compact height */
+    .dinner-card .day-card-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        min-height: 90px;
+    }
+
+    .dinner-card .food-item .food-emoji {
+        font-size: 22px;
+    }
+
+    .dinner-card .food-item .food-name {
+        font-size: 10px;
+    }
+
+    .add-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+    }
+
+    .add-text {
+        font-size: 11px;
+    }
+}
+
+/* Tablet (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .desktop-only {
+        display: none !important;
+    }
+
+    body {
+        padding: 20px;
+    }
+
+    .days-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+    }
+
+    .day-card {
+        border-radius: 18px;
+    }
+
+    .day-card-header {
+        padding: 12px 14px;
+        font-size: 13px;
+    }
+
+    .day-card-content {
+        padding: 14px 12px;
+        min-height: 80px;
+    }
+
+    /* Lunch - center single item, consistent height */
+    .lunch-card .day-card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 120px;
+    }
+
+    .lunch-card .food-item {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 12px 24px;
+    }
+
+    .lunch-card .food-item .food-emoji {
+        font-size: 36px;
+    }
+
+    /* Dinner - 2x2 grid, compact height */
+    .dinner-card .day-card-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        min-height: 100px;
+    }
+
+    .dinner-card .food-item .food-emoji {
+        font-size: 24px;
+    }
+
+    .dinner-card .food-item .food-name {
+        font-size: 11px;
+    }
+
+    .add-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 22px;
+    }
+
+    .add-text {
+        font-size: 12px;
+    }
+
+    .app-header {
+        padding: 14px 20px;
+    }
+
+    .toggle-btn {
+        padding: 10px 18px;
+        font-size: 15px;
+    }
+
+    .action-btn {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Desktop (ÔëÑ1024px) - Full 7-day view with inline food container */
+@media (min-width: 1024px) {
+    body {
+        padding: 25px;
+    }
+
+    .days-grid {
+        grid-template-columns: repeat(7, 1fr);
+        gap: 15px;
+    }
+
+    .day-card {
+        border-radius: 20px;
+    }
+
+    .day-card-header {
+        padding: 14px 16px;
+        font-size: 14px;
+    }
+
+    .day-card-content {
+        padding: 18px 14px;
+        min-height: 110px;
+    }
+
+    /* Lunch cards (1 item) - center and enlarge single item */
+    .lunch-card .day-card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        grid-template-columns: none;
+    }
+
+    .lunch-card .food-item {
+        width: 80%;
+        max-width: 100px;
+        padding: 12px 8px;
+    }
+
+    .lunch-card .food-item .food-emoji {
+        font-size: 36px;
+    }
+
+    .lunch-card .food-item .food-name {
+        font-size: 12px;
+    }
+
+    /* Dinner cards (4 items) - stack vertically */
+    .dinner-card .day-card-content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        grid-template-columns: none;
+        align-items: stretch;
+    }
+
+    .dinner-card .food-item {
+        width: 100%;
+        flex-direction: row;
+        padding: 8px 12px;
+        gap: 10px;
+        justify-content: flex-start;
+    }
+
+    .dinner-card .food-item .food-emoji {
+        font-size: 22px;
+    }
+
+    .dinner-card .food-item .food-name {
+        font-size: 11px;
+        text-align: left;
+    }
+
+    .add-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 24px;
+    }
+
+    .add-text {
+        font-size: 13px;
+    }
+
+    .app-header {
+        padding: 16px 24px;
+    }
+
+    .toggle-btn {
+        padding: 12px 24px;
+        font-size: 16px;
+    }
+
+    .action-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* Food container - hidden by default, shown when active */
+    .food-container {
+        display: none;
+    }
+
+    .food-container.active {
+        display: block;
+    }
+
+    /* Drag and drop for desktop */
+    .food-item[draggable="true"] {
+        cursor: grab;
+    }
+
+    .food-item[draggable="true"]:active {
+        cursor: grabbing;
+    }
+
+    .food-item.dragging {
+        opacity: 0.5;
+        transform: scale(0.9);
+    }
+
+    .day-card.drag-over {
+        border-color: #667eea;
+        background: rgba(102, 126, 234, 0.2);
+        box-shadow: 0 0 30px rgba(102, 126, 234, 0.4);
+    }
+}
+
+/* ============================================
+   TOAST NOTIFICATION
+   ============================================ */
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-weight: 500;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.toast.success {
+    background: linear-gradient(135deg, #00c9ff 0%, #92fe9d 100%);
+    color: #1a1a2e;
+}
+
+.toast.error {
+    background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+    color: white;
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.5);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(102, 126, 234, 0.7);
+}
+
+/* Version Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s ease;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    margin: 0;
+    background: linear-gradient(135deg, #4f46e5, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.feature-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.feature-icon {
+    font-size: 24px;
+    background: #f1f5f9;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+.feature-text strong {
+    display: block;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.feature-text p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.modal-btn {
+    width: 100%;
+    padding: 14px;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.modal-btn:active {
+    transform: scale(0.98);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

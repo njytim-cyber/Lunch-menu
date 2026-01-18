@@ -1,105 +1,60 @@
 import { showToast } from './ui.js';
 
-/**
- * Get the date for a given day of next week
- * @param {number} dayIndex - 0 = Monday, 6 = Sunday
- * @returns {Date}
- */
-function getDateForDay(dayIndex) {
-    const today = new Date();
-    const currentDay = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
-    // Convert to Monday-based (0 = Monday, 6 = Sunday)
-    const mondayBased = currentDay === 0 ? 6 : currentDay - 1;
-    // Calculate next Monday (days until next Monday)
-    const daysUntilNextMonday = (7 - mondayBased) % 7 || 7;
-    const nextMonday = new Date(today);
-    nextMonday.setDate(today.getDate() + daysUntilNextMonday);
-    // Add the day index to get the target day of next week
-    const date = new Date(nextMonday);
-    date.setDate(nextMonday.getDate() + dayIndex);
-    return date;
-}
-
-/**
- * Format date as dd mmm yy (e.g., "11 Jan 26")
- * @param {Date} date
- * @returns {string}
- */
-function formatDate(date) {
-    const day = String(date.getDate()).padStart(2, '0');
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const month = months[date.getMonth()];
-    const year = String(date.getFullYear()).slice(-2);
-    return `${day} ${month} ${year}`;
-}
-
-export function generateMealPlanText() {
+function generateMealPlanForType(mealType) {
     const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-    const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const page = document.getElementById(`${mealType}-page`);
 
-    const lunchPage = document.getElementById('lunch-page');
-    const dinnerPage = document.getElementById('dinner-page');
-
-    // Calculate date range (Monday to Sunday of next week)
-    const mondayDate = getDateForDay(0);
-    const sundayDate = getDateForDay(6);
-    const dateRange = `${formatDate(mondayDate)} - ${formatDate(sundayDate)}`;
-
-    let mealPlanText = `Weekly Menus\n`;
-    mealPlanText += `${dateRange}\n`;
-    mealPlanText += '═'.repeat(30) + '\n\n';
-
+    let mealPlanText = '';
     let hasAnyItems = false;
 
     days.forEach((day, index) => {
-        const lunchCard = lunchPage.querySelector(`.day-card[data-day="${day}"]`);
-        const dinnerCard = dinnerPage.querySelector(`.day-card[data-day="${day}"]`);
+        const card = page.querySelector(`.day-card[data-day="${day}"]`);
+        const items = card.querySelectorAll('.day-card-content .food-item');
 
-        const lunchItems = lunchCard.querySelectorAll('.day-card-content .food-item');
-        const dinnerItems = dinnerCard.querySelectorAll('.day-card-content .food-item');
-
-        // Get date for this day
-        const dayDate = getDateForDay(index);
-        const formattedDate = formatDate(dayDate);
-
-        // Day header with date
-        mealPlanText += `${dayNames[index]} (${formattedDate})\n`;
-
-        // Lunch section
-        mealPlanText += `  Lunch:\n`;
-        if (lunchItems.length > 0) {
+        if (items.length > 0) {
             hasAnyItems = true;
-            lunchItems.forEach(item => {
+            mealPlanText += `${dayNames[index]}:\n`;
+            items.forEach(item => {
                 const emoji = item.querySelector('.food-emoji')?.textContent || '🍽️';
                 const name = item.querySelector('.food-name')?.textContent || 'Unknown';
-                mealPlanText += `    ${emoji} ${name}\n`;
+                mealPlanText += `  ${emoji} ${name}\n`;
             });
+            mealPlanText += '\n';
         } else {
-            mealPlanText += `    (not planned)\n`;
+            mealPlanText += `${dayNames[index]}: (not planned)\n\n`;
         }
-
-        // Dinner section
-        mealPlanText += `  Dinner:\n`;
-        if (dinnerItems.length > 0) {
-            hasAnyItems = true;
-            dinnerItems.forEach(item => {
-                const emoji = item.querySelector('.food-emoji')?.textContent || '🍽️';
-                const name = item.querySelector('.food-name')?.textContent || 'Unknown';
-                mealPlanText += `    ${emoji} ${name}\n`;
-            });
-        } else {
-            mealPlanText += `    (not planned)\n`;
-        }
-
-        mealPlanText += '\n';
     });
 
-    if (!hasAnyItems) return null;
+    return { text: mealPlanText, hasItems: hasAnyItems };
+}
 
-    mealPlanText += '═'.repeat(30) + '\n';
-    mealPlanText += '🍽️ Made with Weekly Meal Planner';
+export function generateMealPlanText() {
+    // Generate both lunch and dinner
+    const lunchPlan = generateMealPlanForType('lunch');
+    const dinnerPlan = generateMealPlanForType('dinner');
 
-    return mealPlanText;
+    if (!lunchPlan.hasItems && !dinnerPlan.hasItems) {
+        return null;
+    }
+
+    let fullText = '📅 Weekly Meal Plan\n';
+    fullText += '═'.repeat(30) + '\n\n';
+
+    // Add Lunch section
+    fullText += '☀️ LUNCH\n';
+    fullText += '─'.repeat(20) + '\n';
+    fullText += lunchPlan.text;
+
+    // Add Dinner section
+    fullText += '🌙 DINNER\n';
+    fullText += '─'.repeat(20) + '\n';
+    fullText += dinnerPlan.text;
+
+    fullText += '═'.repeat(30) + '\n';
+    fullText += '🍽️ Made with Weekly Meal Planner';
+
+    return fullText;
 }
 
 export function shareMealPlan() {
@@ -125,7 +80,7 @@ export function shareNative() {
 
     if (navigator.share) {
         navigator.share({
-            title: 'Weekly Menus',
+            title: 'Weekly Meal Plan',
             text: text,
         })
             .then(() => console.log('Successful share'))
@@ -133,6 +88,6 @@ export function shareNative() {
     } else {
         // Fallback for browsers that don't support share API
         shareMealPlan();
-        showToast('Meal plan copied to clipboard! 📋', 'info');
+        showToast('Opened copy fallback (Share API not supported)', 'info');
     }
 }
