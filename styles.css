@@ -2988,12 +2988,29 @@ body.light-theme .toggle-btn.active {
 }
 
 body.light-theme .toolbar-btn {
-    background: #f1f5f9;
-    border-color: #e2e8f0;
+    background: transparent;
+    border: none;
+    color: #64748b;
+    width: 38px;
+    height: 38px;
 }
 
 body.light-theme .toolbar-btn:hover {
-    background: #e2e8f0;
+    background: rgba(79, 172, 254, 0.1);
+    color: #4facfe;
+}
+
+body.light-theme .toolbar-btn-danger:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+body.light-theme .action-toolbar {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    padding: 3px 4px;
+    gap: 1px;
 }
 
 /* Theme toggle in light mode */
