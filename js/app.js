@@ -65,6 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 10. Initialize theme
     initTheme();
+
+    // 11. CTA glow on first empty card
+    setTimeout(updateCtaGlow, 300); // after state restores
+
+    // Re-apply CTA after tab switches
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => setTimeout(updateCtaGlow, 50));
+    });
 });
 
 // Re-init drag on resize
@@ -303,6 +311,7 @@ window.shareGroceryList = shareGroceryList;
 window.navigateWeek = navigateWeek;
 window.toggleTheme = toggleTheme;
 window.toggleHamburger = toggleHamburger;
+window.updateCtaGlow = updateCtaGlow;
 
 // ============================================
 // WEEK NAVIGATION
@@ -388,6 +397,43 @@ document.addEventListener('click', (e) => {
         if (btn) btn.classList.remove('active');
     }
 });
+
+// ============================================
+// CTA GLOW — First Empty Day Card
+// ============================================
+
+function updateCtaGlow() {
+    // Remove CTA from all cards first
+    document.querySelectorAll('.day-card.cta-glow').forEach(card => {
+        card.classList.remove('cta-glow');
+        // Restore original text
+        const addText = card.querySelector('.add-text');
+        if (addText && addText.dataset.originalText) {
+            addText.textContent = addText.dataset.originalText;
+        }
+    });
+
+    // Find the active page
+    const activePage = document.querySelector('.page.active');
+    if (!activePage) return;
+
+    // Find first empty day card on the active page
+    const dayCards = activePage.querySelectorAll('.day-card');
+    for (const card of dayCards) {
+        if (!card.classList.contains('has-items')) {
+            card.classList.add('cta-glow');
+            const addText = card.querySelector('.add-text');
+            if (addText) {
+                // Save original text for restore
+                if (!addText.dataset.originalText) {
+                    addText.dataset.originalText = addText.textContent;
+                }
+                addText.textContent = 'Fill a dish here!';
+            }
+            break; // Only glow the first empty one
+        }
+    }
+}
 
 // ============================================
 // SERVICE WORKER REGISTRATION

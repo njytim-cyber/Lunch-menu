@@ -268,24 +268,14 @@ body {
 
 .day-card-header::after {
     content: '+';
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
-    background: rgba(255, 255, 255, 0.25);
-    color: #fff;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-    line-height: 1;
+    opacity: 0.6;
+    transition: opacity 0.2s;
 }
 
 .day-card:hover .day-card-header::after {
-    background: rgba(255, 255, 255, 0.45);
-    transform: scale(1.15);
+    opacity: 1;
 }
 
 .day-card-content {
@@ -335,6 +325,58 @@ body {
 .add-text {
     font-size: 12px;
     font-weight: 500;
+}
+
+/* ============================================
+   CTA GLOW — First Empty Day Card
+   ============================================ */
+
+@keyframes ctaPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 8px rgba(79, 172, 254, 0.3), 0 0 20px rgba(0, 210, 255, 0.15);
+        border-color: rgba(79, 172, 254, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 16px rgba(79, 172, 254, 0.5), 0 0 40px rgba(0, 210, 255, 0.25);
+        border-color: rgba(79, 172, 254, 0.8);
+    }
+}
+
+.day-card.cta-glow {
+    animation: ctaPulse 2.5s ease-in-out infinite;
+    border: 2px solid rgba(79, 172, 254, 0.5);
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
+.day-card.cta-glow .add-food-btn {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.day-card.cta-glow .add-icon {
+    border-color: rgba(79, 172, 254, 0.6);
+    color: #4facfe;
+    font-size: 28px;
+    width: 48px;
+    height: 48px;
+}
+
+.day-card.cta-glow .add-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #4facfe;
+}
+
+/* Light theme CTA */
+body.light-theme .day-card.cta-glow .add-food-btn {
+    color: #334155;
+}
+
+body.light-theme .day-card.cta-glow .add-text {
+    color: #0891b2;
 }
 
 /* Food Item in Day Card - Grid Equal Width */

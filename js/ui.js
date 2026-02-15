@@ -671,6 +671,10 @@ function updateDayCardState(dayCard) {
     } else {
         dayCard.classList.remove('has-items');
     }
+    // Re-target CTA glow to next empty card
+    if (typeof window.updateCtaGlow === 'function') {
+        window.updateCtaGlow();
+    }
 }
 
 // ============================================
