@@ -68,6 +68,12 @@
             </div>
         </div>
 
+        <!-- Week Navigation -->
+        <div class="week-nav" id="weekNav">
+            <button class="week-nav-btn" id="weekPrev" onclick="navigateWeek(-1)" title="Previous Week">‹</button>
+            <span class="week-label" id="weekLabel">This Week</span>
+            <button class="week-nav-btn" id="weekNext" onclick="navigateWeek(1)" title="Next Week">›</button>
+        </div>
 
 
         <!-- Nutrition Summary Panel -->
@@ -482,6 +488,9 @@
         <div class="bottom-sheet-header">
             <h3 class="bottom-sheet-title">Add Lunch</h3>
             <button class="close-btn" id="closeBottomSheet">×</button>
+        </div>
+        <div class="bottom-sheet-search">
+            <input type="text" id="bottomSheetSearch" placeholder="🔍 Search dishes..." autocomplete="off">
         </div>
         <div class="bottom-sheet-categories" id="bottomSheetTabs">
             <!-- Tabs injected by JS -->

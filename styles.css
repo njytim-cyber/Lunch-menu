@@ -741,6 +741,78 @@ body {
     background: rgba(255, 255, 255, 0.2);
 }
 
+/* Bottom sheet search bar */
+.bottom-sheet-search {
+    padding: 0.5rem 1.25rem;
+}
+
+.bottom-sheet-search input {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-size: 0.95rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.bottom-sheet-search input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.bottom-sheet-search input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+/* Week Navigation */
+.week-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem 0 0.25rem;
+}
+
+.week-nav-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.25s ease;
+}
+
+.week-nav-btn:hover {
+    background: rgba(102, 126, 234, 0.25);
+    color: #fff;
+    border-color: rgba(102, 126, 234, 0.4);
+    transform: scale(1.1);
+}
+
+.week-nav-btn:active {
+    transform: scale(0.95);
+}
+
+.week-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    min-width: 180px;
+    text-align: center;
+    letter-spacing: 0.3px;
+    transition: opacity 0.2s;
+}
+
 .bottom-sheet-tabs {
     padding: 15px 20px;
     display: flex;

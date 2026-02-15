@@ -59,6 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 8. Initialize keyboard shortcuts
     initKeyboardShortcuts();
+
+    // 9. Initialize week navigation
+    updateWeekLabel();
 });
 
 // Re-init drag on resize
@@ -294,6 +297,44 @@ window.showGroceryModal = showGroceryModal;
 window.closeGroceryModal = closeGroceryModal;
 window.copyGroceryList = copyGroceryList;
 window.shareGroceryList = shareGroceryList;
+window.navigateWeek = navigateWeek;
+
+// ============================================
+// WEEK NAVIGATION
+// ============================================
+
+let weekOffset = 0;
+
+function navigateWeek(dir) {
+    weekOffset += dir;
+    updateWeekLabel();
+}
+
+function updateWeekLabel() {
+    const label = document.getElementById('weekLabel');
+    if (!label) return;
+
+    const now = new Date();
+    // Get Monday of the target week
+    const dayOfWeek = now.getDay(); // 0=Sun, 1=Mon...
+    const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+    const monday = new Date(now);
+    monday.setDate(now.getDate() + mondayOffset + (weekOffset * 7));
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+
+    const fmt = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+    if (weekOffset === 0) {
+        label.textContent = `This Week · ${fmt(monday)} – ${fmt(sunday)}`;
+    } else if (weekOffset === 1) {
+        label.textContent = `Next Week · ${fmt(monday)} – ${fmt(sunday)}`;
+    } else if (weekOffset === -1) {
+        label.textContent = `Last Week · ${fmt(monday)} – ${fmt(sunday)}`;
+    } else {
+        label.textContent = `${fmt(monday)} – ${fmt(sunday)}`;
+    }
+}
 
 // ============================================
 // SERVICE WORKER REGISTRATION

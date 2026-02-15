@@ -285,6 +285,15 @@ export function openBottomSheet(dayCard) {
     const mealLabel = mealType === 'lunch' ? 'Lunch' : mealType === 'dinner' ? 'Dinner' : mealType === 'snacks' ? 'Snacks' : 'Breakfast';
     document.querySelector('.bottom-sheet-title').textContent = `Add ${mealLabel} for ${dayName}`;
 
+    // Clear and set up search
+    const searchInput = document.getElementById('bottomSheetSearch');
+    if (searchInput) {
+        searchInput.value = '';
+        searchInput.oninput = () => {
+            filterBottomSheetItems(searchInput.value.trim().toLowerCase());
+        };
+    }
+
     // Populate category tabs
     populateBottomSheetTabs(mealType);
 
@@ -297,11 +306,21 @@ export function openBottomSheet(dayCard) {
     document.body.style.overflow = 'hidden';
 }
 
+function filterBottomSheetItems(query) {
+    const items = bottomSheetContent.querySelectorAll('.food-item:not(.add-new-dish-item)');
+    items.forEach(item => {
+        const name = (item.dataset.name || '').toLowerCase();
+        item.style.display = name.includes(query) ? '' : 'none';
+    });
+}
+
 export function closeBottomSheet() {
     bottomSheet.classList.remove('active');
     bottomSheetOverlay.classList.remove('active');
     document.body.style.overflow = '';
     currentDayCard = null;
+    const searchInput = document.getElementById('bottomSheetSearch');
+    if (searchInput) searchInput.value = '';
 }
 
 // Set up close listeners
