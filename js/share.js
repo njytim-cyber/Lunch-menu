@@ -30,16 +30,23 @@ function generateMealPlanForType(mealType) {
 }
 
 export function generateMealPlanText() {
-    // Generate both lunch and dinner
+    // Generate breakfast, lunch, dinner and snacks
+    const breakfastPlan = generateMealPlanForType('breakfast');
     const lunchPlan = generateMealPlanForType('lunch');
     const dinnerPlan = generateMealPlanForType('dinner');
+    const snacksPlan = generateMealPlanForType('snacks');
 
-    if (!lunchPlan.hasItems && !dinnerPlan.hasItems) {
+    if (!breakfastPlan.hasItems && !lunchPlan.hasItems && !dinnerPlan.hasItems && !snacksPlan.hasItems) {
         return null;
     }
 
     let fullText = '📅 Weekly Meal Plan\n';
     fullText += '═'.repeat(30) + '\n\n';
+
+    // Add Breakfast section
+    fullText += '🌅 BREAKFAST\n';
+    fullText += '─'.repeat(20) + '\n';
+    fullText += breakfastPlan.text;
 
     // Add Lunch section
     fullText += '☀️ LUNCH\n';
@@ -50,6 +57,11 @@ export function generateMealPlanText() {
     fullText += '🌙 DINNER\n';
     fullText += '─'.repeat(20) + '\n';
     fullText += dinnerPlan.text;
+
+    // Add Snacks section
+    fullText += '🍿 SNACKS\n';
+    fullText += '─'.repeat(20) + '\n';
+    fullText += snacksPlan.text;
 
     fullText += '═'.repeat(30) + '\n';
     fullText += '🍽️ Made with Weekly Meal Planner';

@@ -1,4 +1,4 @@
-import { foodData, mealPlan, addItemToState, removeItemFromState, addCustomDish, removeCustomDish, getRecipe, setRecipe, toggleLockItem, isItemLocked, reorderItems } from './state.js';
+import { foodData, mealPlan, addItemToState, removeItemFromState, addCustomDish, removeCustomDish, getRecipe, setRecipe, toggleLockItem, isItemLocked, reorderItems, toggleFavorite, isFavorite } from './state.js';
 
 // ============================================
 // DOM ELEMENTS
@@ -282,7 +282,8 @@ export function openBottomSheet(dayCard) {
 
     // Update title
     const dayName = dayCard.dataset.day.charAt(0).toUpperCase() + dayCard.dataset.day.slice(1);
-    document.querySelector('.bottom-sheet-title').textContent = `Add ${mealType === 'lunch' ? 'Lunch' : 'Dinner'} for ${dayName}`;
+    const mealLabel = mealType === 'lunch' ? 'Lunch' : mealType === 'dinner' ? 'Dinner' : mealType === 'snacks' ? 'Snacks' : 'Breakfast';
+    document.querySelector('.bottom-sheet-title').textContent = `Add ${mealLabel} for ${dayName}`;
 
     // Populate category tabs
     populateBottomSheetTabs(mealType);
@@ -375,7 +376,9 @@ function populateBottomSheetContent(mealType, category) {
         addBtn.addEventListener('click', () => {
             closeBottomSheet();
             // Trigger the corresponding desktop button to open modal
-            const btnId = mealType === 'lunch' ? 'addLunchDishBtn' : 'addDinnerDishBtn';
+            const btnId = mealType === 'lunch' ? 'addLunchDishBtn' :
+                mealType === 'dinner' ? 'addDinnerDishBtn' :
+                    mealType === 'snacks' ? 'addSnacksDishBtn' : 'addBreakfastDishBtn';
             const btn = document.getElementById(btnId);
             if (btn) btn.click();
         });
@@ -858,8 +861,10 @@ export function renderSavedState() {
 // ============================================
 
 export function initDesktopSidebars() {
+    populateDesktopSidebar('breakfast');
     populateDesktopSidebar('lunch');
     populateDesktopSidebar('dinner');
+    populateDesktopSidebar('snacks');
 }
 
 export function populateDesktopSidebar(mealType) {
@@ -868,15 +873,31 @@ export function populateDesktopSidebar(mealType) {
 
     const items = foodData[mealType];
     container.innerHTML = items.map(item => `
-        <div class="food-item" 
+        <div class="food-item ${isFavorite(mealType, item.name) ? 'is-favorite' : ''}" 
              draggable="true"
              data-name="${item.name}" 
              data-emoji="${item.emoji}" 
              data-category="${item.category}">
             <span class="food-emoji">${item.emoji}</span>
             <span class="food-name">${item.name}</span>
+            <button class="favorite-btn" data-meal="${mealType}" data-item="${item.name}" title="Toggle Favorite">
+                ${isFavorite(mealType, item.name) ? '⭐' : '☆'}
+            </button>
         </div>
     `).join('');
+
+    // Add favorite button handlers
+    container.querySelectorAll('.favorite-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const meal = btn.dataset.meal;
+            const itemName = btn.dataset.item;
+            const isNowFav = toggleFavorite(meal, itemName);
+            btn.textContent = isNowFav ? '⭐' : '☆';
+            btn.closest('.food-item').classList.toggle('is-favorite', isNowFav);
+            showToast(isNowFav ? `⭐ Added to favorites!` : `☆ Removed from favorites`, 'info');
+        });
+    });
 
     // Add listeners
     container.querySelectorAll('.food-item').forEach(item => {
@@ -969,10 +990,10 @@ export function initAddDishModal() {
         setTimeout(() => nameInput.focus(), 100);
     };
 
-    const desktopLunchBtn = document.getElementById('addLunchDishBtn');
-    const desktopDinnerBtn = document.getElementById('addDinnerDishBtn');
-    if (desktopLunchBtn) desktopLunchBtn.addEventListener('click', openHandlers);
-    if (desktopDinnerBtn) desktopDinnerBtn.addEventListener('click', openHandlers);
+    // Attach to ALL add-dish buttons (breakfast, lunch, dinner, snacks)
+    document.querySelectorAll('.add-dish-btn').forEach(btn => {
+        btn.addEventListener('click', openHandlers);
+    });
 
     const close = () => modal.classList.remove('active');
     if (closeX) closeX.addEventListener('click', close);

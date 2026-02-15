@@ -25,6 +25,7 @@ import {
     loadSavedTemplate
 } from './templates.js';
 import { APP_VERSION } from './version.js';
+import { showGroceryModal, closeGroceryModal, copyGroceryList, shareGroceryList } from './grocery.js';
 
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
@@ -52,6 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 6. Check Version
     checkVersion();
+
+    // 7. Register Service Worker for PWA
+    registerServiceWorker();
+
+    // 8. Initialize keyboard shortcuts
+    initKeyboardShortcuts();
 });
 
 // Re-init drag on resize
@@ -194,7 +201,9 @@ setTimeout(() => {
 // ============================================
 
 function toggleFoodDrawer(mealType) {
-    const drawerId = mealType === 'lunch' ? 'lunchFoodDrawer' : 'dinnerFoodDrawer';
+    const drawerId = mealType === 'lunch' ? 'lunchFoodDrawer' :
+        mealType === 'dinner' ? 'dinnerFoodDrawer' :
+            mealType === 'snacks' ? 'snacksFoodDrawer' : 'breakfastFoodDrawer';
     const drawer = document.getElementById(drawerId);
     if (drawer) {
         drawer.classList.toggle('expanded');
@@ -279,3 +288,161 @@ window.closeTemplatesModal = closeTemplatesModal;
 window.startCreatingTemplate = startCreatingTemplate;
 window.saveNewTemplate = saveNewTemplate;
 window.loadSavedTemplate = loadSavedTemplate;
+window.exportData = exportData;
+window.importData = importData;
+window.showGroceryModal = showGroceryModal;
+window.closeGroceryModal = closeGroceryModal;
+window.copyGroceryList = copyGroceryList;
+window.shareGroceryList = shareGroceryList;
+
+// ============================================
+// SERVICE WORKER REGISTRATION
+// ============================================
+
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                console.log('SW registered:', registration.scope);
+            })
+            .catch((error) => {
+                console.log('SW registration failed:', error);
+            });
+    }
+}
+
+// ============================================
+// KEYBOARD SHORTCUTS
+// ============================================
+
+function initKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+        // Ignore if typing in input/textarea
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        // Ignore if modal is open
+        const activeModal = document.querySelector('.modal.active, .modal-overlay.active');
+        if (activeModal) return;
+
+        switch (e.key) {
+            case '1':
+                switchToTab('breakfast');
+                break;
+            case '2':
+                switchToTab('lunch');
+                break;
+            case '3':
+                switchToTab('dinner');
+                break;
+            case '4':
+                switchToTab('snacks');
+                break;
+            case 's':
+            case 'S':
+                if (!e.ctrlKey && !e.metaKey) {
+                    e.preventDefault();
+                    handleGlobalSuggest();
+                }
+                break;
+            case 'c':
+            case 'C':
+                if (!e.ctrlKey && !e.metaKey) {
+                    e.preventDefault();
+                    handleGlobalClear();
+                }
+                break;
+            case '?':
+                e.preventDefault();
+                showHelpModal();
+                break;
+            case 'Escape':
+                closeHelpModal();
+                closeTemplatesModal();
+                break;
+        }
+    });
+}
+
+function switchToTab(tabName) {
+    const btn = document.querySelector(`.toggle-btn[data-tab="${tabName}"]`);
+    if (btn) btn.click();
+}
+
+// ============================================
+// DATA EXPORT/IMPORT
+// ============================================
+
+function exportData() {
+    const data = {
+        version: APP_VERSION,
+        exportDate: new Date().toISOString(),
+        mealPlan: JSON.parse(localStorage.getItem('weeklyMealPlan_v1') || '{}'),
+        customDishes: JSON.parse(localStorage.getItem('customDishes_v1') || '{}'),
+        recipes: JSON.parse(localStorage.getItem('recipes_v1') || '{}'),
+        templates: JSON.parse(localStorage.getItem('mealTemplates_v1') || '[]')
+    };
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `food-menu-backup-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    showToast('📥 Data exported!', 'success');
+}
+
+function importData() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const data = JSON.parse(event.target.result);
+
+                // Validate structure
+                if (!data.mealPlan) {
+                    showToast('Invalid backup file!', 'error');
+                    return;
+                }
+
+                // Restore data
+                if (data.mealPlan) localStorage.setItem('weeklyMealPlan_v1', JSON.stringify(data.mealPlan));
+                if (data.customDishes) localStorage.setItem('customDishes_v1', JSON.stringify(data.customDishes));
+                if (data.recipes) localStorage.setItem('recipes_v1', JSON.stringify(data.recipes));
+                if (data.templates) localStorage.setItem('mealTemplates_v1', JSON.stringify(data.templates));
+
+                showToast('📤 Data imported! Refreshing...', 'success');
+                setTimeout(() => location.reload(), 1500);
+            } catch (err) {
+                showToast('Failed to parse backup file!', 'error');
+            }
+        };
+        reader.readAsText(file);
+    };
+    input.click();
+}
+
+function showToast(message, type) {
+    const existingToast = document.querySelector('.toast');
+    if (existingToast) existingToast.remove();
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+    }, 2500);
+}

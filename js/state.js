@@ -3,14 +3,18 @@
 const STORAGE_KEY = 'weeklyMealPlan_v1';
 
 export const foodData = {
+    breakfast: [],
     lunch: [],
-    dinner: []
+    dinner: [],
+    snacks: []
 };
 
 // Start with empty meal plan or load from storage
 export const mealPlan = loadMealPlan() || {
+    breakfast: {},
     lunch: {},
-    dinner: {}
+    dinner: {},
+    snacks: {}
 };
 
 function loadMealPlan() {
@@ -71,8 +75,10 @@ export function reorderItems(day, mealType, fromIndex, toIndex) {
 }
 
 export function clearState() {
+    mealPlan.breakfast = {};
     mealPlan.lunch = {};
     mealPlan.dinner = {};
+    mealPlan.snacks = {};
     saveMealPlan();
 }
 
@@ -80,8 +86,10 @@ export function clearState() {
 const CUSTOM_DISHES_KEY = 'customDishes_v1';
 
 export const customDishes = loadCustomDishes() || {
+    breakfast: [],
     lunch: [],
-    dinner: []
+    dinner: [],
+    snacks: []
 };
 
 function loadCustomDishes() {
@@ -190,4 +198,46 @@ export function getLockedItems(mealType) {
         });
     });
     return locked;
+}
+
+// ============================================
+// FAVORITES
+// ============================================
+
+const FAVORITES_KEY = 'favorites_v1';
+
+// Set to store favorite item keys: "mealType:itemName"
+export const favorites = new Set(loadFavorites());
+
+function loadFavorites() {
+    try {
+        const stored = localStorage.getItem(FAVORITES_KEY);
+        return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+        console.error('Failed to load favorites', e);
+        return [];
+    }
+}
+
+export function saveFavorites() {
+    try {
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify([...favorites]));
+    } catch (e) {
+        console.error('Failed to save favorites', e);
+    }
+}
+
+export function toggleFavorite(mealType, itemName) {
+    const key = `${mealType}:${itemName}`;
+    if (favorites.has(key)) {
+        favorites.delete(key);
+    } else {
+        favorites.add(key);
+    }
+    saveFavorites();
+    return favorites.has(key);
+}
+
+export function isFavorite(mealType, itemName) {
+    return favorites.has(`${mealType}:${itemName}`);
 }

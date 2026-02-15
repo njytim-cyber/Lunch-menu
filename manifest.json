@@ -1,0 +1,46 @@
+{
+    "name": "Weekly Food Menu",
+    "short_name": "Food Menu",
+    "description": "Plan your weekly meals with ease",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0f172a",
+    "theme_color": "#6366f1",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "assets/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "assets/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": [
+        "food",
+        "lifestyle",
+        "utilities"
+    ],
+    "shortcuts": [
+        {
+            "name": "Breakfast",
+            "url": "/?tab=breakfast",
+            "description": "Plan breakfast"
+        },
+        {
+            "name": "Lunch",
+            "url": "/?tab=lunch",
+            "description": "Plan lunch"
+        },
+        {
+            "name": "Dinner",
+            "url": "/?tab=dinner",
+            "description": "Plan dinner"
+        }
+    ]
+}

@@ -1,6 +1,21 @@
 import { addFoodItem, customDishes, foodData } from './state.js';
 
 export function loadSampleData() {
+    // BREAKFAST ITEMS
+    addFoodItem('Scrambled Eggs', '🥚', 'breakfast', 'eggs');
+    addFoodItem('Pancakes', '🥞', 'breakfast', 'other');
+    addFoodItem('Toast with Butter', '🍞', 'breakfast', 'other');
+    addFoodItem('Cereal with Milk', '🥣', 'breakfast', 'other');
+    addFoodItem('Oatmeal', '🥣', 'breakfast', 'other');
+    addFoodItem('Bacon', '🥓', 'breakfast', 'pork');
+    addFoodItem('Fruit Salad', '🍎', 'breakfast', 'other');
+    addFoodItem('Yogurt', '🥛', 'breakfast', 'other');
+    addFoodItem('French Toast', '🍞', 'breakfast', 'other');
+    addFoodItem('Congee', '🥣', 'breakfast', 'rice');
+    addFoodItem('Dim Sum', '🥟', 'breakfast', 'other');
+    addFoodItem('Kaya Toast', '🍞', 'breakfast', 'other');
+    addFoodItem('Half Boiled Eggs', '🥚', 'breakfast', 'eggs');
+
     // LUNCH ITEMS
     addFoodItem('Rigatoni', '🍝', 'lunch', 'pasta');
     addFoodItem('Mushroom Fusilli', '🍄', 'lunch', 'pasta');
@@ -57,9 +72,35 @@ export function loadSampleData() {
     addFoodItem('Crispy Prawn Ball', '🦐', 'dinner', 'prawn');
     addFoodItem('Prawn with Glass Noodle', '🦐', 'dinner', 'prawn');
     addFoodItem('Cheesy Rigatoni', '🧀', 'dinner', 'pasta');
+
+    // SNACKS ITEMS
+    addFoodItem('Chips', '🍟', 'snacks', 'savory');
+    addFoodItem('Cookies', '🍪', 'snacks', 'sweet');
+    addFoodItem('Ice Cream', '🍨', 'snacks', 'sweet');
+    addFoodItem('Fruit', '🍎', 'snacks', 'healthy');
+    addFoodItem('Nuts', '🥜', 'snacks', 'healthy');
+    addFoodItem('Popcorn', '🍿', 'snacks', 'savory');
+    addFoodItem('Chocolate', '🍫', 'snacks', 'sweet');
+    addFoodItem('Cheese & Crackers', '🧀', 'snacks', 'savory');
+    addFoodItem('Smoothie', '🥤', 'snacks', 'healthy');
+    addFoodItem('Cake', '🍰', 'snacks', 'sweet');
+    addFoodItem('Muffin', '🧁', 'snacks', 'sweet');
+    addFoodItem('Granola Bar', '🥜', 'snacks', 'healthy');
+    addFoodItem('Pudding', '🍮', 'snacks', 'sweet');
+    addFoodItem('Biscuits', '🍘', 'snacks', 'savory');
 }
 
 export function loadCustomDishesToFoodData() {
+    // Add custom breakfast dishes
+    if (customDishes.breakfast) {
+        customDishes.breakfast.forEach(dish => {
+            const exists = foodData.breakfast.some(d => d.name === dish.name);
+            if (!exists) {
+                foodData.breakfast.push({ ...dish });
+            }
+        });
+    }
+
     // Add custom lunch dishes
     if (customDishes.lunch) {
         customDishes.lunch.forEach(dish => {
@@ -76,6 +117,16 @@ export function loadCustomDishesToFoodData() {
             const exists = foodData.dinner.some(d => d.name === dish.name);
             if (!exists) {
                 foodData.dinner.push({ ...dish });
+            }
+        });
+    }
+
+    // Add custom snacks dishes
+    if (customDishes.snacks) {
+        customDishes.snacks.forEach(dish => {
+            const exists = foodData.snacks.some(d => d.name === dish.name);
+            if (!exists) {
+                foodData.snacks.push({ ...dish });
             }
         });
     }

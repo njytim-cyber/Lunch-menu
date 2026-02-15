@@ -34,8 +34,12 @@ export function autoSuggest(mealType) {
         // Use clearDayCard to avoid toast spam and handle it cleanly
         clearDayCard(card);
 
-        if (mealType === 'lunch') {
+        if (mealType === 'breakfast') {
+            generateBreakfastForDay(card, day);
+        } else if (mealType === 'lunch') {
             generateLunchForDay(card, day);
+        } else if (mealType === 'snacks') {
+            generateSnacksForDay(card, day);
         } else {
             generateDinnerForDay(card, day);
         }
@@ -44,6 +48,33 @@ export function autoSuggest(mealType) {
 
     // 44
     showToast(`Suggested menu generated for ${mealType}! 💡`, 'success');
+}
+
+function generateBreakfastForDay(card, day) {
+    // Check Limit First
+    const maxItems = parseInt(card.dataset.maxItems) || 2;
+    const currentItems = card.querySelectorAll('.day-card-content .food-item').length;
+
+    if (currentItems >= maxItems) return;
+
+    // Breakfast: Random 1-2 items
+    const items = foodData.breakfast;
+    if (items.length === 0) return;
+
+    // Add up to maxItems
+    const itemsToAdd = Math.min(maxItems - currentItems, Math.floor(Math.random() * 2) + 1);
+    const usedIndices = new Set();
+
+    for (let i = 0; i < itemsToAdd && usedIndices.size < items.length; i++) {
+        let randomIndex;
+        do {
+            randomIndex = Math.floor(Math.random() * items.length);
+        } while (usedIndices.has(randomIndex) && usedIndices.size < items.length);
+
+        usedIndices.add(randomIndex);
+        const randomItem = items[randomIndex];
+        addFoodToCard(card, randomItem.name, randomItem.emoji, randomItem.category, true);
+    }
 }
 
 function generateLunchForDay(card, day) {
@@ -59,6 +90,32 @@ function generateLunchForDay(card, day) {
 
     const randomItem = items[Math.floor(Math.random() * items.length)];
     addFoodToCard(card, randomItem.name, randomItem.emoji, randomItem.category, true);
+}
+
+function generateSnacksForDay(card, day) {
+    // Check Limit First
+    const maxItems = parseInt(card.dataset.maxItems) || 2;
+    const currentItems = card.querySelectorAll('.day-card-content .food-item').length;
+
+    if (currentItems >= maxItems) return;
+
+    // Snacks: Random 1-2 items
+    const items = foodData.snacks;
+    if (items.length === 0) return;
+
+    const itemsToAdd = Math.min(maxItems - currentItems, Math.floor(Math.random() * 2) + 1);
+    const usedIndices = new Set();
+
+    for (let i = 0; i < itemsToAdd && usedIndices.size < items.length; i++) {
+        let randomIndex;
+        do {
+            randomIndex = Math.floor(Math.random() * items.length);
+        } while (usedIndices.has(randomIndex) && usedIndices.size < items.length);
+
+        usedIndices.add(randomIndex);
+        const randomItem = items[randomIndex];
+        addFoodToCard(card, randomItem.name, randomItem.emoji, randomItem.category, true);
+    }
 }
 
 function generateDinnerForDay(card, day) {
