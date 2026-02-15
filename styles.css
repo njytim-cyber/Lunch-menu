@@ -1490,7 +1490,7 @@ select option:checked,
 
 .meal-type-selector {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
     justify-content: center;
     padding: 0.5rem;
     background: rgba(0, 0, 0, 0.2);
@@ -1501,11 +1501,11 @@ select option:checked,
 .meal-type-btn {
     position: relative;
     flex: 1;
-    padding: 1rem 1.5rem;
+    padding: 0.65rem 0.4rem;
     border: 2px solid transparent;
     border-radius: 0.75rem;
     font-family: inherit;
-    font-size: 1rem;
+    font-size: 0.75rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -1513,7 +1513,17 @@ select option:checked,
     color: rgba(255, 255, 255, 0.6);
     overflow: hidden;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Move the emoji icon below the text */
+.meal-type-btn.active::after {
+    display: block;
+    position: static;
+    margin-top: 2px;
+    font-size: 0.9rem;
 }
 
 /* Shimmer effect on inactive buttons */
@@ -1556,9 +1566,6 @@ select option:checked,
 
 .meal-type-btn[data-meal="lunch"].active::after {
     content: '☀️';
-    position: absolute;
-    right: 1rem;
-    font-size: 1.2rem;
     animation: sunPulse 2s ease-in-out infinite;
 }
 
@@ -1588,9 +1595,6 @@ select option:checked,
 
 .meal-type-btn[data-meal="dinner"].active::after {
     content: '🌙';
-    position: absolute;
-    right: 1rem;
-    font-size: 1.2rem;
     animation: moonGlow 3s ease-in-out infinite;
 }
 
@@ -1622,9 +1626,6 @@ select option:checked,
 
 .meal-type-btn[data-meal="breakfast"].active::after {
     content: '🌅';
-    position: absolute;
-    right: 1rem;
-    font-size: 1.2rem;
     animation: sunPulse 2s ease-in-out infinite;
 }
 
@@ -1642,9 +1643,6 @@ select option:checked,
 
 .meal-type-btn[data-meal="snacks"].active::after {
     content: '🍿';
-    position: absolute;
-    right: 1rem;
-    font-size: 1.2rem;
     animation: sunPulse 2s ease-in-out infinite;
 }
 
