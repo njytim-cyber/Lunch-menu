@@ -3418,3 +3418,138 @@ body.light-theme ::-webkit-scrollbar-thumb {
 body.light-theme ::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
 }
+
+/* ============================================
+   LIGHT THEME — DAY CARD HEADER 
+   Animated gradient: Blue-Teal flow
+   ============================================ */
+
+@keyframes gradientFlowBlue {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+body.light-theme .day-card-header {
+    background: linear-gradient(90deg, #4facfe, #00d2ff, #4facfe);
+    background-size: 200% 100%;
+    animation: gradientFlowBlue 4s ease infinite;
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.35);
+    color: #fff;
+}
+
+body.light-theme .day-card:nth-child(even) .day-card-header {
+    animation-delay: 2s;
+}
+
+/* Shine effect stays the same (white sweep) */
+body.light-theme .day-card-header::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+/* ============================================
+   LIGHT THEME — REMAINING PURPLE OVERRIDES
+   ============================================ */
+
+/* Toggle btn active (breakfast/lunch/dinner/snacks tabs) */
+body.light-theme .toggle-btn.active {
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%);
+    box-shadow: 0 2px 10px rgba(79, 172, 254, 0.35);
+}
+
+/* Dinner toggle active — animated gradient */
+body.light-theme .toggle-btn[data-meal="dinner"].active {
+    background: linear-gradient(90deg, #4facfe, #00d2ff, #4facfe);
+    background-size: 200% 100%;
+    animation: gradientFlowBlue 4s ease infinite;
+}
+
+/* Bottom sheet category tab active */
+body.light-theme .bottom-sheet-tabs .category-tab.active {
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%);
+    box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3);
+}
+
+/* Add dish modal header */
+body.light-theme .add-dish-modal .modal-header,
+body.light-theme #addDishModal .modal-header {
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%);
+}
+
+/* Submit / primary buttons everywhere */
+body.light-theme .btn-submit,
+body.light-theme .btn-primary {
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%);
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.35);
+}
+
+/* Recipe modal save button */
+body.light-theme .btn-save-recipe {
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%);
+}
+
+/* Help/version modal buttons */
+body.light-theme .help-close-btn,
+body.light-theme .version-close-btn,
+body.light-theme .help-actions .btn,
+body.light-theme .version-modal .btn {
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%);
+}
+
+/* Template builder — card headers */
+body.light-theme .builder-card .day-card-header {
+    background: linear-gradient(90deg, #4facfe, #00d2ff, #4facfe);
+    background-size: 200% 100%;
+    animation: gradientFlowBlue 4s ease infinite;
+}
+
+/* Template builder — selected card */
+body.light-theme .builder-card.selected .day-card-header {
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%) !important;
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.3);
+}
+
+body.light-theme .builder-card.selected {
+    border-color: #4facfe !important;
+}
+
+/* Drag-over borders */
+body.light-theme .day-card.drag-target,
+body.light-theme .day-card.drag-over {
+    border-color: #4facfe !important;
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2) !important;
+}
+
+/* Share button shimmer */
+body.light-theme .toggle-btn.active::before,
+body.light-theme .btn-submit::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+/* Nutrition bar fills */
+body.light-theme .nutrition-bar-fill {
+    background: linear-gradient(90deg, #4facfe, #00d2ff);
+}
+
+/* Focus ring for interactive elements */
+body.light-theme .day-card:focus-visible,
+body.light-theme .food-item:focus-visible {
+    outline-color: #4facfe;
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2);
+}
+
+/* Dropdown menus */
+body.light-theme .emoji-picker,
+body.light-theme .dropdown-menu {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
