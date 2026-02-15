@@ -302,6 +302,7 @@ window.copyGroceryList = copyGroceryList;
 window.shareGroceryList = shareGroceryList;
 window.navigateWeek = navigateWeek;
 window.toggleTheme = toggleTheme;
+window.toggleHamburger = toggleHamburger;
 
 // ============================================
 // WEEK NAVIGATION
@@ -346,19 +347,47 @@ function updateWeekLabel() {
 
 function initTheme() {
     const savedTheme = localStorage.getItem('theme');
-    const btn = document.getElementById('themeToggle');
     if (savedTheme === 'light') {
         document.body.classList.add('light-theme');
-        if (btn) btn.textContent = '☀️';
+        const icon = document.getElementById('hamburgerThemeIcon');
+        const label = document.getElementById('hamburgerThemeLabel');
+        if (icon) icon.textContent = '☀️';
+        if (label) label.textContent = 'Light Mode';
     }
 }
 
 function toggleTheme() {
     const isLight = document.body.classList.toggle('light-theme');
-    const btn = document.getElementById('themeToggle');
-    if (btn) btn.textContent = isLight ? '☀️' : '🌙';
+    const icon = document.getElementById('hamburgerThemeIcon');
+    const label = document.getElementById('hamburgerThemeLabel');
+    if (icon) icon.textContent = isLight ? '☀️' : '🌙';
+    if (label) label.textContent = isLight ? 'Light Mode' : 'Dark Mode';
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
 }
+
+// ============================================
+// HAMBURGER MENU
+// ============================================
+
+function toggleHamburger() {
+    const dropdown = document.getElementById('hamburgerDropdown');
+    const btn = document.querySelector('.hamburger-btn');
+    if (dropdown) {
+        dropdown.classList.toggle('open');
+        if (btn) btn.classList.toggle('active');
+    }
+}
+
+// Close hamburger when clicking outside
+document.addEventListener('click', (e) => {
+    const wrapper = document.querySelector('.hamburger-wrapper');
+    if (wrapper && !wrapper.contains(e.target)) {
+        const dropdown = document.getElementById('hamburgerDropdown');
+        const btn = document.querySelector('.hamburger-btn');
+        if (dropdown) dropdown.classList.remove('open');
+        if (btn) btn.classList.remove('active');
+    }
+});
 
 // ============================================
 // SERVICE WORKER REGISTRATION

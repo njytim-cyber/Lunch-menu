@@ -2876,6 +2876,95 @@ select option:checked,
 }
 
 /* ============================================
+   HAMBURGER MENU DROPDOWN
+   ============================================ */
+
+.hamburger-wrapper {
+    position: relative;
+}
+
+.hamburger-btn.active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.hamburger-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 180px;
+    background: rgba(30, 42, 74, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 6px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(0.95);
+    transition: all 0.2s ease;
+    z-index: 3000;
+}
+
+.hamburger-dropdown.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.hamburger-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 14px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    color: #e2e8f0;
+    text-align: left;
+}
+
+.hamburger-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.hamburger-item:active {
+    transform: scale(0.97);
+}
+
+.hamburger-item-icon {
+    font-size: 16px;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.hamburger-item-label {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* Light theme hamburger */
+body.light-theme .hamburger-dropdown {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+}
+
+body.light-theme .hamburger-item {
+    color: #334155;
+}
+
+body.light-theme .hamburger-item:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+/* ============================================
    GROCERY MODAL
    ============================================ */
 

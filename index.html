@@ -18,7 +18,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2.1.1">
+    <link rel="stylesheet" href="styles.css?v=2.1.2">
 </head>
 
 <body>
@@ -46,28 +46,40 @@
 
             <div class="header-actions">
                 <div class="action-toolbar">
-                    <button class="toolbar-btn theme-toggle-btn" id="themeToggle" onclick="toggleTheme()"
-                        title="Toggle Light/Dark Theme">
-                        🌙
-                    </button>
+                    <!-- Always-visible buttons -->
                     <button class="toolbar-btn" onclick="showHelpModal()" title="Help & Tips">
                         <span class="toolbar-icon">❓</span>
                     </button>
                     <button class="toolbar-btn" onclick="handleGlobalSuggest()" title="Auto-Suggest Menu">
                         <span class="toolbar-icon">💡</span>
                     </button>
-                    <button class="toolbar-btn" onclick="openTemplatesModal()" title="Templates">
-                        <span class="toolbar-icon">📂</span>
-                    </button>
                     <button class="toolbar-btn" onclick="handleGlobalShare()" title="Share Menu">
                         <span class="toolbar-icon">🔗</span>
-                    </button>
-                    <button class="toolbar-btn" onclick="showGroceryModal()" title="Grocery List">
-                        <span class="toolbar-icon">🛒</span>
                     </button>
                     <button class="toolbar-btn toolbar-btn-danger" onclick="handleGlobalClear()" title="Clear All">
                         <span class="toolbar-icon">🗑️</span>
                     </button>
+
+                    <!-- Hamburger menu -->
+                    <div class="hamburger-wrapper">
+                        <button class="toolbar-btn hamburger-btn" onclick="toggleHamburger()" title="More Options">
+                            <span class="toolbar-icon">☰</span>
+                        </button>
+                        <div class="hamburger-dropdown" id="hamburgerDropdown">
+                            <button class="hamburger-item" onclick="toggleTheme(); toggleHamburger();">
+                                <span class="hamburger-item-icon" id="hamburgerThemeIcon">🌙</span>
+                                <span class="hamburger-item-label" id="hamburgerThemeLabel">Dark Mode</span>
+                            </button>
+                            <button class="hamburger-item" onclick="openTemplatesModal(); toggleHamburger();">
+                                <span class="hamburger-item-icon">📂</span>
+                                <span class="hamburger-item-label">Templates</span>
+                            </button>
+                            <button class="hamburger-item" onclick="showGroceryModal(); toggleHamburger();">
+                                <span class="hamburger-item-icon">🛒</span>
+                                <span class="hamburger-item-label">Grocery List</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
