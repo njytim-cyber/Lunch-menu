@@ -19,6 +19,10 @@ export function openTemplatesModal() {
     if (modal) {
         modal.classList.add('active');
         checkSavedTemplate();
+        // Click overlay to close
+        modal.onclick = (e) => {
+            if (e.target === modal) closeTemplatesModal();
+        };
     }
 }
 

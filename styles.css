@@ -3570,3 +3570,50 @@ body.light-theme .dropdown-menu {
     border-color: #e2e8f0;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
 }
+
+/* Modal close button — FIX: make visible on white bg */
+body.light-theme .modal-close {
+    background: #f1f5f9;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+body.light-theme .modal-close:hover {
+    background: #fee2e2;
+    color: #ef4444;
+    border-color: #fca5a5;
+}
+
+/* Template modal in light theme */
+body.light-theme .template-modal-content {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+}
+
+body.light-theme .template-modal-content h2 {
+    color: #1e293b;
+}
+
+body.light-theme .empty-state p {
+    color: #64748b;
+}
+
+body.light-theme .btn-cosmic {
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%);
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.35);
+}
+
+body.light-theme .btn-cosmic:hover {
+    background: linear-gradient(135deg, #3b9bef 0%, #00b8e6 100%);
+    box-shadow: 0 6px 20px rgba(79, 172, 254, 0.5);
+}
+
+body.light-theme .template-name-input {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #334155;
+}
+
+body.light-theme .template-name-input::placeholder {
+    color: #94a3b8;
+}
