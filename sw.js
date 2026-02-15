@@ -1,5 +1,5 @@
 // Service Worker for Weekly Food Menu PWA
-const CACHE_NAME = 'food-menu-v6';
+const CACHE_NAME = 'food-menu-v7';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
