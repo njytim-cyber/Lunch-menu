@@ -2949,282 +2949,472 @@ select option:checked,
 
 /* ============================================
    LIGHT THEME OVERRIDES
+   Accent: Ocean Blue-Teal (#4facfe → #00d2ff)
    ============================================ */
 
 body.light-theme {
-    background: linear-gradient(135deg, #e8eaf6 0%, #f5f5f5 50%, #e3f2fd 100%);
-    color: #1a1a2e;
+    background: linear-gradient(135deg, #f0f4ff 0%, #ffffff 40%, #e8f4fd 100%);
+    color: #1e293b;
 }
 
 body.light-theme .background-blob {
-    opacity: 0.08;
+    opacity: 0.05;
 }
 
 /* Header */
 body.light-theme .app-header {
-    background: rgba(255, 255, 255, 0.85);
-    border-color: rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(24px);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
 }
 
 body.light-theme .toggle-btn {
-    background: rgba(0, 0, 0, 0.04);
-    color: rgba(0, 0, 0, 0.5);
-    border-color: rgba(0, 0, 0, 0.08);
+    background: #f1f5f9;
+    color: #64748b;
+    border-color: #e2e8f0;
 }
 
 body.light-theme .toggle-btn:hover {
-    background: rgba(0, 0, 0, 0.08);
+    background: #e2e8f0;
+    color: #334155;
 }
 
 body.light-theme .toggle-btn.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%);
     color: #fff;
+    border-color: transparent;
+    box-shadow: 0 2px 10px rgba(79, 172, 254, 0.35);
 }
 
 body.light-theme .toolbar-btn {
-    background: rgba(0, 0, 0, 0.04);
-    border-color: rgba(0, 0, 0, 0.08);
+    background: #f1f5f9;
+    border-color: #e2e8f0;
 }
 
 body.light-theme .toolbar-btn:hover {
-    background: rgba(0, 0, 0, 0.08);
+    background: #e2e8f0;
 }
 
 /* Theme toggle in light mode */
 body.light-theme .theme-toggle-btn {
-    background: rgba(0, 0, 0, 0.05);
-    border-color: rgba(0, 0, 0, 0.1);
-    color: rgba(0, 0, 0, 0.6);
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #64748b;
 }
 
 body.light-theme .theme-toggle-btn:hover {
-    background: rgba(0, 0, 0, 0.1);
-    color: #1a1a2e;
+    background: #e2e8f0;
+    color: #1e293b;
 }
 
 /* Week Nav */
 body.light-theme .week-nav-btn {
-    background: rgba(0, 0, 0, 0.04);
-    border-color: rgba(0, 0, 0, 0.1);
-    color: rgba(0, 0, 0, 0.5);
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #64748b;
 }
 
 body.light-theme .week-nav-btn:hover {
-    background: rgba(102, 126, 234, 0.15);
-    color: #667eea;
+    background: rgba(79, 172, 254, 0.12);
+    color: #4facfe;
+    border-color: rgba(79, 172, 254, 0.3);
 }
 
 body.light-theme .week-label {
-    color: rgba(0, 0, 0, 0.6);
+    color: #64748b;
 }
 
 /* Day Cards */
 body.light-theme .day-card {
-    background: rgba(255, 255, 255, 0.85);
-    border-color: rgba(0, 0, 0, 0.08);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .day-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 body.light-theme .day-card-header {
-    color: #1a1a2e;
-    border-bottom-color: rgba(0, 0, 0, 0.06);
+    color: #1e293b;
+    border-bottom-color: #f1f5f9;
 }
 
 body.light-theme .day-card-content {
-    color: #333;
+    color: #334155;
 }
 
 body.light-theme .add-food-btn {
-    color: rgba(0, 0, 0, 0.4);
-    border-color: rgba(0, 0, 0, 0.1);
+    color: #94a3b8;
+    border-color: #e2e8f0;
 }
 
 body.light-theme .add-food-btn:hover {
-    background: rgba(102, 126, 234, 0.08);
-    color: #667eea;
+    background: rgba(79, 172, 254, 0.06);
+    color: #4facfe;
+    border-color: rgba(79, 172, 254, 0.3);
 }
 
 /* Food Items in cards */
 body.light-theme .food-item {
-    background: rgba(0, 0, 0, 0.03);
-    border-color: rgba(0, 0, 0, 0.06);
-    color: #333;
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #334155;
 }
 
 body.light-theme .food-name {
-    color: #1a1a2e;
+    color: #1e293b;
+}
+
+/* Lock & Remove Buttons */
+body.light-theme .lock-btn,
+body.light-theme .remove-btn {
+    color: #94a3b8;
+}
+
+body.light-theme .lock-btn:hover,
+body.light-theme .remove-btn:hover {
+    color: #64748b;
+}
+
+/* Drag target styling */
+body.light-theme .day-card.drag-over {
+    border-color: #4facfe !important;
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2) !important;
 }
 
 /* Drawers */
 body.light-theme .food-drawer {
-    background: rgba(255, 255, 255, 0.85);
-    border-color: rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
 }
 
 body.light-theme .drawer-toggle {
-    border-color: rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+    border-color: #e2e8f0;
+}
+
+body.light-theme .drawer-toggle:hover {
+    background: #f8fafc;
 }
 
 body.light-theme .drawer-title {
-    color: #333;
+    color: #334155;
 }
 
 body.light-theme .drawer-arrow,
 body.light-theme .drawer-icon {
-    color: rgba(0, 0, 0, 0.5);
+    color: #94a3b8;
+}
+
+body.light-theme .drawer-content {
+    background: #fafbfc;
+    border-top: 1px solid #f1f5f9;
 }
 
 body.light-theme .category-tab {
-    background: rgba(0, 0, 0, 0.04);
-    color: rgba(0, 0, 0, 0.6);
-    border-color: rgba(0, 0, 0, 0.08);
+    background: #f1f5f9;
+    color: #64748b;
+    border-color: #e2e8f0;
+}
+
+body.light-theme .category-tab:hover {
+    background: #e2e8f0;
+    color: #334155;
 }
 
 body.light-theme .category-tab.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%);
     color: #fff;
+    border-color: transparent;
+    box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3);
 }
 
 body.light-theme .add-dish-btn {
-    background: rgba(102, 126, 234, 0.06);
-    border-color: rgba(102, 126, 234, 0.25);
-    color: rgba(0, 0, 0, 0.6);
+    background: rgba(79, 172, 254, 0.06);
+    border-color: rgba(79, 172, 254, 0.2);
+    color: #64748b;
 }
 
 body.light-theme .add-dish-btn:hover {
-    background: rgba(102, 126, 234, 0.12);
-    color: #667eea;
+    background: rgba(79, 172, 254, 0.12);
+    color: #4facfe;
+    border-color: rgba(79, 172, 254, 0.4);
+}
+
+/* Favorite button */
+body.light-theme .favorite-btn {
+    color: #94a3b8;
 }
 
 /* Nutrition Panel */
 body.light-theme .nutrition-panel {
-    background: rgba(255, 255, 255, 0.85);
-    border-color: rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
 }
 
 body.light-theme .nutrition-toggle {
-    color: #333;
+    color: #334155;
+}
+
+body.light-theme .nutrition-content {
+    background: #fafbfc;
+}
+
+body.light-theme .stat-item {
+    color: #334155;
+}
+
+body.light-theme .stat-label {
+    color: #64748b;
+}
+
+body.light-theme .stat-divider {
+    border-color: #f1f5f9;
 }
 
 /* Bottom Sheet */
 body.light-theme .bottom-sheet {
-    background: #f8f9fa;
-    color: #1a1a2e;
+    background: #ffffff;
+    color: #1e293b;
+    box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.1);
 }
 
 body.light-theme .bottom-sheet-handle::before {
-    background: rgba(0, 0, 0, 0.15);
+    background: #cbd5e1;
 }
 
 body.light-theme .bottom-sheet-header {
-    border-bottom-color: rgba(0, 0, 0, 0.08);
+    border-bottom-color: #f1f5f9;
 }
 
 body.light-theme .bottom-sheet-title {
-    color: #1a1a2e;
-}
-
-body.light-theme .bottom-sheet-search input {
-    background: rgba(0, 0, 0, 0.04);
-    border-color: rgba(0, 0, 0, 0.12);
-    color: #333;
-}
-
-body.light-theme .bottom-sheet-search input::placeholder {
-    color: rgba(0, 0, 0, 0.35);
-}
-
-body.light-theme .bottom-sheet-content .food-item {
-    background: rgba(0, 0, 0, 0.03);
-    color: #333;
-}
-
-body.light-theme .bottom-sheet-content .food-name {
-    color: #1a1a2e;
-}
-
-/* Modals */
-body.light-theme .modal-content {
-    background: #fff;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
-}
-
-body.light-theme .modal-header {
-    border-bottom-color: rgba(0, 0, 0, 0.08);
-}
-
-body.light-theme .modal-header h3 {
-    color: #1a1a2e;
+    color: #1e293b;
 }
 
 body.light-theme .close-btn {
-    color: rgba(0, 0, 0, 0.4);
+    color: #94a3b8;
+}
+
+body.light-theme .close-btn:hover {
+    color: #64748b;
+    background: #f1f5f9;
+}
+
+body.light-theme .bottom-sheet-search input {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #334155;
+}
+
+body.light-theme .bottom-sheet-search input::placeholder {
+    color: #94a3b8;
+}
+
+body.light-theme .bottom-sheet-search input:focus {
+    border-color: #4facfe;
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.15);
+}
+
+body.light-theme .bottom-sheet-content .food-item {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #334155;
+}
+
+body.light-theme .bottom-sheet-content .food-item:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+body.light-theme .bottom-sheet-content .food-name {
+    color: #1e293b;
+}
+
+/* Modals */
+body.light-theme .modal-content,
+body.light-theme .grocery-modal-content {
+    background: #ffffff;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e2e8f0;
+}
+
+body.light-theme .modal-header {
+    border-bottom-color: #f1f5f9;
+}
+
+body.light-theme .modal-header h3 {
+    color: #1e293b;
 }
 
 body.light-theme .modal-body {
-    color: #333;
+    color: #334155;
 }
 
 body.light-theme .form-group label {
-    color: rgba(0, 0, 0, 0.6);
+    color: #64748b;
 }
 
 body.light-theme .form-group input,
-body.light-theme .form-group select {
-    background: #f5f5f5;
-    border-color: rgba(0, 0, 0, 0.12);
-    color: #333;
+body.light-theme .form-group select,
+body.light-theme .form-group textarea {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #334155;
+}
+
+body.light-theme .form-group input:focus,
+body.light-theme .form-group select:focus,
+body.light-theme .form-group textarea:focus {
+    border-color: #4facfe;
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.12);
 }
 
 body.light-theme .meal-type-btn {
-    background: rgba(0, 0, 0, 0.04);
-    color: rgba(0, 0, 0, 0.5);
+    background: #f1f5f9;
+    color: #64748b;
+    border-color: #e2e8f0;
+}
+
+body.light-theme .meal-type-btn.active {
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%) !important;
+    color: #fff !important;
+    border-color: transparent !important;
 }
 
 body.light-theme .meal-type-selector {
-    background: rgba(0, 0, 0, 0.04);
+    background: #f8fafc;
 }
 
 body.light-theme .btn-cancel {
-    background: rgba(0, 0, 0, 0.04);
-    color: rgba(0, 0, 0, 0.6);
-    border-color: rgba(0, 0, 0, 0.1);
+    background: #f1f5f9;
+    color: #64748b;
+    border-color: #e2e8f0;
+}
+
+body.light-theme .btn-cancel:hover {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+body.light-theme .btn-submit {
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%);
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.35);
 }
 
 body.light-theme .modal-footer {
-    border-top-color: rgba(0, 0, 0, 0.08);
+    border-top-color: #f1f5f9;
+}
+
+/* Version & Help Modals */
+body.light-theme .version-modal .modal-content,
+body.light-theme .help-modal .modal-content {
+    background: #ffffff;
+}
+
+body.light-theme .version-close-btn,
+body.light-theme .help-close-btn {
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%);
+}
+
+/* Recipe Modal */
+body.light-theme .recipe-area,
+body.light-theme #recipeDisplay {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #334155;
+}
+
+body.light-theme #recipeInput {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #334155;
+}
+
+/* Template Builder */
+body.light-theme .template-item {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #334155;
+}
+
+body.light-theme .template-name {
+    color: #1e293b;
 }
 
 /* Toast */
 body.light-theme .toast {
-    background: rgba(255, 255, 255, 0.95);
-    color: #333;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    background: #ffffff;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .toast.success {
+    border-left: 4px solid #4facfe;
 }
 
 /* Undo toast */
 body.light-theme .undo-toast {
-    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-    border-color: rgba(0, 0, 0, 0.08);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
 }
 
 body.light-theme .undo-message {
-    color: #333;
+    color: #334155;
+}
+
+body.light-theme .undo-btn {
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%);
+    color: #fff;
+}
+
+/* Delete confirm */
+body.light-theme .delete-confirm-content {
+    background: #ffffff;
 }
 
 /* Grocery modal */
-body.light-theme .grocery-modal-content {
-    background: #fff;
-}
-
 body.light-theme .grocery-header {
-    color: #1a1a2e;
+    color: #1e293b;
 }
 
 body.light-theme .grocery-list {
-    background: rgba(0, 0, 0, 0.02);
-    color: #333;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+}
+
+body.light-theme .grocery-category-title {
+    color: #1e293b;
+}
+
+body.light-theme .grocery-actions .btn-primary {
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%);
+}
+
+body.light-theme .grocery-actions .btn-secondary {
+    background: linear-gradient(135deg, #4facfe 0%, #00d2ff 100%);
+}
+
+/* Shimmer animations — override color */
+body.light-theme .toggle-btn.active::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+/* Scrollbar */
+body.light-theme ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+body.light-theme ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+}
+
+body.light-theme ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
