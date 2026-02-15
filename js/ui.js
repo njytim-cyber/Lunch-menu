@@ -331,6 +331,7 @@ function populateBottomSheetTabs(mealType) {
     // Shared categories for both lunch and dinner
     const allCategories = [
         { id: 'all', label: 'All' },
+        { id: 'favorites', label: '⭐ Favorites' },
         { id: 'noodles', label: '🍜 Noodles' },
         { id: 'rice', label: '🍚 Rice' },
         { id: 'vegetables', label: '🥬 Vegetables' },
@@ -348,6 +349,10 @@ function populateBottomSheetTabs(mealType) {
     const categoryCounts = items.reduce((acc, item) => {
         acc[item.category] = (acc[item.category] || 0) + 1;
         acc['all'] = (acc['all'] || 0) + 1;
+        // Count favorites
+        if (isFavorite(mealType, item.name)) {
+            acc['favorites'] = (acc['favorites'] || 0) + 1;
+        }
         return acc;
     }, {});
 
@@ -373,9 +378,14 @@ function populateBottomSheetTabs(mealType) {
 }
 
 function populateBottomSheetContent(mealType, category) {
-    const items = foodData[mealType].filter(item =>
-        category === 'all' || item.category === category
-    );
+    let items;
+    if (category === 'favorites') {
+        items = foodData[mealType].filter(item => isFavorite(mealType, item.name));
+    } else {
+        items = foodData[mealType].filter(item =>
+            category === 'all' || item.category === category
+        );
+    }
 
     bottomSheetContent.innerHTML = items.map(item => `
         <div class="food-item" data-name="${item.name}" data-emoji="${item.emoji}" data-category="${item.category}">
@@ -793,7 +803,11 @@ function filterDesktopFoodItems(mealType, category) {
     if (!container) return;
 
     container.querySelectorAll('.food-item').forEach(item => {
-        if (category === 'all' || item.dataset.category === category) {
+        if (category === 'all') {
+            item.style.display = 'flex';
+        } else if (category === 'favorites') {
+            item.style.display = isFavorite(mealType, item.dataset.name) ? 'flex' : 'none';
+        } else if (item.dataset.category === category) {
             item.style.display = 'flex';
         } else {
             item.style.display = 'none';
@@ -852,26 +866,19 @@ function handleSwipe(startX, startY, endX, endY, threshold) {
 // ============================================
 
 export function renderSavedState() {
-    // Render Lunch
-    Object.keys(mealPlan.lunch).forEach(day => {
-        const items = mealPlan.lunch[day];
-        const card = document.querySelector(`.day-card[data-day="${day}"][data-meal="lunch"]`);
-        if (card && items) {
-            items.forEach(item => {
-                addFoodToCard(card, item.name, item.emoji, item.category, false, item.locked || false);
-            });
-        }
-    });
+    const mealTypes = ['breakfast', 'lunch', 'dinner', 'snacks'];
 
-    // Render Dinner
-    Object.keys(mealPlan.dinner).forEach(day => {
-        const items = mealPlan.dinner[day];
-        const card = document.querySelector(`.day-card[data-day="${day}"][data-meal="dinner"]`);
-        if (card && items) {
-            items.forEach(item => {
-                addFoodToCard(card, item.name, item.emoji, item.category, false, item.locked || false);
-            });
-        }
+    mealTypes.forEach(mealType => {
+        if (!mealPlan[mealType]) return;
+        Object.keys(mealPlan[mealType]).forEach(day => {
+            const items = mealPlan[mealType][day];
+            const card = document.querySelector(`.day-card[data-day="${day}"][data-meal="${mealType}"]`);
+            if (card && items) {
+                items.forEach(item => {
+                    addFoodToCard(card, item.name, item.emoji, item.category, false, item.locked || false);
+                });
+            }
+        });
     });
 }
 
