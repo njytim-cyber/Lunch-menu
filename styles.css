@@ -3015,14 +3015,14 @@ body.light-theme .action-toolbar {
 
 /* Theme toggle in light mode */
 body.light-theme .theme-toggle-btn {
-    background: #f1f5f9;
-    border-color: #e2e8f0;
+    background: transparent;
+    border: none;
     color: #64748b;
 }
 
 body.light-theme .theme-toggle-btn:hover {
-    background: #e2e8f0;
-    color: #1e293b;
+    background: rgba(79, 172, 254, 0.1);
+    color: #4facfe;
 }
 
 /* Week Nav */
