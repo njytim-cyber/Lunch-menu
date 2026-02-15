@@ -2821,14 +2821,15 @@ select option:checked,
     align-items: center;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50px;
-    padding: 4px;
+    padding: 3px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.15);
+    gap: 0;
 }
 
 .toolbar-btn {
-    width: 44px;
-    height: 44px;
+    width: 36px;
+    height: 36px;
     border: none;
     background: transparent;
     border-radius: 50%;
@@ -2838,6 +2839,7 @@ select option:checked,
     justify-content: center;
     transition: all 0.2s ease;
     position: relative;
+    padding: 0;
 }
 
 .toolbar-btn:hover {
@@ -2849,26 +2851,27 @@ select option:checked,
 }
 
 .toolbar-icon {
-    font-size: 20px;
+    font-size: 16px;
+    line-height: 1;
 }
 
 .toolbar-btn-danger:hover {
     background: rgba(255, 65, 108, 0.4);
 }
 
-/* Mobile: smaller buttons */
+/* Mobile: even smaller */
 @media (max-width: 768px) {
     .action-toolbar {
-        padding: 3px;
+        padding: 2px;
     }
 
     .toolbar-btn {
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
     }
 
     .toolbar-icon {
-        font-size: 16px;
+        font-size: 14px;
     }
 }
 
