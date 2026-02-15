@@ -268,14 +268,24 @@ body {
 
 .day-card-header::after {
     content: '+';
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
-    opacity: 0.6;
-    transition: opacity 0.2s;
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    line-height: 1;
 }
 
 .day-card:hover .day-card-header::after {
-    opacity: 1;
+    background: rgba(255, 255, 255, 0.45);
+    transform: scale(1.15);
 }
 
 .day-card-content {
