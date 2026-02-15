@@ -2921,3 +2921,310 @@ select option:checked,
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
+
+/* ============================================
+   THEME TOGGLE BUTTON
+   ============================================ */
+
+.theme-toggle-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.15rem;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* ============================================
+   LIGHT THEME OVERRIDES
+   ============================================ */
+
+body.light-theme {
+    background: linear-gradient(135deg, #e8eaf6 0%, #f5f5f5 50%, #e3f2fd 100%);
+    color: #1a1a2e;
+}
+
+body.light-theme .background-blob {
+    opacity: 0.08;
+}
+
+/* Header */
+body.light-theme .app-header {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(20px);
+}
+
+body.light-theme .toggle-btn {
+    background: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.5);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .toggle-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .toggle-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+}
+
+body.light-theme .toolbar-btn {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .toolbar-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+/* Theme toggle in light mode */
+body.light-theme .theme-toggle-btn {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.6);
+}
+
+body.light-theme .theme-toggle-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #1a1a2e;
+}
+
+/* Week Nav */
+body.light-theme .week-nav-btn {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.5);
+}
+
+body.light-theme .week-nav-btn:hover {
+    background: rgba(102, 126, 234, 0.15);
+    color: #667eea;
+}
+
+body.light-theme .week-label {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+/* Day Cards */
+body.light-theme .day-card {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+body.light-theme .day-card-header {
+    color: #1a1a2e;
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+body.light-theme .day-card-content {
+    color: #333;
+}
+
+body.light-theme .add-food-btn {
+    color: rgba(0, 0, 0, 0.4);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .add-food-btn:hover {
+    background: rgba(102, 126, 234, 0.08);
+    color: #667eea;
+}
+
+/* Food Items in cards */
+body.light-theme .food-item {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.06);
+    color: #333;
+}
+
+body.light-theme .food-name {
+    color: #1a1a2e;
+}
+
+/* Drawers */
+body.light-theme .food-drawer {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .drawer-toggle {
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .drawer-title {
+    color: #333;
+}
+
+body.light-theme .drawer-arrow,
+body.light-theme .drawer-icon {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+body.light-theme .category-tab {
+    background: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.6);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .category-tab.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+}
+
+body.light-theme .add-dish-btn {
+    background: rgba(102, 126, 234, 0.06);
+    border-color: rgba(102, 126, 234, 0.25);
+    color: rgba(0, 0, 0, 0.6);
+}
+
+body.light-theme .add-dish-btn:hover {
+    background: rgba(102, 126, 234, 0.12);
+    color: #667eea;
+}
+
+/* Nutrition Panel */
+body.light-theme .nutrition-panel {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .nutrition-toggle {
+    color: #333;
+}
+
+/* Bottom Sheet */
+body.light-theme .bottom-sheet {
+    background: #f8f9fa;
+    color: #1a1a2e;
+}
+
+body.light-theme .bottom-sheet-handle::before {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+body.light-theme .bottom-sheet-header {
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .bottom-sheet-title {
+    color: #1a1a2e;
+}
+
+body.light-theme .bottom-sheet-search input {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #333;
+}
+
+body.light-theme .bottom-sheet-search input::placeholder {
+    color: rgba(0, 0, 0, 0.35);
+}
+
+body.light-theme .bottom-sheet-content .food-item {
+    background: rgba(0, 0, 0, 0.03);
+    color: #333;
+}
+
+body.light-theme .bottom-sheet-content .food-name {
+    color: #1a1a2e;
+}
+
+/* Modals */
+body.light-theme .modal-content {
+    background: #fff;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+}
+
+body.light-theme .modal-header {
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .modal-header h3 {
+    color: #1a1a2e;
+}
+
+body.light-theme .close-btn {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+body.light-theme .modal-body {
+    color: #333;
+}
+
+body.light-theme .form-group label {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+body.light-theme .form-group input,
+body.light-theme .form-group select {
+    background: #f5f5f5;
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #333;
+}
+
+body.light-theme .meal-type-btn {
+    background: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.5);
+}
+
+body.light-theme .meal-type-selector {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .btn-cancel {
+    background: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.6);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .modal-footer {
+    border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Toast */
+body.light-theme .toast {
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Undo toast */
+body.light-theme .undo-toast {
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+}
+
+body.light-theme .undo-message {
+    color: #333;
+}
+
+/* Grocery modal */
+body.light-theme .grocery-modal-content {
+    background: #fff;
+}
+
+body.light-theme .grocery-header {
+    color: #1a1a2e;
+}
+
+body.light-theme .grocery-list {
+    background: rgba(0, 0, 0, 0.02);
+    color: #333;
+}

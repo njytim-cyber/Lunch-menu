@@ -62,6 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 9. Initialize week navigation
     updateWeekLabel();
+
+    // 10. Initialize theme
+    initTheme();
 });
 
 // Re-init drag on resize
@@ -298,6 +301,7 @@ window.closeGroceryModal = closeGroceryModal;
 window.copyGroceryList = copyGroceryList;
 window.shareGroceryList = shareGroceryList;
 window.navigateWeek = navigateWeek;
+window.toggleTheme = toggleTheme;
 
 // ============================================
 // WEEK NAVIGATION
@@ -334,6 +338,26 @@ function updateWeekLabel() {
     } else {
         label.textContent = `${fmt(monday)} – ${fmt(sunday)}`;
     }
+}
+
+// ============================================
+// THEME TOGGLE
+// ============================================
+
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const btn = document.getElementById('themeToggle');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+        if (btn) btn.textContent = '☀️';
+    }
+}
+
+function toggleTheme() {
+    const isLight = document.body.classList.toggle('light-theme');
+    const btn = document.getElementById('themeToggle');
+    if (btn) btn.textContent = isLight ? '☀️' : '🌙';
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
 }
 
 // ============================================
