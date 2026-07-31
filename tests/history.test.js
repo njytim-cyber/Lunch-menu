@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { emptyWeek, addPlacement, MAX_WEEKS } from '../js/core/plan.js';
-import { historyOf, buildLastUsedIndex, weeksSince, rollTo, findWeek } from '../js/core/history.js';
+import {
+  historyOf, buildLastUsedIndex, weeksSince, describeRecency, rollTo, findWeek,
+} from '../js/core/history.js';
 
 const weekWith = (weekOf, lunchMon = [], dinnerMon = []) => {
   const w = emptyWeek(weekOf);
@@ -57,6 +59,30 @@ describe('weeksSince', () => {
 
   it('measures three weeks back', () => {
     expect(weeksSince(idx, 'porridge', '2026-07-27')).toBe(3);
+  });
+});
+
+describe('describeRecency', () => {
+  const idx = buildLastUsedIndex([
+    weekWith('2026-07-20', ['bee-hoon']),
+    weekWith('2026-07-06', ['porridge']),
+    weekWith('2026-01-05', ['fried-rice']),
+  ]);
+
+  it('says so when a dish has never been cooked', () => {
+    expect(describeRecency(idx, 'nasi-lemak', '2026-07-27')).toBe('Not cooked yet');
+  });
+
+  it('phrases one week back in words, not numbers', () => {
+    expect(describeRecency(idx, 'bee-hoon', '2026-07-27')).toBe('Last week');
+  });
+
+  it('counts weeks beyond that', () => {
+    expect(describeRecency(idx, 'porridge', '2026-07-27')).toBe('3 weeks ago');
+  });
+
+  it('caps at the retention horizon rather than reporting a stale exact number', () => {
+    expect(describeRecency(idx, 'fried-rice', '2026-07-27')).toBe('12+ weeks ago');
   });
 });
 

@@ -1,48 +1,80 @@
 :root {
-  /* Type — system stack renders as SF on Apple devices, with no network fetch */
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable",
+  /*
+   * Type — no web fonts, so the app stays offline-capable and has no
+   * render-blocking fetch. Optima (Apple) / Candara (Windows) are flared
+   * humanist faces with a menu-board character; the UI stack carries the
+   * small text where legibility beats personality.
+   */
+  --font-display: Optima, Candara, "Gill Sans Nova", "Gill Sans", "Trebuchet MS", sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable",
                "Segoe UI", system-ui, sans-serif;
-  --text-xs: 0.75rem; --text-sm: 0.8125rem; --text-base: 0.9375rem;
-  --text-lg: 1.0625rem; --text-xl: 1.375rem; --text-2xl: 1.75rem;
-  --tracking-tight: -0.022em;
 
-  /* Spacing — 4px base */
+  --text-2xs: 0.6875rem; --text-xs: 0.75rem;  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem; --text-md: 1.0625rem; --text-lg: 1.25rem;
+  --text-xl: 1.75rem;     --text-2xl: 2.5rem;   --text-3xl: 3.5rem;
+
+  --track-label: 0.14em;   /* eyebrows and role labels */
+  --track-tight: -0.02em;
+
   --space-1: 0.25rem; --space-2: 0.5rem;  --space-3: 0.75rem;
-  --space-4: 1rem;    --space-5: 1.5rem;  --space-6: 2rem;
+  --space-4: 1rem;    --space-5: 1.5rem;  --space-6: 2.25rem; --space-7: 3.5rem;
 
-  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-full: 999px;
+  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 18px; --radius-full: 999px;
 
-  --bg:            #f2f2f7;
-  --bg-elevated:   #ffffff;
-  --bg-sunken:     #eeeef2;
-  --separator:     rgba(60, 60, 67, 0.18);
-  --text:          #1c1c1e;
-  --text-secondary:#6c6c70;
-  --text-tertiary: #aeaeb2;
-  --accent:        #ff6b35;
-  --accent-soft:   rgba(255, 107, 53, 0.12);
-  --scrim:         rgba(0, 0, 0, 0.32);
+  /* Porcelain and tea-black, not cream and charcoal */
+  --bg:          #fbfaf8;
+  --surface:     #ffffff;
+  --surface-2:   #f4f2ed;
+  --ink:         #16302b;
+  --ink-2:       #5c6f69;
+  --ink-3:       #9dab a6;
+  --ink-3:       #9daba6;
+  --rule:        rgba(22, 48, 43, 0.11);
+  --rule-strong: rgba(22, 48, 43, 0.22);
 
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.18);
+  /*
+   * Role colours. These are data, not decoration: every dinner renders
+   * rice -> vegetable -> protein -> soup in that order, so the colours
+   * make a week's balance legible at a glance.
+   */
+  --role-staple:  #8d9c96;
+  --role-veg:     #17795a;
+  --role-protein: #c43b2b;
+  --role-soup:    #c08a2a;
+  --role-main:    #16302b;
 
-  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
-  --duration: 320ms;
+  --accent:      #c43b2b;
+  --accent-soft: rgba(196, 59, 43, 0.09);
+  --scrim:       rgba(22, 48, 43, 0.38);
+
+  --shadow-sm: 0 1px 2px rgba(22, 48, 43, 0.06);
+  --shadow-md: 0 6px 24px rgba(22, 48, 43, 0.09);
+  --shadow-lg: 0 20px 60px rgba(22, 48, 43, 0.20);
+
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --duration: 300ms;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:            #000000;
-    --bg-elevated:   #1c1c1e;
-    --bg-sunken:     #2c2c2e;
-    --separator:     rgba(84, 84, 88, 0.65);
-    --text:          #ffffff;
-    --text-secondary:#98989d;
-    --text-tertiary: #6c6c70;
-    --accent:        #ff7d4d;
-    --accent-soft:   rgba(255, 125, 77, 0.18);
-    --scrim:         rgba(0, 0, 0, 0.6);
+    --bg:          #0d1a18;
+    --surface:     #16251f;
+    --surface-2:   #1e2f28;
+    --ink:         #f0efe9;
+    --ink-2:       #9aaaa3;
+    --ink-3:       #66766f;
+    --rule:        rgba(240, 239, 233, 0.13);
+    --rule-strong: rgba(240, 239, 233, 0.26);
+
+    --role-staple:  #8d9c96;
+    --role-veg:     #43a880;
+    --role-protein: #e4685a;
+    --role-soup:    #dfa945;
+    --role-main:    #f0efe9;
+
+    --accent:      #e4685a;
+    --accent-soft: rgba(228, 104, 90, 0.14);
+    --scrim:       rgba(0, 0, 0, 0.6);
   }
 }
 

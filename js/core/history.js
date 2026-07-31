@@ -37,6 +37,21 @@ export function weeksSince(index, dishId, currentWeekKey) {
 }
 
 /**
+ * Human phrasing for how long since a dish was last cooked.
+ *
+ * Surfaced in the swap sheet so the same signal the generator weights by
+ * is visible to the person editing, rather than hidden inside the engine.
+ */
+export function describeRecency(index, dishId, currentWeekKey) {
+  const gap = weeksSince(index, dishId, currentWeekKey);
+  if (gap === Infinity) return 'Not cooked yet';
+  if (gap <= 0) return 'This week';
+  if (gap === 1) return 'Last week';
+  if (gap >= 12) return '12+ weeks ago';
+  return `${gap} weeks ago`;
+}
+
+/**
  * Start a new current week. The outgoing week is archived unless it is
  * empty, in which case it is discarded rather than cluttering history.
  * Returns new state; does not mutate.

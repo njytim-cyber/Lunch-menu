@@ -4,66 +4,63 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Weekly Meals</title>
-  <meta name="description" content="Plan your family's lunches and dinners for the week.">
-  <meta name="theme-color" content="#ff6b35">
+  <meta name="description" content="This week's lunches and dinners for the family, ready to cook and share.">
+  <meta name="theme-color" content="#fbfaf8">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
 
-  <main class="app">
-    <header class="app__header">
-      <h1>Weekly Meals</h1>
-      <div class="app__actions">
-        <div class="segmented" role="tablist" aria-label="Meal">
-          <button class="segmented__btn" data-action="show-meal" data-meal="lunch"
-                  role="tab" aria-selected="true">Lunch</button>
-          <button class="segmented__btn" data-action="show-meal" data-meal="dinner"
-                  role="tab" aria-selected="false">Dinner</button>
-        </div>
-        <button class="btn" data-action="open-add-dish">New dish</button>
-        <button class="btn" data-action="open-history">History</button>
-        <button class="btn" data-action="clear-meal">Clear</button>
-        <button class="btn btn--primary" data-action="generate-week">Generate week</button>
+  <header class="bar">
+    <div class="bar__inner">
+      <p class="wordmark">Weekly<span>Meals</span></p>
+      <div class="bar__actions">
+        <button class="btn btn--quiet" data-action="open-history">History</button>
+        <button class="btn btn--quiet" data-action="generate-week">Draw again</button>
+        <button class="btn btn--solid" data-action="share-week">Share</button>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <section id="lunch-page" data-meal="lunch">
-      <div class="week-grid" id="lunchGrid"></div>
-    </section>
-    <section id="dinner-page" data-meal="dinner" hidden>
-      <div class="week-grid" id="dinnerGrid"></div>
+  <main class="page">
+    <section id="todaySlot"></section>
+
+    <section class="rest">
+      <h2 class="eyebrow rule">The rest of the week</h2>
+      <div class="week" id="weekGrid"></div>
     </section>
   </main>
 
   <div class="scrim" id="scrim" data-action="close-overlays"></div>
 
-  <div class="sheet" id="picker" role="dialog" aria-modal="true" aria-label="Add a dish">
-    <header class="sheet__header">
-      <h2>Add a dish</h2>
-      <button class="btn" data-action="close-overlays">Done</button>
+  <div class="sheet" id="picker" role="dialog" aria-modal="true" aria-labelledby="pickerTitle">
+    <div class="sheet__grip" aria-hidden="true"></div>
+    <header class="sheet__head">
+      <h2 id="pickerTitle">Add a dish</h2>
+      <button class="btn btn--quiet" data-action="close-overlays">Done</button>
     </header>
-    <nav class="sheet__categories" id="pickerCategories" aria-label="Category"></nav>
-    <div class="sheet__items" id="pickerItems"></div>
+    <div class="sheet__actions" id="pickerActions" hidden></div>
+    <nav class="chips" id="pickerCategories" aria-label="Filter dishes"></nav>
+    <ul class="options" id="pickerItems"></ul>
   </div>
 
-  <div class="modal" id="historyModal" role="dialog" aria-modal="true" aria-label="Past weeks" hidden>
-    <header class="modal__header">
-      <h2>Past weeks</h2>
-      <button class="btn" data-action="close-overlays">Done</button>
+  <div class="modal" id="historyModal" role="dialog" aria-modal="true" aria-labelledby="historyTitle" hidden>
+    <header class="modal__head">
+      <h2 id="historyTitle">Past weeks</h2>
+      <button class="btn btn--quiet" data-action="close-overlays">Done</button>
     </header>
     <div id="historyList"></div>
   </div>
 
-  <div class="modal" id="addDishModal" role="dialog" aria-modal="true" aria-label="Add a custom dish" hidden>
-    <header class="modal__header">
-      <h2>New dish</h2>
-      <button class="btn" data-action="close-overlays">Cancel</button>
+  <div class="modal" id="addDishModal" role="dialog" aria-modal="true" aria-labelledby="addDishTitle" hidden>
+    <header class="modal__head">
+      <h2 id="addDishTitle">Add your own dish</h2>
+      <button class="btn btn--quiet" data-action="close-overlays">Cancel</button>
     </header>
-    <label>Name <input id="newDishName" type="text" autocomplete="off"></label>
-    <label>Category <select id="newDishCategory"></select></label>
-    <button class="btn btn--primary" data-action="save-custom-dish">Add dish</button>
+    <label>Dish name <input id="newDishName" type="text" autocomplete="off" placeholder="Ikan Bilis Sambal"></label>
+    <label>Group <select id="newDishCategory"></select></label>
+    <button class="btn btn--solid" data-action="save-custom-dish">Add dish</button>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
