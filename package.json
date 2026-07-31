@@ -1,12 +1,19 @@
 {
   "name": "weekly-food-menu",
-  "version": "2.0.5",
+  "version": "3.0.0",
   "description": "A weekly meal planner application",
   "type": "module",
   "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "validate": "node scripts/validate.js",
+    "build:icons": "node scripts/build-sprite.js",
     "release": "node scripts/release.js",
-    "deploy": "npx wrangler pages deploy . --project-name=lunch-menu"
+    "deploy": "npm run build:icons && npm run validate && npm test && npx wrangler pages deploy . --project-name=lunch-menu"
   },
   "author": "Antigravity",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "vitest": "^3.2.7"
+  }
 }

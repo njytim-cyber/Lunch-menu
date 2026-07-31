@@ -12,5 +12,14 @@ node_modules/**
 scripts
 scripts/**
 package.json
+package-lock.json
 wrangler.jsonc
 _redirects
+docs
+docs/**
+tests
+tests/**
+icons/src
+icons/src/**
+vitest.config.js
+data/dishes.schema.json
