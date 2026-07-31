@@ -1,539 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Weekly Food Menu</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Weekly Meals</title>
+  <meta name="description" content="Plan your family's lunches and dinners for the week.">
+  <meta name="theme-color" content="#ff6b35">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles/main.css">
 </head>
-
 <body>
-    <div class="background-blob blob-1"></div>
-    <div class="background-blob blob-2"></div>
-    <div class="background-blob blob-3"></div>
 
-    <div class="app-container">
-        <!-- Compact Global Header -->
-        <div class="app-header">
-            <div class="toggle-container">
-                <button class="toggle-btn active" data-tab="lunch">
-                    <span class="toggle-icon">☀️</span> Lunch
-                </button>
-                <button class="toggle-btn" data-tab="dinner">
-                    <span class="toggle-icon">🌙</span> Dinner
-                </button>
-            </div>
-
-            <div class="header-actions">
-                <div class="action-toolbar">
-                    <button class="toolbar-btn" onclick="showHelpModal()" title="Help & Tips">
-                        <span class="toolbar-icon">❓</span>
-                    </button>
-                    <button class="toolbar-btn" onclick="handleGlobalSuggest()" title="Auto-Suggest Menu">
-                        <span class="toolbar-icon">💡</span>
-                    </button>
-                    <button class="toolbar-btn" onclick="openTemplatesModal()" title="Templates">
-                        <span class="toolbar-icon">📂</span>
-                    </button>
-                    <button class="toolbar-btn" onclick="handleGlobalShare()" title="Share Menu">
-                        <span class="toolbar-icon">🔗</span>
-                    </button>
-                    <button class="toolbar-btn toolbar-btn-danger" onclick="handleGlobalClear()" title="Clear All">
-                        <span class="toolbar-icon">🗑️</span>
-                    </button>
-                </div>
-            </div>
+  <main class="app">
+    <header class="app__header">
+      <h1>Weekly Meals</h1>
+      <div class="app__actions">
+        <div class="segmented" role="tablist" aria-label="Meal">
+          <button class="segmented__btn" data-action="show-meal" data-meal="lunch"
+                  role="tab" aria-selected="true">Lunch</button>
+          <button class="segmented__btn" data-action="show-meal" data-meal="dinner"
+                  role="tab" aria-selected="false">Dinner</button>
         </div>
+        <button class="btn" data-action="open-add-dish">New dish</button>
+        <button class="btn" data-action="open-history">History</button>
+        <button class="btn" data-action="clear-meal">Clear</button>
+        <button class="btn btn--primary" data-action="generate-week">Generate week</button>
+      </div>
+    </header>
 
+    <section id="lunch-page" data-meal="lunch">
+      <div class="week-grid" id="lunchGrid"></div>
+    </section>
+    <section id="dinner-page" data-meal="dinner" hidden>
+      <div class="week-grid" id="dinnerGrid"></div>
+    </section>
+  </main>
 
+  <div class="scrim" id="scrim" data-action="close-overlays"></div>
 
-        <!-- Nutrition Summary Panel -->
-        <div class="nutrition-panel" id="nutritionPanel">
-            <button class="nutrition-toggle" onclick="toggleNutritionPanel()">
-                <span>📊 Weekly Stats</span>
-                <span class="toggle-arrow">▼</span>
-            </button>
-            <div class="nutrition-content" id="nutritionContent">
-                <div class="nutrition-stats" id="nutritionStats">
-                    <!-- Stats will be populated by JavaScript -->
-                </div>
-            </div>
-        </div>
+  <div class="sheet" id="picker" role="dialog" aria-modal="true" aria-label="Add a dish">
+    <header class="sheet__header">
+      <h2>Add a dish</h2>
+      <button class="btn" data-action="close-overlays">Done</button>
+    </header>
+    <nav class="sheet__categories" id="pickerCategories" aria-label="Category"></nav>
+    <div class="sheet__items" id="pickerItems"></div>
+  </div>
 
-        <!-- Scrollable Content Area -->
-        <div class="content-area">
-            <!-- LUNCH PAGE -->
-            <div id="lunch-page" class="page active">
-                <div class="days-grid">
-                    <div class="day-card lunch-card" data-day="monday" data-meal="lunch" data-max-items="1">
-                        <div class="day-card-header">Monday</div>
-                        <div class="day-card-content">
-                            <div class="add-food-btn">
-                                <span class="add-icon">+</span>
-                                <span class="add-text">Add Lunch</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Tuesday -->
-                    <div class="day-card lunch-card" data-day="tuesday" data-meal="lunch" data-max-items="1">
-                        <div class="day-card-header">Tuesday</div>
-                        <div class="day-card-content">
-                            <div class="add-food-btn">
-                                <span class="add-icon">+</span>
-                                <span class="add-text">Add Lunch</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Wednesday -->
-                    <div class="day-card lunch-card" data-day="wednesday" data-meal="lunch" data-max-items="1">
-                        <div class="day-card-header">Wednesday</div>
-                        <div class="day-card-content">
-                            <div class="add-food-btn">
-                                <span class="add-icon">+</span>
-                                <span class="add-text">Add Lunch</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Thursday -->
-                    <div class="day-card lunch-card" data-day="thursday" data-meal="lunch" data-max-items="1">
-                        <div class="day-card-header">Thursday</div>
-                        <div class="day-card-content">
-                            <div class="add-food-btn">
-                                <span class="add-icon">+</span>
-                                <span class="add-text">Add Lunch</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friday -->
-                    <div class="day-card lunch-card" data-day="friday" data-meal="lunch" data-max-items="1">
-                        <div class="day-card-header">Friday</div>
-                        <div class="day-card-content">
-                            <div class="add-food-btn">
-                                <span class="add-icon">+</span>
-                                <span class="add-text">Add Lunch</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Saturday -->
-                    <div class="day-card lunch-card" data-day="saturday" data-meal="lunch" data-max-items="1">
-                        <div class="day-card-header">Saturday</div>
-                        <div class="day-card-content">
-                            <div class="add-food-btn">
-                                <span class="add-icon">+</span>
-                                <span class="add-text">Add Lunch</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Sunday -->
-                    <div class="day-card lunch-card" data-day="sunday" data-meal="lunch" data-max-items="1">
-                        <div class="day-card-header">Sunday</div>
-                        <div class="day-card-content">
-                            <div class="add-food-btn">
-                                <span class="add-icon">+</span>
-                                <span class="add-text">Add Lunch</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="modal" id="historyModal" role="dialog" aria-modal="true" aria-label="Past weeks" hidden>
+    <header class="modal__header">
+      <h2>Past weeks</h2>
+      <button class="btn" data-action="close-overlays">Done</button>
+    </header>
+    <div id="historyList"></div>
+  </div>
 
-                <!-- Desktop Food Drawer -->
-                <div class="food-drawer desktop-only" id="lunchFoodDrawer">
-                    <button class="drawer-toggle" onclick="toggleFoodDrawer('lunch')">
-                        <span class="drawer-icon">🍱</span>
-                        <span class="drawer-title">Available Lunch Items</span>
-                        <span class="drawer-arrow">▼</span>
-                    </button>
-                    <div class="drawer-content">
-                        <div class="category-tabs" data-meal="lunch">
-                            <button class="category-tab active" data-category="all">All</button>
-                            <button class="category-tab" data-category="noodles">🍜 Noodles</button>
-                            <button class="category-tab" data-category="rice">🍚 Rice</button>
-                            <button class="category-tab" data-category="vegetables">🥬 Vegetables</button>
-                            <button class="category-tab" data-category="chicken">🍗 Chicken</button>
-                            <button class="category-tab" data-category="fish">🐟 Fish</button>
-                            <button class="category-tab" data-category="soup">🍲 Soup</button>
-                            <button class="category-tab" data-category="pasta">🍝 Pasta</button>
-                        </div>
-                        <div class="food-items" id="lunch-food-items">
-                        </div>
-                        <button id="addLunchDishBtn" class="add-dish-btn" data-meal="lunch">+ Add New Dish</button>
-                    </div>
-                </div>
-            </div>
+  <div class="modal" id="addDishModal" role="dialog" aria-modal="true" aria-label="Add a custom dish" hidden>
+    <header class="modal__header">
+      <h2>New dish</h2>
+      <button class="btn" data-action="close-overlays">Cancel</button>
+    </header>
+    <label>Name <input id="newDishName" type="text" autocomplete="off"></label>
+    <label>Category <select id="newDishCategory"></select></label>
+    <button class="btn btn--primary" data-action="save-custom-dish">Add dish</button>
+  </div>
 
-            <!-- DINNER PAGE -->
-            <div id="dinner-page" class="page">
-                <div class="days-grid">
-                    <div class="day-card dinner-card" data-day="monday" data-meal="dinner" data-max-items="4">
-                        <div class="day-card-header">Monday</div>
-                        <div class="day-card-content">
-                            <div class="add-food-btn">
-                                <span class="add-icon">+</span>
-                                <span class="add-text">Add Dinner</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Tuesday -->
-                    <div class="day-card dinner-card" data-day="tuesday" data-meal="dinner" data-max-items="4">
-                        <div class="day-card-header">Tuesday</div>
-                        <div class="day-card-content">
-                            <div class="add-food-btn">
-                                <span class="add-icon">+</span>
-                                <span class="add-text">Add Dinner</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Wednesday -->
-                    <div class="day-card dinner-card" data-day="wednesday" data-meal="dinner" data-max-items="4">
-                        <div class="day-card-header">Wednesday</div>
-                        <div class="day-card-content">
-                            <div class="add-food-btn">
-                                <span class="add-icon">+</span>
-                                <span class="add-text">Add Dinner</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Thursday -->
-                    <div class="day-card dinner-card" data-day="thursday" data-meal="dinner" data-max-items="4">
-                        <div class="day-card-header">Thursday</div>
-                        <div class="day-card-content">
-                            <div class="add-food-btn">
-                                <span class="add-icon">+</span>
-                                <span class="add-text">Add Dinner</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Friday -->
-                    <div class="day-card dinner-card" data-day="friday" data-meal="dinner" data-max-items="4">
-                        <div class="day-card-header">Friday</div>
-                        <div class="day-card-content">
-                            <div class="add-food-btn">
-                                <span class="add-icon">+</span>
-                                <span class="add-text">Add Dinner</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Saturday -->
-                    <div class="day-card dinner-card" data-day="saturday" data-meal="dinner" data-max-items="4">
-                        <div class="day-card-header">Saturday</div>
-                        <div class="day-card-content">
-                            <div class="add-food-btn">
-                                <span class="add-icon">+</span>
-                                <span class="add-text">Add Dinner</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Sunday -->
-                    <div class="day-card dinner-card" data-day="sunday" data-meal="dinner" data-max-items="4">
-                        <div class="day-card-header">Sunday</div>
-                        <div class="day-card-content">
-                            <div class="add-food-btn">
-                                <span class="add-icon">+</span>
-                                <span class="add-text">Add Dinner</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-                <!-- Desktop Food Drawer -->
-                <div class="food-drawer desktop-only" id="dinnerFoodDrawer">
-                    <button class="drawer-toggle" onclick="toggleFoodDrawer('dinner')">
-                        <span class="drawer-icon">🥘</span>
-                        <span class="drawer-title">Available Dinner Items</span>
-                        <span class="drawer-arrow">▼</span>
-                    </button>
-                    <div class="drawer-content">
-                        <div class="category-tabs" data-meal="dinner">
-                            <button class="category-tab active" data-category="all">All</button>
-                            <button class="category-tab" data-category="noodles">🍜 Noodles</button>
-                            <button class="category-tab" data-category="rice">🍚 Rice</button>
-                            <button class="category-tab" data-category="vegetables">🥬 Vegetables</button>
-                            <button class="category-tab" data-category="chicken">🍗 Chicken</button>
-                            <button class="category-tab" data-category="fish">🐟 Fish</button>
-                            <button class="category-tab" data-category="pork">🥩 Pork</button>
-                            <button class="category-tab" data-category="eggs">🥚 Eggs</button>
-                            <button class="category-tab" data-category="soup">🍲 Soup</button>
-                            <button class="category-tab" data-category="pasta">🍝 Pasta</button>
-                        </div>
-                        <div class="food-items" id="dinner-food-items">
-                        </div>
-                        <button id="addDinnerDishBtn" class="add-dish-btn" data-meal="dinner">+ Add New Dish</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bottom Sheet Overlay -->
-    <div class="bottom-sheet-overlay" id="bottomSheetOverlay"></div>
-
-    <!-- Bottom Sheet -->
-    <div class="bottom-sheet" id="bottomSheet">
-        <div class="bottom-sheet-handle"></div>
-        <div class="bottom-sheet-header">
-            <h3 class="bottom-sheet-title">Add Lunch</h3>
-            <button class="close-btn" id="closeBottomSheet">×</button>
-        </div>
-        <div class="bottom-sheet-categories" id="bottomSheetTabs">
-            <!-- Tabs injected by JS -->
-        </div>
-        <div class="bottom-sheet-content" id="bottomSheetContent">
-            <!-- Items injected by JS -->
-        </div>
-    </div>
-
-    <!-- Version Modal -->
-    <div class="modal-overlay" id="versionModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>✨ New in v2.0</h2>
-                <button class="modal-close" onclick="closeVersionModal()">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="feature-item">
-                    <span class="feature-icon">💾</span>
-                    <div class="feature-text">
-                        <strong>Auto-Save</strong>
-                        <p>Your meal plan is now automatically saved. No more lost menus!</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">💡</span>
-                    <div class="feature-text">
-                        <strong>Auto-Suggest</strong>
-                        <p>Stuck? Tap the lightbulb to instantly generate a balanced meal.</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">💅</span>
-                    <div class="feature-text">
-                        <strong>Fresh Look</strong>
-                        <p>Cleaner design, compact menu, and better mobile experience.</p>
-                    </div>
-                </div>
-            </div>
-            <button class="modal-btn" onclick="closeVersionModal()">Got it!</button>
-        </div>
-    </div>
-
-    <!-- Add Custom Dish Modal -->
-    <div class="modal" id="addDishModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Add Custom Dish</h3>
-                <button class="close-btn" id="addDishCloseX">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Meal Type</label>
-                    <div class="meal-type-selector">
-                        <button class="meal-type-btn active" data-meal="lunch">Lunch</button>
-                        <button class="meal-type-btn" data-meal="dinner">Dinner</button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="dishName">Dish Name</label>
-                    <input type="text" id="dishName" placeholder="e.g. Handmade Noodles" maxlength="30">
-                </div>
-                <div class="form-group">
-                    <label for="dishEmoji">Emoji</label>
-                    <select id="dishEmoji">
-                        <option value="🥘">🥘 Food</option>
-                        <option value="🍜">🍜 Noodle</option>
-                        <option value="🍚">🍚 Rice</option>
-                        <option value="🥬">🥬 Veg</option>
-                        <option value="🍗">🍗 Chicken</option>
-                        <option value="🐟">🐟 Fish</option>
-                        <option value="🥩">🥩 Meat</option>
-                        <option value="🦐">🦐 Seafood</option>
-                        <option value="🥚">🥚 Egg</option>
-                        <option value="🍲">🍲 Soup</option>
-                        <option value="🍝">🍝 Pasta</option>
-                        <option value="🍰">🍰 Dessert</option>
-                        <option value="🍎">🍎 Fruit</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="dishCategory">Category</label>
-                    <select id="dishCategory">
-                        <option value="noodles">Noodles</option>
-                        <option value="rice">Rice</option>
-                        <option value="vegetables">Vegetables</option>
-                        <option value="chicken">Chicken</option>
-                        <option value="fish">Fish</option>
-                        <option value="pork">Pork</option>
-                        <option value="eggs">Eggs</option>
-                        <option value="prawn">Prawn</option>
-                        <option value="soup">Soup</option>
-                        <option value="pasta">Pasta</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="dishRecipe">Recipe (optional)</label>
-                    <textarea id="dishRecipe" placeholder="Add recipe instructions..." rows="4"></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-cancel" id="addDishCancelBtn">Cancel</button>
-                <button class="btn-submit" id="addDishSubmitBtn">Add Dish</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recipe Modal -->
-    <div class="modal" id="recipeModal">
-        <div class="modal-content recipe-modal-content">
-            <div class="modal-header">
-                <h3 id="recipeModalTitle">Recipe</h3>
-                <button class="close-btn" id="recipeCloseX">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="recipe-display" id="recipeDisplay">
-                    <p class="recipe-empty">No recipe added yet</p>
-                </div>
-                <div class="form-group recipe-edit-group" id="recipeEditGroup" style="display:none;">
-                    <textarea id="recipeTextarea" placeholder="Add recipe instructions..." rows="6"></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-cancel" id="recipeEditBtn">Edit</button>
-                <button class="btn-submit" id="recipeSaveBtn" style="display:none;">Save</button>
-                <button class="btn-cancel" id="recipeCancelBtn" style="display:none;">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Dish Confirmation Modal -->
-    <div class="modal" id="deleteConfirmModal">
-        <div class="modal-content delete-modal-content">
-            <h2>🗑️ Delete Dish?</h2>
-            <p id="deleteConfirmText">Are you sure you want to permanently delete this dish?</p>
-            <div class="modal-footer">
-                <button class="btn-cancel" id="deleteCancelBtn">Cancel</button>
-                <button class="btn-danger" id="deleteConfirmBtn">Delete</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Help Modal -->
-    <div class="modal-overlay" id="helpModal">
-        <div class="modal-content help-modal-content">
-            <button class="modal-close" onclick="closeHelpModal()">×</button>
-            <h2>✨ How to use</h2>
-            <div class="help-sections">
-                <div class="help-item">
-                    <span class="help-icon">🖱️</span>
-                    <div class="help-text">
-                        <strong>Drag & Drop</strong>
-                        <p>Drag foods from the drawer to any day card.</p>
-                    </div>
-                </div>
-                <div class="help-item">
-                    <span class="help-icon">🔃</span>
-                    <div class="help-text">
-                        <strong>Reorder Items</strong>
-                        <p>Drag items within a day to change their order.</p>
-                    </div>
-                </div>
-                <div class="help-item">
-                    <span class="help-icon">🔒</span>
-                    <div class="help-text">
-                        <strong>Lock Items</strong>
-                        <p>Click the lock icon to save an item from "Clear All" or Auto-Suggest.</p>
-                    </div>
-                </div>
-                <div class="help-item">
-                    <span class="help-icon">↩️</span>
-                    <div class="help-text">
-                        <strong>Undo</strong>
-                        <p>Accidentally removed something? Use the Undo toast!</p>
-                    </div>
-                </div>
-                <div class="help-item">
-                    <span class="help-icon">🎲</span>
-                    <div class="help-text">
-                        <strong>Auto-Suggest</strong>
-                        <p>Let AI fill your empty slots with random meals.</p>
-                    </div>
-                </div>
-            </div>
-            <button class="btn-cosmic" onclick="closeHelpModal()">
-                <span>Got it!</span>
-                <span>✨</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Templates Modal -->
-    <div class="modal-overlay" id="templatesModal">
-        <div class="modal-content template-modal-content">
-            <button class="modal-close" onclick="closeTemplatesModal()">×</button>
-
-            <!-- Initial View -->
-            <div id="templatesInitialView">
-                <h2>📂 Templates</h2>
-                <div class="empty-state">
-                    <div class="empty-icon">📁</div>
-                    <p>No templates YET</p>
-                </div>
-                <button class="btn-cosmic" onclick="startCreatingTemplate()">
-                    <span>+ Create New Template</span>
-                </button>
-                <button class="btn-cosmic btn-secondary" id="loadTemplateBtn" onclick="loadSavedTemplate()"
-                    style="display: none;">
-                    <span>📥 Load Saved Template</span>
-                </button>
-            </div>
-
-            <!-- Builder View -->
-            <div id="templatesBuilderView" style="display: none;">
-                <div class="builder-header">
-                    <h2>🏗️ Create Template</h2>
-                    <input type="text" id="templateNameInput" class="template-name-input"
-                        placeholder="Template name (e.g., Healthy Week)" maxlength="30">
-                    <p class="builder-instruction">📱 Tap a day, then tap items to add</p>
-                </div>
-
-                <div class="builder-grid">
-                    <!-- 7 Days Grid for Builder -->
-                    <div class="days-grid-small" id="builderGrid">
-                        <!-- Cards inserted via JS -->
-                    </div>
-                </div>
-
-                <!-- Builder Drawer -->
-                <div class="builder-drawer">
-                    <h3>Available Items</h3>
-                    <div class="category-tabs" data-context="builder">
-                        <button class="category-tab active" data-category="all">All</button>
-                        <button class="category-tab" data-category="noodles">🍜</button>
-                        <button class="category-tab" data-category="rice">🍚</button>
-                        <button class="category-tab" data-category="chicken">🍗</button>
-                        <button class="category-tab" data-category="vegetables">🥬</button>
-                        <button class="category-tab" data-category="fish">🐟</button>
-                        <button class="category-tab" data-category="pork">🥩</button>
-                        <button class="category-tab" data-category="eggs">🥚</button>
-                        <button class="category-tab" data-category="soup">🍲</button>
-                        <button class="category-tab" data-category="pasta">🍝</button>
-                        <button class="category-tab" data-category="prawn">🦐</button>
-                    </div>
-                    <div class="food-items-small" id="builderFoodItems"></div>
-                </div>
-
-                <button class="btn-cosmic" onclick="saveNewTemplate()">
-                    <span>💾 Save Meal</span>
-                    <span>🎉</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
-
 </html>

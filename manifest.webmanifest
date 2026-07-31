@@ -1,0 +1,13 @@
+{
+  "name": "Weekly Meals",
+  "short_name": "Meals",
+  "description": "Plan your family's lunches and dinners for the week.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f2f2f7",
+  "theme_color": "#ff6b35",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
