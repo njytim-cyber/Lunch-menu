@@ -151,7 +151,36 @@ The app currently has no notion of *which* week is being planned — days are ba
 
 ---
 
-## 6. Data migration
+## 6. State shape
+
+Three structural decisions, each removing a class of bug rather than saving bytes. At ~14 KB for 13 weeks the storage size is irrelevant against a ~5 MB quota, so the shape is optimised for correctness and lookup cost, not compactness.
+
+```js
+{
+  version: 3,
+  weeks: [                       // newest first; weeks[0] IS the current week
+    { weekOf: "2026-07-27",
+      lunch:  [ [{id:"bee-hoon"}], [], [], [], [], [], [] ],          // 7 fixed slots, Mon..Sun
+      dinner: [ [{id:"rice"},{id:"kai-lan"},{id:"curry-chicken",lock:true}], [], … ] }
+  ],
+  custom:  [ { id, name, meals, category, prep, icon } ],
+  recipes: { [dishId]: "free text" }
+}
+```
+
+**1. One `weeks` array, not `current` + `history`.** They had identical shape but separate homes, which forced a copy-then-reset on rollover plus a special case for "don't snapshot an empty week". Unified, rollover is `unshift(emptyWeek(nextKey))` and retention is `slice(0, 13)` — current week plus 12 of history.
+
+**2. Locks live on the placement, not in a parallel tree.** A mirrored `locks` structure would require every add/remove/clear to mutate two trees in step — the same dual-mutation pattern behind this repo's regression history, relocated into the state layer. With `{id, lock: true}`, desync is unrepresentable: removing a placement removes its lock. `clearMeal` becomes "keep locked placements, drop the rest", which is also better behaviour than wiping pins.
+
+**3. Days are fixed 7-element arrays, not sparse objects.** Index 0–6 is Monday–Sunday. Removes every `?? []` guard and the day-name string keys.
+
+### Derived index for generation
+
+`weeksSinceLastUse` as a scan is accidentally quadratic — it would rebuild a `Set` of every dish in every history week, per candidate, per slot (~132,000 set insertions per generate). Instead a `Map<dishId, weekOf>` is built once per run by walking `weeks[1…]` newest-first, where the first occurrence of an id is by construction its most recent use. ~420 insertions once, then O(1) per lookup.
+
+---
+
+## 7. Data migration
 
 Existing users hold three name-keyed `localStorage` entries: `weeklyMealPlan_v1`, `customDishes_v1`, `recipes_v1`. Since `recipes` is keyed by **display name**, the renames in §3 would orphan saved recipes. Migration is mandatory, not optional.
 
@@ -162,7 +191,7 @@ Existing users hold three name-keyed `localStorage` entries: `weeklyMealPlan_v1`
 
 ---
 
-## 7. Architecture
+## 8. Architecture
 
 ```
 index.html
@@ -204,7 +233,7 @@ Runtime stays dependency-free; Cloudflare still serves static files.
 
 ---
 
-## 8. Visual design
+## 9. Visual design
 
 - **Type:** system font stack (SF on Apple devices), removing the render-blocking Google Fonts request.
 - **Surface:** generous whitespace, 12–16px radii, hairline separators, layered translucency for sheets.
@@ -215,7 +244,7 @@ Runtime stays dependency-free; Cloudflare still serves static files.
 
 ---
 
-## 9. Testing
+## 10. Testing
 
 No test infrastructure exists today. Vitest is added as a dev-only dependency (runtime stays dependency-free) covering the pure logic where correctness actually matters:
 
@@ -225,7 +254,7 @@ No test infrastructure exists today. Vitest is added as a dev-only dependency (r
 
 ---
 
-## 10. Sequencing
+## 11. Sequencing
 
 **Phase 1 — code + UX.** Everything above except the icon artwork. Ships with a single generic fallback mark used by every dish; the icon system is fully built and wired, just pointing at one placeholder. Production stays on the current version through this phase.
 
@@ -235,7 +264,7 @@ Splitting this way keeps the icon work — the bulk of the effort, and the part 
 
 ---
 
-## 11. Open items
+## 12. Open items
 
 | Item | Status |
 |---|---|
