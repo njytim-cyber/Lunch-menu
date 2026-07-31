@@ -2,70 +2,878 @@
   "$schema": "./dishes.schema.json",
   "version": 3,
   "categories": {
-    "lunch": ["pasta", "rice", "noodles"],
-    "dinner": ["rice", "vegetables", "fish", "pork", "chicken", "soup", "eggs", "prawn", "tofu"]
+    "lunch": [
+      "pasta",
+      "rice",
+      "noodles"
+    ],
+    "dinner": [
+      "rice",
+      "vegetables",
+      "fish",
+      "pork",
+      "chicken",
+      "soup",
+      "eggs",
+      "prawn",
+      "tofu"
+    ]
   },
-  "proteinCategories": ["fish", "pork", "chicken", "eggs", "prawn", "tofu"],
+  "proteinCategories": [
+    "fish",
+    "pork",
+    "chicken",
+    "eggs",
+    "prawn",
+    "tofu"
+  ],
   "dishes": [
-    { "id": "rigatoni",                     "name": "Rigatoni",                                       "meals": ["lunch"],  "category": "pasta",      "prep": "baked",      "icon": "rigatoni",                     "description": "" },
-    { "id": "mushroom-fusilli",             "name": "Mushroom Fusilli",                               "meals": ["lunch"],  "category": "pasta",      "prep": "stir-fried", "icon": "mushroom-fusilli",             "description": "" },
-    { "id": "cheese-pepper-pasta",          "name": "Cheese and Pepper Pasta",                        "meals": ["lunch"],  "category": "pasta",      "prep": "tossed",     "icon": "cheese-pepper-pasta",          "description": "" },
-    { "id": "pistachio-pesto-chicken",      "name": "Pistachio Pesto with Chicken",                   "meals": ["lunch"],  "category": "pasta",      "prep": "tossed",     "icon": "pistachio-pesto-chicken",      "description": "" },
-    { "id": "cheesy-rigatoni",              "name": "Cheesy Rigatoni",                                "meals": ["lunch"],  "category": "pasta",      "prep": "baked",      "icon": "cheesy-rigatoni",              "description": "" },
-    { "id": "chicken-pasta-broccoli",       "name": "Chicken Pasta and Broccoli",                     "meals": ["lunch"],  "category": "pasta",      "prep": "tossed",     "icon": "chicken-pasta-broccoli",       "description": "" },
-
-    { "id": "chicken-rice",                 "name": "Chicken Rice",                                   "meals": ["lunch"],  "category": "rice",       "prep": "steamed",    "icon": "chicken-rice",                 "description": "" },
-    { "id": "soy-chicken-chye-sim",         "name": "Soy Chicken and Chye Sim",                       "meals": ["lunch"],  "category": "rice",       "prep": "braised",    "icon": "soy-chicken-chye-sim",         "description": "" },
-    { "id": "chicken-mushroom-rice",        "name": "Chicken and Mushroom Rice",                      "meals": ["lunch"],  "category": "rice",       "prep": "steamed",    "icon": "chicken-mushroom-rice",        "description": "" },
-    { "id": "porridge",                     "name": "Porridge",                                       "meals": ["lunch"],  "category": "rice",       "prep": "boiled",     "icon": "porridge",                     "description": "" },
-    { "id": "fried-rice",                   "name": "Fried Rice",                                     "meals": ["lunch"],  "category": "rice",       "prep": "fried",      "icon": "fried-rice",                   "description": "" },
-
-    { "id": "crispy-noodle",                "name": "Crispy Noodle",                                  "meals": ["lunch"],  "category": "noodles",    "prep": "dry",        "icon": "crispy-noodle",                "description": "" },
-    { "id": "bee-hoon",                     "name": "Bee Hoon",                                       "meals": ["lunch"],  "category": "noodles",    "prep": "dry",        "icon": "bee-hoon",                     "description": "" },
-    { "id": "bee-hoon-seaweed-chicken",     "name": "Bee Hoon and Seaweed Chicken",                   "meals": ["lunch"],  "category": "noodles",    "prep": "dry",        "icon": "bee-hoon-seaweed-chicken",     "description": "" },
-    { "id": "mee-sua-soup",                 "name": "Mee Sua Soup",                                   "meals": ["lunch"],  "category": "noodles",    "prep": "soup",       "icon": "mee-sua-soup",                 "description": "" },
-    { "id": "kway-teow-soup",               "name": "Kway Teow Soup",                                 "meals": ["lunch"],  "category": "noodles",    "prep": "soup",       "icon": "kway-teow-soup",               "description": "" },
-    { "id": "fish-ball-noodle",             "name": "Fish Ball Noodle",                               "meals": ["lunch"],  "category": "noodles",    "prep": "dry",        "icon": "fish-ball-noodle",             "description": "" },
-
-    { "id": "rice",                         "name": "Rice",                                           "meals": ["dinner"], "category": "rice",       "prep": "steamed",    "icon": "rice",                         "description": "" },
-
-    { "id": "kai-lan",                      "name": "Kai Lan",                                        "meals": ["dinner"], "category": "vegetables", "prep": "stir-fried", "icon": "kai-lan",                      "description": "" },
-    { "id": "baby-kailan",                  "name": "Baby Kailan",                                    "meals": ["dinner"], "category": "vegetables", "prep": "stir-fried", "icon": "baby-kailan",                  "description": "" },
-    { "id": "baby-spinach",                 "name": "Baby Spinach",                                   "meals": ["dinner"], "category": "vegetables", "prep": "stir-fried", "icon": "baby-spinach",                 "description": "" },
-    { "id": "red-spinach",                  "name": "Red Spinach",                                    "meals": ["dinner"], "category": "vegetables", "prep": "stir-fried", "icon": "red-spinach",                  "description": "" },
-    { "id": "kang-kong",                    "name": "Kang Kong",                                      "meals": ["dinner"], "category": "vegetables", "prep": "stir-fried", "icon": "kang-kong",                    "description": "" },
-    { "id": "cabbage",                      "name": "Cabbage",                                        "meals": ["dinner"], "category": "vegetables", "prep": "stir-fried", "icon": "cabbage",                      "description": "" },
-    { "id": "wawa-vegetable",               "name": "WaWa Vegetable",                                 "meals": ["dinner"], "category": "vegetables", "prep": "stir-fried", "icon": "wawa-vegetable",               "description": "" },
-    { "id": "broccoli",                     "name": "Broccoli",                                       "meals": ["dinner"], "category": "vegetables", "prep": "blanched",   "icon": "broccoli",                     "description": "" },
-
-    { "id": "steam-fish-ginger-spring-onion","name": "Steam Fish with Ginger and Spring Onion",       "meals": ["dinner"], "category": "fish",       "prep": "steamed",    "icon": "steam-fish-ginger-spring-onion","description": "" },
-    { "id": "steam-fish-pomfret",           "name": "Steam Fish Pomfret",                             "meals": ["dinner"], "category": "fish",       "prep": "steamed",    "icon": "steam-fish-pomfret",           "description": "" },
-    { "id": "fried-seabass",                "name": "Fried Seabass",                                  "meals": ["dinner"], "category": "fish",       "prep": "fried",      "icon": "fried-seabass",                "description": "" },
-    { "id": "fried-salmon",                 "name": "Fried Salmon",                                   "meals": ["dinner"], "category": "fish",       "prep": "fried",      "icon": "fried-salmon",                 "description": "" },
-    { "id": "claypot-fish-eggplant",        "name": "Claypot Sliced Fish with Eggplant",              "meals": ["dinner"], "category": "fish",       "prep": "claypot",    "icon": "claypot-fish-eggplant",        "description": "" },
-
-    { "id": "steamed-minced-pork",          "name": "Steamed Minced Pork",                            "meals": ["dinner"], "category": "pork",       "prep": "steamed",    "icon": "steamed-minced-pork",          "description": "" },
-    { "id": "sliced-pork-parsley",          "name": "Sliced Pork with Parsley",                       "meals": ["dinner"], "category": "pork",       "prep": "stir-fried", "icon": "sliced-pork-parsley",          "description": "" },
-    { "id": "sliced-pork-sichuan-claypot",  "name": "Sliced Pork with Sichuan Vegetables in Claypot", "meals": ["dinner"], "category": "pork",       "prep": "claypot",    "icon": "sliced-pork-sichuan-claypot",  "description": "" },
-    { "id": "pork-egg-tau-pok",             "name": "Pork with Egg and Tau Pok",                      "meals": ["dinner"], "category": "pork",       "prep": "braised",    "icon": "pork-egg-tau-pok",             "description": "" },
-    { "id": "japanese-pork-cutlet",         "name": "Japanese Pork Cutlet",                           "meals": ["dinner"], "category": "pork",       "prep": "fried",      "icon": "japanese-pork-cutlet",         "description": "" },
-    { "id": "thai-pork-garlic",             "name": "Stir-fried Thai Style Sliced Pork with Garlic",  "meals": ["dinner"], "category": "pork",       "prep": "stir-fried", "icon": "thai-pork-garlic",             "description": "" },
-
-    { "id": "steamed-chicken-mushrooms",    "name": "Steamed Chicken with Mushrooms",                 "meals": ["dinner"], "category": "chicken",    "prep": "steamed",    "icon": "steamed-chicken-mushrooms",    "description": "" },
-    { "id": "chicken-salted-bean-paste",    "name": "Chicken with Salted Bean Paste",                 "meals": ["dinner"], "category": "chicken",    "prep": "steamed",    "icon": "chicken-salted-bean-paste",    "description": "" },
-    { "id": "curry-chicken",                "name": "Curry Chicken",                                  "meals": ["dinner"], "category": "chicken",    "prep": "braised",    "icon": "curry-chicken",                "description": "" },
-    { "id": "fried-chicken-wing",           "name": "Fried Chicken Wing",                             "meals": ["dinner"], "category": "chicken",    "prep": "fried",      "icon": "fried-chicken-wing",           "description": "" },
-
-    { "id": "fish-and-fish-soup",           "name": "Fish and Fish Soup",                             "meals": ["dinner"], "category": "soup",       "prep": "soup",       "icon": "fish-and-fish-soup",           "description": "" },
-    { "id": "corn-soup",                    "name": "Corn Soup",                                      "meals": ["dinner"], "category": "soup",       "prep": "soup",       "icon": "corn-soup",                    "description": "" },
-    { "id": "pork-rib-soup",                "name": "Pork Rib Soup",                                  "meals": ["dinner"], "category": "soup",       "prep": "soup",       "icon": "pork-rib-soup",                "description": "" },
-
-    { "id": "egg-onion-carrot",             "name": "Egg with Onion and Carrot",                      "meals": ["dinner"], "category": "eggs",       "prep": "stir-fried", "icon": "egg-onion-carrot",             "description": "" },
-    { "id": "tomato-egg-stirfry",           "name": "Chinese Tomato and Egg Stir-fry",                "meals": ["dinner"], "category": "eggs",       "prep": "stir-fried", "icon": "tomato-egg-stirfry",           "description": "" },
-
-    { "id": "crispy-prawn-ball",            "name": "Crispy Prawn Ball",                              "meals": ["dinner"], "category": "prawn",      "prep": "fried",      "icon": "crispy-prawn-ball",            "description": "" },
-    { "id": "prawn-glass-noodle",           "name": "Prawn with Glass Noodle",                        "meals": ["dinner"], "category": "prawn",      "prep": "claypot",    "icon": "prawn-glass-noodle",           "description": "" },
-
-    { "id": "claypot-tofu",                 "name": "Claypot Tofu",                                   "meals": ["dinner"], "category": "tofu",       "prep": "claypot",    "icon": "claypot-tofu",                 "description": "" }
+    {
+      "id": "rigatoni",
+      "name": "Rigatoni: al Ragu (minced meat, tomato sauce)",
+      "meals": [
+        "lunch"
+      ],
+      "category": "pasta",
+      "prep": "baked",
+      "icon": "rigatoni",
+      "description": ""
+    },
+    {
+      "id": "mushroom-fusilli",
+      "name": "Fusilli: Mushrooms",
+      "meals": [
+        "lunch"
+      ],
+      "category": "pasta",
+      "prep": "stir-fried",
+      "icon": "mushroom-fusilli",
+      "description": ""
+    },
+    {
+      "id": "cheese-pepper-pasta",
+      "name": "Penne: Cheese and Pepper",
+      "meals": [
+        "lunch"
+      ],
+      "category": "pasta",
+      "prep": "tossed",
+      "icon": "cheese-pepper-pasta",
+      "description": ""
+    },
+    {
+      "id": "pistachio-pesto-chicken",
+      "name": "Fusilli: Pistachio Pesto with Chicken",
+      "meals": [
+        "lunch"
+      ],
+      "category": "pasta",
+      "prep": "tossed",
+      "icon": "pistachio-pesto-chicken",
+      "description": ""
+    },
+    {
+      "id": "cheesy-rigatoni",
+      "name": "Rigatoni: Baked with Cheese",
+      "meals": [
+        "lunch"
+      ],
+      "category": "pasta",
+      "prep": "baked",
+      "icon": "cheesy-rigatoni",
+      "description": ""
+    },
+    {
+      "id": "chicken-pasta-broccoli",
+      "name": "Penne: Chicken and Broccoli",
+      "meals": [
+        "lunch"
+      ],
+      "category": "pasta",
+      "prep": "tossed",
+      "icon": "chicken-pasta-broccoli",
+      "description": ""
+    },
+    {
+      "id": "aglio-olio",
+      "name": "Spaghetti: Aglio e Olio with Prawns",
+      "meals": [
+        "lunch"
+      ],
+      "category": "pasta",
+      "prep": "tossed",
+      "icon": "aglio-olio",
+      "description": ""
+    },
+    {
+      "id": "carbonara",
+      "name": "Spaghetti: Carbonara",
+      "meals": [
+        "lunch"
+      ],
+      "category": "pasta",
+      "prep": "tossed",
+      "icon": "carbonara",
+      "description": ""
+    },
+    {
+      "id": "chicken-rice",
+      "name": "Hainanese Chicken Rice",
+      "meals": [
+        "lunch"
+      ],
+      "category": "rice",
+      "prep": "steamed",
+      "icon": "chicken-rice",
+      "description": ""
+    },
+    {
+      "id": "soy-chicken-chye-sim",
+      "name": "Soy Chicken and Chye Sim Rice",
+      "meals": [
+        "lunch"
+      ],
+      "category": "rice",
+      "prep": "braised",
+      "icon": "soy-chicken-chye-sim",
+      "description": ""
+    },
+    {
+      "id": "chicken-mushroom-rice",
+      "name": "Chicken and Mushroom One-Pot Rice",
+      "meals": [
+        "lunch"
+      ],
+      "category": "rice",
+      "prep": "steamed",
+      "icon": "chicken-mushroom-rice",
+      "description": ""
+    },
+    {
+      "id": "porridge",
+      "name": "Porridge with Spring Rolls",
+      "meals": [
+        "lunch"
+      ],
+      "category": "rice",
+      "prep": "boiled",
+      "icon": "porridge",
+      "description": ""
+    },
+    {
+      "id": "fried-rice",
+      "name": "Fried Rice",
+      "meals": [
+        "lunch"
+      ],
+      "category": "rice",
+      "prep": "fried",
+      "icon": "fried-rice",
+      "description": ""
+    },
+    {
+      "id": "claypot-rice",
+      "name": "Claypot Chicken Rice",
+      "meals": [
+        "lunch"
+      ],
+      "category": "rice",
+      "prep": "claypot",
+      "icon": "claypot-rice",
+      "description": ""
+    },
+    {
+      "id": "nasi-lemak",
+      "name": "Nasi Lemak",
+      "meals": [
+        "lunch"
+      ],
+      "category": "rice",
+      "prep": "steamed",
+      "icon": "nasi-lemak",
+      "description": ""
+    },
+    {
+      "id": "crispy-noodle",
+      "name": "Chinese Crispy Noodles",
+      "meals": [
+        "lunch"
+      ],
+      "category": "noodles",
+      "prep": "dry",
+      "icon": "crispy-noodle",
+      "description": ""
+    },
+    {
+      "id": "bee-hoon",
+      "name": "Fried Bee Hoon",
+      "meals": [
+        "lunch"
+      ],
+      "category": "noodles",
+      "prep": "dry",
+      "icon": "bee-hoon",
+      "description": ""
+    },
+    {
+      "id": "mee-sua-soup",
+      "name": "Mee Sua Soup",
+      "meals": [
+        "lunch"
+      ],
+      "category": "noodles",
+      "prep": "soup",
+      "icon": "mee-sua-soup",
+      "description": ""
+    },
+    {
+      "id": "kway-teow-soup",
+      "name": "Kway Teow Soup",
+      "meals": [
+        "lunch"
+      ],
+      "category": "noodles",
+      "prep": "soup",
+      "icon": "kway-teow-soup",
+      "description": ""
+    },
+    {
+      "id": "hokkien-mee",
+      "name": "Hokkien Mee",
+      "meals": [
+        "lunch"
+      ],
+      "category": "noodles",
+      "prep": "dry",
+      "icon": "hokkien-mee",
+      "description": ""
+    },
+    {
+      "id": "wanton-noodles",
+      "name": "Wanton Noodles",
+      "meals": [
+        "lunch"
+      ],
+      "category": "noodles",
+      "prep": "dry",
+      "icon": "wanton-noodles",
+      "description": ""
+    },
+    {
+      "id": "ban-mian",
+      "name": "Ban Mian",
+      "meals": [
+        "lunch"
+      ],
+      "category": "noodles",
+      "prep": "soup",
+      "icon": "ban-mian",
+      "description": ""
+    },
+    {
+      "id": "rice",
+      "name": "Rice",
+      "meals": [
+        "dinner"
+      ],
+      "category": "rice",
+      "prep": "steamed",
+      "icon": "rice",
+      "description": ""
+    },
+    {
+      "id": "kai-lan",
+      "name": "Stir-fried Kai Lan",
+      "meals": [
+        "dinner"
+      ],
+      "category": "vegetables",
+      "prep": "stir-fried",
+      "icon": "kai-lan",
+      "description": ""
+    },
+    {
+      "id": "baby-spinach",
+      "name": "Stir-fried Baby Spinach",
+      "meals": [
+        "dinner"
+      ],
+      "category": "vegetables",
+      "prep": "stir-fried",
+      "icon": "baby-spinach",
+      "description": ""
+    },
+    {
+      "id": "red-spinach",
+      "name": "Stir-fried Red Spinach",
+      "meals": [
+        "dinner"
+      ],
+      "category": "vegetables",
+      "prep": "stir-fried",
+      "icon": "red-spinach",
+      "description": ""
+    },
+    {
+      "id": "kang-kong",
+      "name": "Stir-fried Kang Kong",
+      "meals": [
+        "dinner"
+      ],
+      "category": "vegetables",
+      "prep": "stir-fried",
+      "icon": "kang-kong",
+      "description": ""
+    },
+    {
+      "id": "wawa-vegetable",
+      "name": "Stir-fried WaWa Vegetable",
+      "meals": [
+        "dinner"
+      ],
+      "category": "vegetables",
+      "prep": "stir-fried",
+      "icon": "wawa-vegetable",
+      "description": ""
+    },
+    {
+      "id": "broccoli",
+      "name": "Stir-fried Broccoli",
+      "meals": [
+        "dinner"
+      ],
+      "category": "vegetables",
+      "prep": "stir-fried",
+      "icon": "broccoli",
+      "description": ""
+    },
+    {
+      "id": "chye-sim",
+      "name": "Blanched Chye Sim with Oyster Sauce",
+      "meals": [
+        "dinner"
+      ],
+      "category": "vegetables",
+      "prep": "blanched",
+      "icon": "chye-sim",
+      "description": ""
+    },
+    {
+      "id": "nai-bai",
+      "name": "Stir-fried Nai Bai",
+      "meals": [
+        "dinner"
+      ],
+      "category": "vegetables",
+      "prep": "stir-fried",
+      "icon": "nai-bai",
+      "description": ""
+    },
+    {
+      "id": "sweet-potato-leaves",
+      "name": "Sweet Potato Leaves with Sambal Belacan",
+      "meals": [
+        "dinner"
+      ],
+      "category": "vegetables",
+      "prep": "stir-fried",
+      "icon": "sweet-potato-leaves",
+      "description": ""
+    },
+    {
+      "id": "okra-sambal",
+      "name": "Lady's Fingers with Sambal",
+      "meals": [
+        "dinner"
+      ],
+      "category": "vegetables",
+      "prep": "stir-fried",
+      "icon": "okra-sambal",
+      "description": ""
+    },
+    {
+      "id": "beansprouts-chives",
+      "name": "Stir-fried Beansprouts with Chives",
+      "meals": [
+        "dinner"
+      ],
+      "category": "vegetables",
+      "prep": "stir-fried",
+      "icon": "beansprouts-chives",
+      "description": ""
+    },
+    {
+      "id": "french-beans",
+      "name": "Stir-fried French Beans",
+      "meals": [
+        "dinner"
+      ],
+      "category": "vegetables",
+      "prep": "stir-fried",
+      "icon": "french-beans",
+      "description": ""
+    },
+    {
+      "id": "cabbage-mushroom",
+      "name": "Braised Chinese Cabbage with Mushrooms",
+      "meals": [
+        "dinner"
+      ],
+      "category": "vegetables",
+      "prep": "braised",
+      "icon": "cabbage-mushroom",
+      "description": ""
+    },
+    {
+      "id": "asparagus-garlic",
+      "name": "Stir-fried Asparagus with Garlic",
+      "meals": [
+        "dinner"
+      ],
+      "category": "vegetables",
+      "prep": "stir-fried",
+      "icon": "asparagus-garlic",
+      "description": ""
+    },
+    {
+      "id": "steam-fish-ginger-spring-onion",
+      "name": "Steamed Red Snapper with Ginger and Spring Onion",
+      "meals": [
+        "dinner"
+      ],
+      "category": "fish",
+      "prep": "steamed",
+      "icon": "steam-fish-ginger-spring-onion",
+      "description": ""
+    },
+    {
+      "id": "steam-fish-pomfret",
+      "name": "Steamed Pomfret with Sour Plums",
+      "meals": [
+        "dinner"
+      ],
+      "category": "fish",
+      "prep": "steamed",
+      "icon": "steam-fish-pomfret",
+      "description": ""
+    },
+    {
+      "id": "fried-seabass",
+      "name": "Pan-Fried Seabass",
+      "meals": [
+        "dinner"
+      ],
+      "category": "fish",
+      "prep": "fried",
+      "icon": "fried-seabass",
+      "description": ""
+    },
+    {
+      "id": "fried-salmon",
+      "name": "Pan-Fried Salmon",
+      "meals": [
+        "dinner"
+      ],
+      "category": "fish",
+      "prep": "fried",
+      "icon": "fried-salmon",
+      "description": ""
+    },
+    {
+      "id": "claypot-fish-eggplant",
+      "name": "Claypot Sliced Fresh Fish with Eggplants",
+      "meals": [
+        "dinner"
+      ],
+      "category": "fish",
+      "prep": "claypot",
+      "icon": "claypot-fish-eggplant",
+      "description": ""
+    },
+    {
+      "id": "sweet-sour-fish",
+      "name": "Sweet and Sour Fish",
+      "meals": [
+        "dinner"
+      ],
+      "category": "fish",
+      "prep": "fried",
+      "icon": "sweet-sour-fish",
+      "description": ""
+    },
+    {
+      "id": "assam-fish",
+      "name": "Assam Fish",
+      "meals": [
+        "dinner"
+      ],
+      "category": "fish",
+      "prep": "braised",
+      "icon": "assam-fish",
+      "description": ""
+    },
+    {
+      "id": "steamed-minced-pork",
+      "name": "Steamed Minced Pork with Chestnuts",
+      "meals": [
+        "dinner"
+      ],
+      "category": "pork",
+      "prep": "steamed",
+      "icon": "steamed-minced-pork",
+      "description": ""
+    },
+    {
+      "id": "sliced-pork-sichuan-claypot",
+      "name": "Claypot Sliced Pork with Sichuan Vegetables",
+      "meals": [
+        "dinner"
+      ],
+      "category": "pork",
+      "prep": "claypot",
+      "icon": "sliced-pork-sichuan-claypot",
+      "description": ""
+    },
+    {
+      "id": "pork-egg-tau-pok",
+      "name": "Pork with Egg and Tau Pok",
+      "meals": [
+        "dinner"
+      ],
+      "category": "pork",
+      "prep": "braised",
+      "icon": "pork-egg-tau-pok",
+      "description": ""
+    },
+    {
+      "id": "japanese-pork-cutlet",
+      "name": "Tonkatsu (Japanese Pork Cutlet)",
+      "meals": [
+        "dinner"
+      ],
+      "category": "pork",
+      "prep": "fried",
+      "icon": "japanese-pork-cutlet",
+      "description": ""
+    },
+    {
+      "id": "thai-pork-garlic",
+      "name": "Stir-fried Thai Style Sliced Pork with Garlic",
+      "meals": [
+        "dinner"
+      ],
+      "category": "pork",
+      "prep": "stir-fried",
+      "icon": "thai-pork-garlic",
+      "description": ""
+    },
+    {
+      "id": "sweet-sour-pork",
+      "name": "Sweet and Sour Pork",
+      "meals": [
+        "dinner"
+      ],
+      "category": "pork",
+      "prep": "fried",
+      "icon": "sweet-sour-pork",
+      "description": ""
+    },
+    {
+      "id": "marmite-pork-ribs",
+      "name": "Marmite Pork Ribs",
+      "meals": [
+        "dinner"
+      ],
+      "category": "pork",
+      "prep": "fried",
+      "icon": "marmite-pork-ribs",
+      "description": ""
+    },
+    {
+      "id": "steamed-chicken-mushrooms",
+      "name": "Steamed Chicken with Mushrooms",
+      "meals": [
+        "dinner"
+      ],
+      "category": "chicken",
+      "prep": "steamed",
+      "icon": "steamed-chicken-mushrooms",
+      "description": ""
+    },
+    {
+      "id": "chicken-salted-bean-paste",
+      "name": "Claypot Chicken with Salted Bean Paste",
+      "meals": [
+        "dinner"
+      ],
+      "category": "chicken",
+      "prep": "claypot",
+      "icon": "chicken-salted-bean-paste",
+      "description": ""
+    },
+    {
+      "id": "curry-chicken",
+      "name": "Curry Chicken",
+      "meals": [
+        "dinner"
+      ],
+      "category": "chicken",
+      "prep": "braised",
+      "icon": "curry-chicken",
+      "description": ""
+    },
+    {
+      "id": "fried-chicken-wing",
+      "name": "Fried Chicken Wing",
+      "meals": [
+        "dinner"
+      ],
+      "category": "chicken",
+      "prep": "fried",
+      "icon": "fried-chicken-wing",
+      "description": ""
+    },
+    {
+      "id": "kung-pao-chicken",
+      "name": "Kung Pao Chicken",
+      "meals": [
+        "dinner"
+      ],
+      "category": "chicken",
+      "prep": "stir-fried",
+      "icon": "kung-pao-chicken",
+      "description": ""
+    },
+    {
+      "id": "ginger-spring-onion-chicken",
+      "name": "Chicken with Ginger and Spring Onion",
+      "meals": [
+        "dinner"
+      ],
+      "category": "chicken",
+      "prep": "stir-fried",
+      "icon": "ginger-spring-onion-chicken",
+      "description": ""
+    },
+    {
+      "id": "fish-and-fish-soup",
+      "name": "Fish Soup",
+      "meals": [
+        "dinner"
+      ],
+      "category": "soup",
+      "prep": "soup",
+      "icon": "fish-and-fish-soup",
+      "description": ""
+    },
+    {
+      "id": "corn-soup",
+      "name": "Corn and Carrot Soup",
+      "meals": [
+        "dinner"
+      ],
+      "category": "soup",
+      "prep": "soup",
+      "icon": "corn-soup",
+      "description": ""
+    },
+    {
+      "id": "pork-rib-soup",
+      "name": "Bak Kut Teh",
+      "meals": [
+        "dinner"
+      ],
+      "category": "soup",
+      "prep": "soup",
+      "icon": "pork-rib-soup",
+      "description": ""
+    },
+    {
+      "id": "abc-soup",
+      "name": "ABC Soup (Pork Ribs, Potato, Carrot, Tomato)",
+      "meals": [
+        "dinner"
+      ],
+      "category": "soup",
+      "prep": "soup",
+      "icon": "abc-soup",
+      "description": ""
+    },
+    {
+      "id": "lotus-root-soup",
+      "name": "Lotus Root Soup with Pork Ribs",
+      "meals": [
+        "dinner"
+      ],
+      "category": "soup",
+      "prep": "soup",
+      "icon": "lotus-root-soup",
+      "description": ""
+    },
+    {
+      "id": "watercress-soup",
+      "name": "Watercress Soup with Pork Ribs",
+      "meals": [
+        "dinner"
+      ],
+      "category": "soup",
+      "prep": "soup",
+      "icon": "watercress-soup",
+      "description": ""
+    },
+    {
+      "id": "old-cucumber-soup",
+      "name": "Old Cucumber Soup",
+      "meals": [
+        "dinner"
+      ],
+      "category": "soup",
+      "prep": "soup",
+      "icon": "old-cucumber-soup",
+      "description": ""
+    },
+    {
+      "id": "winter-melon-soup",
+      "name": "Winter Melon Soup",
+      "meals": [
+        "dinner"
+      ],
+      "category": "soup",
+      "prep": "soup",
+      "icon": "winter-melon-soup",
+      "description": ""
+    },
+    {
+      "id": "egg-onion-carrot",
+      "name": "Egg with Onion and Carrot",
+      "meals": [
+        "dinner"
+      ],
+      "category": "eggs",
+      "prep": "stir-fried",
+      "icon": "egg-onion-carrot",
+      "description": ""
+    },
+    {
+      "id": "tomato-egg-stirfry",
+      "name": "Chinese Tomato and Egg Stir-fry",
+      "meals": [
+        "dinner"
+      ],
+      "category": "eggs",
+      "prep": "stir-fried",
+      "icon": "tomato-egg-stirfry",
+      "description": ""
+    },
+    {
+      "id": "steamed-egg-custard",
+      "name": "Chinese Steamed Egg Custard",
+      "meals": [
+        "dinner"
+      ],
+      "category": "eggs",
+      "prep": "steamed",
+      "icon": "steamed-egg-custard",
+      "description": ""
+    },
+    {
+      "id": "chai-poh-omelette",
+      "name": "Chai Poh Omelette (Preserved Radish)",
+      "meals": [
+        "dinner"
+      ],
+      "category": "eggs",
+      "prep": "fried",
+      "icon": "chai-poh-omelette",
+      "description": ""
+    },
+    {
+      "id": "crispy-prawn-ball",
+      "name": "Crispy Prawn Ball",
+      "meals": [
+        "dinner"
+      ],
+      "category": "prawn",
+      "prep": "fried",
+      "icon": "crispy-prawn-ball",
+      "description": ""
+    },
+    {
+      "id": "prawn-glass-noodle",
+      "name": "Steamed Prawn with Glass Noodle",
+      "meals": [
+        "dinner"
+      ],
+      "category": "prawn",
+      "prep": "steamed",
+      "icon": "prawn-glass-noodle",
+      "description": ""
+    },
+    {
+      "id": "cereal-prawns",
+      "name": "Cereal Prawns",
+      "meals": [
+        "dinner"
+      ],
+      "category": "prawn",
+      "prep": "fried",
+      "icon": "cereal-prawns",
+      "description": ""
+    },
+    {
+      "id": "sambal-prawns",
+      "name": "Sambal Prawns",
+      "meals": [
+        "dinner"
+      ],
+      "category": "prawn",
+      "prep": "stir-fried",
+      "icon": "sambal-prawns",
+      "description": ""
+    },
+    {
+      "id": "claypot-tofu",
+      "name": "Claypot Tofu",
+      "meals": [
+        "dinner"
+      ],
+      "category": "tofu",
+      "prep": "claypot",
+      "icon": "claypot-tofu",
+      "description": ""
+    },
+    {
+      "id": "mapo-tofu",
+      "name": "Mapo Tofu",
+      "meals": [
+        "dinner"
+      ],
+      "category": "tofu",
+      "prep": "stir-fried",
+      "icon": "mapo-tofu",
+      "description": ""
+    },
+    {
+      "id": "steamed-egg-tofu-pork",
+      "name": "Steamed Egg Tofu with Minced Pork",
+      "meals": [
+        "dinner"
+      ],
+      "category": "tofu",
+      "prep": "steamed",
+      "icon": "steamed-egg-tofu-pork",
+      "description": ""
+    },
+    {
+      "id": "braised-tofu-mushroom",
+      "name": "Braised Tofu with Mushrooms",
+      "meals": [
+        "dinner"
+      ],
+      "category": "tofu",
+      "prep": "braised",
+      "icon": "braised-tofu-mushroom",
+      "description": ""
+    }
   ]
 }

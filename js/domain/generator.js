@@ -6,7 +6,6 @@ export const PROTEIN_CAP = 2;        // nights per protein category per week
 export const FRIED_CAP = 2;          // fried dinners per week
 export const LUNCH_SOUP_CAP = 2;     // soup-prep lunches per week
 export const SOUP_PROBABILITY = 0.4; // chance a dinner gains a soup
-const OVER_CAP_PENALTY = 0.02;       // soft, so caps bend before the no-repeat guarantee breaks
 
 /** Sample one item proportionally to its weight. */
 export function weightedPick(items, weights, rng = Math.random) {
@@ -26,23 +25,34 @@ function recencyWeight(dish, lastUsed, weekKey) {
   return Math.max(capped, 1) ** 2;
 }
 
+/** True when placing `dish` would exceed a weekly rotation cap. */
+function violatesCap(dish, counters, index) {
+  if (index.proteinCategories.includes(dish.category)
+      && (counters.category[dish.category] ?? 0) >= PROTEIN_CAP) return true;
+  if (dish.prep === 'fried' && (counters.prep.fried ?? 0) >= FRIED_CAP) return true;
+  return false;
+}
+
 /**
  * Choose one dish from `pool`, excluding anything already used this week,
- * weighted by recency and softly penalised when a rotation cap is exceeded.
+ * weighted by recency.
+ *
+ * Caps are HARD while they are satisfiable and relax only when honouring
+ * them would leave no candidate at all. A soft weight penalty was tried
+ * first and is wrong: with a large pool, 2% of a large weight still wins
+ * occasionally, so a third pork night slips through. Filter, then fall
+ * back — never merely discourage.
+ *
  * Returns null only when the pool is entirely exhausted.
  */
 function choose({ pool, used, lastUsed, weekKey, counters, index, rng }) {
-  const candidates = pool.filter(d => !used.has(d.id));
-  if (candidates.length === 0) return null;
+  const available = pool.filter(d => !used.has(d.id));
+  if (available.length === 0) return null;
 
-  const weights = candidates.map(d => {
-    let w = recencyWeight(d, lastUsed, weekKey);
-    if (index.proteinCategories.includes(d.category)
-        && (counters.category[d.category] ?? 0) >= PROTEIN_CAP) w *= OVER_CAP_PENALTY;
-    if (d.prep === 'fried' && (counters.prep.fried ?? 0) >= FRIED_CAP) w *= OVER_CAP_PENALTY;
-    return w;
-  });
+  const withinCaps = available.filter(d => !violatesCap(d, counters, index));
+  const candidates = withinCaps.length ? withinCaps : available;
 
+  const weights = candidates.map(d => recencyWeight(d, lastUsed, weekKey));
   return weightedPick(candidates, weights, rng);
 }
 
