@@ -1,0 +1,43 @@
+name: Deploy to Cloudflare Pages
+
+# Wrangler cannot run on the maintainer's machine (Windows ARM64 has no
+# workerd build), so deploys happen here on Linux instead of locally.
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Same gate as `npm run deploy`: nothing ships unless the icon sprite
+      # builds, the dish manifest validates, and every test passes.
+      - name: Build icon sprite
+        run: npm run build:icons
+
+      - name: Validate dish manifest
+        run: npm run validate
+
+      - name: Run tests
+        run: npm test
+
+      - name: Publish
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy . --project-name=lunch-menu

@@ -15,3 +15,5 @@ yarn-error.log*
 # local verification artefacts
 .playwright-mcp/
 *.png
+dist/
+dist.zip

@@ -9,7 +9,8 @@
     "validate": "node scripts/validate.js",
     "build:icons": "node scripts/build-sprite.js",
     "release": "node scripts/release.js",
-    "deploy": "npm run build:icons && npm run validate && npm test && npx wrangler pages deploy . --project-name=lunch-menu"
+    "deploy": "npm run build:icons && npm run validate && npm test && npx wrangler pages deploy . --project-name=lunch-menu",
+    "bundle": "npm run build:icons && npm run validate && npm test && node scripts/bundle.js"
   },
   "author": "Antigravity",
   "license": "ISC",
