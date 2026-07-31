@@ -1,5 +1,6 @@
 import { DAYS } from '../core/week.js';
 import { escapeHtml } from './escape.js';
+import { iconMarkup } from './icons.js';
 import { roleOf, inRoleOrder } from './roles.js';
 
 const DAY_FULL = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -19,7 +20,7 @@ function dishRow({ dish, meal, day, locked, size }) {
     <li class="row row--${size}${locked ? ' row--pinned' : ''}" data-role="${role}">
       <button class="row__swap" data-action="open-swap" ${attrs}
               aria-label="Change ${name}">
-        <span class="row__mark" aria-hidden="true"></span>
+        <span class="row__mark">${iconMarkup(dish.icon)}</span>
         <span class="row__name">${name}</span>
       </button>
       ${locked ? '<span class="row__pinned" aria-label="Pinned">Pinned</span>' : ''}

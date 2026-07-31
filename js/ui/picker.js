@@ -1,4 +1,5 @@
 import { escapeHtml } from './escape.js';
+import { iconMarkup } from './icons.js';
 import { roleOf, ROLE_LABEL } from './roles.js';
 import { weeksSince, describeRecency } from '../core/history.js';
 
@@ -34,7 +35,7 @@ function optionRow(dish, { meal, day, lastUsed, weekOf, current }) {
               data-meal="${meal}" data-day="${day}"
               ${isCurrent ? 'aria-current="true"' : ''}
               data-role="${roleOf(dish, meal)}">
-        <span class="option__mark" aria-hidden="true"></span>
+        <span class="option__mark">${iconMarkup(dish.icon)}</span>
         <span class="option__text">
           <span class="option__name">${escapeHtml(dish.name)}</span>
           <span class="option__meta${fresh ? ' option__meta--fresh' : ''}">${recency}</span>

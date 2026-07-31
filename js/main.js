@@ -4,6 +4,7 @@ import { createStore } from './core/store.js';
 import { DAYS } from './core/week.js';
 import { buildLastUsedIndex } from './core/history.js';
 import { idsIn } from './core/plan.js';
+import { injectSprite } from './ui/icons.js';
 import { createDispatcher } from './ui/actions.js';
 import { renderToday, renderWeekGrid } from './ui/day-card.js';
 import { renderPicker, openSheet, closeSheet } from './ui/picker.js';
@@ -15,6 +16,9 @@ import { APP_VERSION } from './version.js';
 const todayIndex = () => (new Date().getDay() + 6) % 7;
 
 async function boot() {
+  // Sprite first: iconMarkup falls back when a symbol is absent, so the
+  // first paint must not race the sprite injection.
+  await injectSprite(document);
   const index = await loadDishes();
   const store = createStore({ storage: localStorage, index });
 

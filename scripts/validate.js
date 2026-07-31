@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -23,7 +23,8 @@ for (const d of manifest.dishes) {
       errors.push(`${d.id}: category "${d.category}" not valid for meal "${meal}"`);
     }
   }
-  if (!d.description?.trim()) warnings.push(`${d.id}: empty description (blocks Phase 2 icon)`);
+  // `description` is optional prose for the dish; the icon set is drawn,
+  // so an empty one is no longer a blocker and is not worth warning about.
 }
 
 // Icon resolution against the built sprite
@@ -34,14 +35,13 @@ if (existsSync(spritePath)) {
   for (const d of manifest.dishes) {
     if (!symbols.has(d.icon)) warnings.push(`${d.id}: icon "${d.icon}" not in sprite (falls back)`);
   }
-  const srcDir = join(root, 'icons/src');
-  if (existsSync(srcDir)) {
-    const used = new Set(manifest.dishes.map(d => d.icon));
-    for (const f of readdirSync(srcDir).filter(f => f.endsWith('.svg'))) {
-      const id = f.replace(/\.svg$/, '');
-      // Underscore-prefixed marks (_fallback, _pin) are UI chrome, not dishes.
-      if (!id.startsWith('_') && !used.has(id)) warnings.push(`Orphan icon: ${f}`);
-    }
+  // Orphans: a symbol in the sprite that no dish points at. Checked
+  // against symbol ids rather than filenames, since one source file can
+  // hold many symbols.
+  const used = new Set(manifest.dishes.map(d => d.icon));
+  for (const id of symbols) {
+    // Underscore-prefixed marks (_fallback, _pin) are UI chrome, not dishes.
+    if (!id.startsWith('_') && !used.has(id)) warnings.push(`Orphan icon: ${id}`);
   }
 } else {
   warnings.push('icons/sprite.svg missing — run `npm run build:icons`');

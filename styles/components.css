@@ -48,7 +48,7 @@
 
 .row__swap {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: var(--space-3);
   flex: 1;
   min-width: 0;
@@ -59,15 +59,22 @@
 }
 .row__swap:hover { color: var(--accent); }
 
-/* The role mark: a short vertical stroke, like a menu bullet */
+/*
+ * The dish icon IS the role mark: it inherits the role hue via
+ * currentColor, so one element carries both what the dish is and where
+ * it sits in the meal's grammar. A separate coloured bar alongside would
+ * give every row two leading glyphs for no extra information.
+ */
 .row__mark {
   flex: none;
-  width: 3px;
-  align-self: stretch;
-  min-height: 1.1em;
-  border-radius: var(--radius-full);
-  background: var(--mark, var(--ink-3));
+  display: grid;
+  place-items: center;
+  color: var(--mark, var(--ink-3));
+  align-self: center;
 }
+.row--lg .row__mark { width: 23px; height: 23px; }
+.row--sm .row__mark { width: 21px; height: 21px; }
+.row__mark svg { width: 100%; height: 100%; }
 
 .row__name {
   font-family: var(--font-display);
@@ -215,12 +222,13 @@
 
 .option__mark {
   flex: none;
-  width: 3px;
-  align-self: stretch;
-  min-height: 2.2em;
-  border-radius: var(--radius-full);
-  background: var(--mark, var(--ink-3));
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  color: var(--mark, var(--ink-3));
 }
+.option__mark svg { width: 100%; height: 100%; }
 
 .option__text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .option__name {

@@ -83,3 +83,36 @@ describe('generation feasibility', () => {
     expect(FALLBACK_ICON).toBe('_fallback');
   });
 });
+
+describe('icon coverage', () => {
+  const sprite = readFileSync('icons/sprite.svg', 'utf8');
+  const symbols = new Set([...sprite.matchAll(/<symbol[^>]+id="([^"]+)"/g)].map(m => m[1]));
+
+  it('has a drawn icon for every dish', () => {
+    const missing = manifest.dishes.filter(d => !symbols.has(d.icon)).map(d => d.id);
+    expect(missing, `dishes with no icon: ${missing.join(', ')}`).toEqual([]);
+  });
+
+  it('ships the fallback and pin marks', () => {
+    expect(symbols.has('_fallback')).toBe(true);
+    expect(symbols.has('_pin')).toBe(true);
+  });
+
+  it('has no orphan dish icons', () => {
+    const used = new Set(manifest.dishes.map(d => d.icon));
+    const orphans = [...symbols].filter(id => !id.startsWith('_') && !used.has(id));
+    expect(orphans, `unused icons: ${orphans.join(', ')}`).toEqual([]);
+  });
+
+  it('gives every icon a viewBox so it scales', () => {
+    const withoutViewBox = [...sprite.matchAll(/<symbol([^>]*)>/g)]
+      .filter(([, attrs]) => !attrs.includes('viewBox'))
+      .map(([, attrs]) => attrs.match(/id="([^"]+)"/)?.[1]);
+    expect(withoutViewBox).toEqual([]);
+  });
+
+  it('inherits colour so icons can carry their role hue', () => {
+    expect(sprite).toContain('stroke="currentColor"');
+    expect(sprite).not.toMatch(/stroke="#[0-9a-f]{3,6}"/i);
+  });
+});
